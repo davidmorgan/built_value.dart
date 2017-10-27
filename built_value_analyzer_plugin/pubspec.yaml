@@ -1,4 +1,4 @@
-name: built_value_generator_analyzer_plugin
+name: built_value_analyzer_plugin
 version: 4.3.0
 description: >
   Value types with builders, Dart classes as enums, and serialization.

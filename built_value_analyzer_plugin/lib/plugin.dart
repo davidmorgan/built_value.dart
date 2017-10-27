@@ -9,7 +9,7 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
 
   @override
   AnalysisDriverGeneric createAnalysisDriver(ContextRoot contextRoot) {
-    return new BuiltValueDriver();
+    return new BuiltValueDriver(channel);
   }
 
   @override

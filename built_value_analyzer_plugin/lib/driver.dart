@@ -1,11 +1,20 @@
 import 'dart:async';
 
 import 'package:analyzer/src/dart/analysis/driver.dart';
+import 'package:analyzer_plugin/channel/channel.dart';
+import 'package:analyzer_plugin/protocol/protocol_common.dart';
+import 'package:analyzer_plugin/protocol/protocol_generated.dart';
 
 class BuiltValueDriver implements AnalysisDriverGeneric {
+  final PluginCommunicationChannel channel;
+
+  Set<String> files = new Set<String>();
+
+  BuiltValueDriver(this.channel);
+
   @override
   void addFile(String path) {
-    // TODO: implement addFile
+    files.add(path);
   }
 
   @override
@@ -15,19 +24,21 @@ class BuiltValueDriver implements AnalysisDriverGeneric {
 
   // TODO: implement hasFilesToAnalyze
   @override
-  bool get hasFilesToAnalyze => null;
+  bool get hasFilesToAnalyze => files.isNotEmpty;
 
   @override
-  Future<Null> performWork() {
-    return null;
+  Future<Null> performWork() async {
+    channel.sendNotification(new AnalysisErrorsParams(files.first, [
+      new AnalysisError(AnalysisErrorSeverity.ERROR, AnalysisErrorType.LINT,
+          new Location(files.first, 0, 10, 2, 3), 'foo bar baz', 'whee')
+    ]).toNotification());
+    files.clear();
   }
 
   @override
-  set priorityFiles(List<String> priorityPaths) {
-    // TODO: implement priorityFiles
-  }
+  set priorityFiles(List<String> priorityPaths) {}
 
   // TODO: implement workPriority
   @override
-  AnalysisDriverPriority get workPriority => null;
+  AnalysisDriverPriority get workPriority => AnalysisDriverPriority.interactive;
 }

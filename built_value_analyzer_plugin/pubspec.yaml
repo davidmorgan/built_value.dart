@@ -1,0 +1,23 @@
+name: built_value_generator_analyzer_plugin
+version: 4.3.0
+description: >
+  Value types with builders, Dart classes as enums, and serialization.
+  This library is the Dart analyzer plugin.
+authors:
+- David Morgan <davidmorgan@google.com>
+homepage: https://github.com/google/built_value.dart
+
+environment:
+  sdk: '>=1.24.0 <2.0.0'
+
+dependencies:
+  analyzer: ^0.31.0-alpha.1
+  analyzer_plugin: ^0.0.1-alpha.0
+  built_collection: ^1.0.0
+# built_value: ^4.3.0
+  built_value:
+    path: ../built_value
+  plugin: ^0.2.0
+
+dev_dependencies:
+  test: any

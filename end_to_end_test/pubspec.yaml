@@ -19,3 +19,12 @@ dev_dependencies:
   fixnum: ^0.10.0
   quiver: '>=0.21.0 <0.29.0'
   test: any
+
+analyzer:
+  plugins:
+    angular:
+      enabled: true
+
+plugins:
+  angular:
+    enabled: true

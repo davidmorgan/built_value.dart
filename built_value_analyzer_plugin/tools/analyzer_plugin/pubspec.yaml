@@ -1,9 +1,0 @@
-name: built_value_analyzer_plugin_loader
-version: 0.0.0
-description: Ehm.
-dependencies:
-  built_value_analyzer_plugin: ^4.3.0
-
-dependency_overrides:
-  built_value_analyzer_plugin:
-    path: /usr/local/google/home/davidmorgan/git/built-value-dart/built_value_analyzer_plugin

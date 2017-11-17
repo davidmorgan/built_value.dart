@@ -10,6 +10,7 @@ import 'package:built_value/serializer.dart';
 
 part 'enums.g.dart';
 
+///
 class TestEnum extends EnumClass {
   static Serializer<TestEnum> get serializer => _$testEnumSerializer;
 

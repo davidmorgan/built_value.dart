@@ -39,14 +39,16 @@ class BuiltValueDriver implements AnalysisDriverGeneric {
   @override
   Future<Null> performWork() async {
     log('performWork');
-    channel.sendNotification(new AnalysisErrorsParams(files.first, [
-      new AnalysisError(
-          AnalysisErrorSeverity.ERROR,
-          AnalysisErrorType.SYNTACTIC_ERROR,
-          new Location(files.first, 0, 10, 2, 3),
-          'foo bar baz',
-          'whee')
-    ]).toNotification());
+    for (var file in files) {
+      channel.sendNotification(new AnalysisErrorsParams(file, [
+        new AnalysisError(
+            AnalysisErrorSeverity.ERROR,
+            AnalysisErrorType.SYNTACTIC_ERROR,
+            new Location(file, 0, 10, 2, 3),
+            'foo bar baz',
+            'whee')
+      ]).toNotification());
+    }
     files.clear();
   }
 

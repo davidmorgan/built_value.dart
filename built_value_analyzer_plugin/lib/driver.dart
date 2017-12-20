@@ -7,16 +7,20 @@ import 'package:analyzer_plugin/protocol/protocol_generated.dart';
 import 'package:built_value_analyzer_plugin/logger.dart';
 
 class BuiltValueDriver implements AnalysisDriverGeneric {
+  final AnalysisDriverScheduler scheduler;
   final PluginCommunicationChannel channel;
 
   Set<String> files = new Set<String>();
 
-  BuiltValueDriver(this.channel);
+  BuiltValueDriver(this.scheduler, this.channel) {
+    scheduler.add(this);
+  }
 
   @override
   void addFile(String path) {
     log('addFile $path');
     files.add(path);
+    scheduler.notify(this);
   }
 
   @override

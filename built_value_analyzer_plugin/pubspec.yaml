@@ -13,7 +13,7 @@ environment:
 dependencies:
   analyzer: ^0.31.0-alpha.1
   analyzer_plugin: ^0.0.1-alpha.0
-  built_collection: ^1.0.0
+  built_collection: ^2.0.0
 # built_value: ^4.3.0
   built_value:
     path: ../built_value

@@ -13,7 +13,7 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
   @override
   AnalysisDriverGeneric createAnalysisDriver(ContextRoot contextRoot) {
     log('createAnalysisDriver');
-    return new BuiltValueDriver(channel);
+    return new BuiltValueDriver(analysisDriverScheduler, channel);
   }
 
   @override
@@ -31,17 +31,17 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
   @override
   String get version {
     log('version');
-    return '0.0.1';
+    return '1.0.0-alpha.0';
   }
 
   @override
   String get contactInfo => 'hi';
 
-  @override
+  /*@override
   void sendNotificationsForSubscriptions(
       Map<String, List<AnalysisService>> subscriptions) {
     log('sendNotificationForSubscriptions');
-  }
+  }*/
 
   @override
   void onError(Object exception, StackTrace stackTrace) {

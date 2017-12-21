@@ -250,10 +250,15 @@ class FlatBuiltValueToStringHelper implements BuiltValueToStringHelper {
   @override
   String toString() {
     _result..write('}');
+
     final stringResult = _result.toString();
     _result = null;
     return stringResult;
   }
+}
+
+abstract class Foo implements Built {
+
 }
 
 /// [Error] indicating that a built_value class constructor was called with

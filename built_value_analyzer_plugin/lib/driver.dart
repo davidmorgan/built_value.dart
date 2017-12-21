@@ -6,6 +6,8 @@ import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart';
 import 'package:built_value_analyzer_plugin/logger.dart';
 
+int count = 0;
+
 class BuiltValueDriver implements AnalysisDriverGeneric {
   final AnalysisDriver driver;
   final AnalysisDriverScheduler scheduler;
@@ -44,18 +46,56 @@ class BuiltValueDriver implements AnalysisDriverGeneric {
   }
 
   @override
-  Future<Null> performWork() async {
-    try {
-      log('performWork');
-      for (final file in files) {
-        if (!file.endsWith('.dart')) continue;
-        log(file);
+  Future<Null> performWork() {
+    log('performWork');
+    for (final file in files) {
+      if (!file.endsWith('.dart')) continue;
+      log('getResult for $file');
 
-        // ignore: unawaited_futures
-        driver.getResult(file).then((result) {
-          log('got $result');
-        });
-        /*if (dartResult == null) {
+      // ignore: unawaited_futures
+      ++count;
+      log('up: $count');
+      driver.getResult(file).then((result) {
+        --count;
+        log('down: $count');
+        log('result for $file');
+        for (final compilationUnit in result.libraryElement.units) {
+          for (final type in compilationUnit.types) {
+            log('checking ${type.displayName}');
+            for (final interface in type.interfaces) {
+              log('has interface ${interface.displayName}');
+
+              final expectedInterface =
+                  'Built<${type.displayName}, ${type.displayName}Builder>';
+
+              if (interface.displayName.startsWith('Built<') &&
+                  interface.displayName != expectedInterface) {
+                final node = type.computeNode();
+
+                final lineInfo = compilationUnit.lineInfo;
+                final offsetLineLocation = lineInfo.getLocation(node.offset);
+                channel.sendNotification(new AnalysisErrorsParams(file, [
+                  new AnalysisError(
+                      AnalysisErrorSeverity.INFO,
+                      AnalysisErrorType.HINT,
+                      new Location(
+                          file,
+                          node.offset,
+                          node.length,
+                          offsetLineLocation.lineNumber,
+                          offsetLineLocation.columnNumber),
+                      'Wrong implements.',
+                      'whee',
+                      correction: 'correctMe',
+                      hasFix: true)
+                ]).toNotification());
+                log('*** need to fix $file');
+              }
+            }
+          }
+        }
+      });
+      /*if (dartResult == null) {
         log('was null');
         continue;
       }
@@ -63,19 +103,17 @@ class BuiltValueDriver implements AnalysisDriverGeneric {
       dartResult.libraryElement.importedLibraries
           .forEach((library) => log(library.displayName));*/
 
-        channel.sendNotification(new AnalysisErrorsParams(file, [
-          new AnalysisError(
-              AnalysisErrorSeverity.ERROR,
-              AnalysisErrorType.SYNTACTIC_ERROR,
-              new Location(file, 0, 10, 2, 3),
-              'foo bar baz',
-              'whee')
-        ]).toNotification());
-      }
-      files.clear();
-    } catch (e) {
-      log('Error! ' + e.toString());
+      /*channel.sendNotification(new AnalysisErrorsParams(file, [
+        new AnalysisError(
+            AnalysisErrorSeverity.ERROR,
+            AnalysisErrorType.SYNTACTIC_ERROR,
+            new Location(file, 0, 10, 2, 3),
+            'foo bar baz',
+            'whee')
+      ]).toNotification());*/
     }
+    files.clear();
+    return new Future.value(null);
   }
 
   @override
@@ -87,6 +125,8 @@ class BuiltValueDriver implements AnalysisDriverGeneric {
   @override
   AnalysisDriverPriority get workPriority {
     log('workPriority');
-    return AnalysisDriverPriority.interactive;
+    return files.isEmpty
+        ? AnalysisDriverPriority.nothing
+        : AnalysisDriverPriority.interactive;
   }
 }

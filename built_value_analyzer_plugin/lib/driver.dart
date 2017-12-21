@@ -4,7 +4,6 @@ import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/channel/channel.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart';
-import 'package:built_value_analyzer_plugin/logger.dart';
 
 int count = 0;
 

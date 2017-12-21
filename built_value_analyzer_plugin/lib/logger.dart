@@ -1,6 +1,6 @@
 import 'dart:io';
 
-var file = null;
+File file;
 
 void log(String string) {
   if (file == null) {

@@ -71,6 +71,11 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
     super.driverForPath(path).addFile(path);
   }
 
+  Future<plugin.EditGetFixesResult> handleEditGetFixes(
+      plugin.EditGetFixesParams parameters) async {
+    return await (driverForPath(parameters.file) as BuiltValueDriver).getFixes(parameters);
+  }
+
   @override
   Future<plugin.EditGetAssistsResult> handleEditGetAssists(
       plugin.EditGetAssistsParams parameters) async {

@@ -1,7 +1,8 @@
 analyzer:
   strong-mode:
     implicit-casts: false
-    implicit-dynamic: false
+    # implicit-dynamic: false
+
   plugins:
     built_value
 

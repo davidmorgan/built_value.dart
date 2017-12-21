@@ -4,20 +4,14 @@ import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/channel/channel.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart';
-
-int count = 0;
+import 'package:built_value_analyzer_plugin/source_file.dart';
 
 class BuiltValueDriver implements AnalysisDriverGeneric {
   final AnalysisDriver driver;
   final AnalysisDriverScheduler scheduler;
   final PluginCommunicationChannel channel;
 
-  final Set<String> _pathsToAnalyze = new Set<String>();
-  final Map<String, AnalysisResult> _analysisResults =
-      new Map<String, AnalysisResult>();
-  final Set<String> _resultsToProcess = new Set<String>();
-  final Map<String, AnalysisError> _errors = new Map<String, AnalysisError>();
-  final Set<String> _errorsToPublish = new Set<String>();
+  final Map<String, SourceFile> _sourceFiles = new Map<String, SourceFile>();
 
   BuiltValueDriver(this.driver, this.scheduler, this.channel) {
     scheduler.add(this);
@@ -25,26 +19,25 @@ class BuiltValueDriver implements AnalysisDriverGeneric {
 
   @override
   void addFile(String path) {
-    _pathsToAnalyze.add(path);
-    scheduler.notify(this);
+    _sourceFiles[path] = new SourceFile(NextAction.analyze, path, null, [], {});
   }
 
   @override
   void dispose() {}
 
   @override
-  bool get hasFilesToAnalyze => _pathsToAnalyze.isNotEmpty;
+  bool get hasFilesToAnalyze =>
+      _sourceFiles.values.any((f) => f.nextAction == NextAction.analyze);
 
   @override
   Future<Null> performWork() {
-    for (final path in _pathsToAnalyze) {
-      driver.getResult(path).then((result) {
-        _analysisResults[path] = result;
-        _resultsToProcess.add(path);
+    for (final sourceFile in _sourceFiles.values
+        .where((f) => f.nextAction == NextAction.analyze)) {
+      driver.getResult(sourceFile.path).then((result) {
+        _sourceFiles[sourceFile.path] = sourceFile.withAnalysisResult(result);
         scheduler.notify(this);
       });
     }
-    _pathsToAnalyze.clear();
 
     for (final path in _resultsToProcess) {
       final result = _analysisResults[path];

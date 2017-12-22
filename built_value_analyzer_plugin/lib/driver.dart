@@ -28,8 +28,7 @@ class BuiltValueDriver implements AnalysisDriverGeneric {
   void dispose() {}
 
   @override
-  bool get hasFilesToAnalyze =>
-      _sourceFiles.values.any((f) => f.nextAction == NextAction.analyze);
+  bool get hasFilesToAnalyze => _nextSourceFile() != null;
 
   SourceFile _nextSourceFile() => _sourceFiles.values.firstWhere(
       (f) => f.nextAction != NextAction.wait && f.nextAction != NextAction.done,
@@ -38,10 +37,13 @@ class BuiltValueDriver implements AnalysisDriverGeneric {
   @override
   Future<Null> performWork() {
     final sourceFile = _nextSourceFile();
-
+    log('PerformWork: $sourceFile');
     if (sourceFile != null) {
       _sourceFiles[sourceFile.path] = _performWork(sourceFile);
     }
+    log('-->${_sourceFiles[sourceFile.path]}');
+
+    return new Future.value(null);
   }
 
   SourceFile _performWork(SourceFile sourceFile) {
@@ -55,13 +57,8 @@ class BuiltValueDriver implements AnalysisDriverGeneric {
           }, onError: (e, stack) => log(stack.toString()));
 
           return sourceFile.withNextAction(NextAction.wait);
-        } else {
-          return sourceFile.withNextAction(NextAction.done);
         }
-
-      case NextAction.wait:
-        log('Whoops.');
-        break;
+        return sourceFile.withNextAction(NextAction.done);
 
       case NextAction.check:
         return sourceFile.doCheck();
@@ -73,9 +70,8 @@ class BuiltValueDriver implements AnalysisDriverGeneric {
 
         return sourceFile.withNextAction(NextAction.done);
 
-      case NextAction.done:
-        log('Oh dear.');
-        break;
+      default:
+        throw new StateError(sourceFile.nextAction.toString());
     }
   }
 
@@ -84,14 +80,14 @@ class BuiltValueDriver implements AnalysisDriverGeneric {
 
   @override
   AnalysisDriverPriority get workPriority {
-    log('workPriority');
+    //log('workPriority');
     return hasFilesToAnalyze
         ? AnalysisDriverPriority.general
         : AnalysisDriverPriority.nothing;
   }
 
   Future<EditGetFixesResult> getFixes(EditGetFixesParams parameters) async {
-    log('getFixes');
+    //log('getFixes');
     final fixes = <AnalysisErrorFixes>[];
     _sourceFiles.values
         .forEach((f) => fixes.addAll(f.analysisErrorFixes.values));

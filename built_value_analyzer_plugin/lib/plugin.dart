@@ -8,16 +8,12 @@ import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:built_value_analyzer_plugin/driver.dart';
-import 'package:built_value_analyzer_plugin/logger.dart';
 
 class BuiltValueAnalyzerPlugin extends ServerPlugin {
-  BuiltValueAnalyzerPlugin(ResourceProvider provider) : super(provider) {
-    log('BuiltValueAnalyzerPlugin');
-  }
+  BuiltValueAnalyzerPlugin(ResourceProvider provider) : super(provider);
 
   @override
   AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
-    log('createAnalysisDriver');
     final root = new ContextRoot(contextRoot.root, contextRoot.exclude)
       ..optionsFilePath = contextRoot.optionsFile;
     final contextBuilder =
@@ -32,19 +28,16 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
 
   @override
   List<String> get fileGlobsToAnalyze {
-    log('fileGlobsToAnalyze');
     return const ['*.dart'];
   }
 
   @override
   String get name {
-    log('name');
     return 'Built Value Analysis Plugin';
   }
 
   @override
   String get version {
-    log('version');
     return '1.0.0-alpha.0';
   }
 
@@ -58,13 +51,10 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
   }*/
 
   @override
-  void onError(Object exception, StackTrace stackTrace) {
-    log('onError');
-  }
+  void onError(Object exception, StackTrace stackTrace) {}
 
   @override
   void contentChanged(String path) {
-    log('contentChanged $path');
     super.driverForPath(path).addFile(path);
   }
 
@@ -78,8 +68,6 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
   @override
   Future<plugin.EditGetAssistsResult> handleEditGetAssists(
       plugin.EditGetAssistsParams parameters) async {
-    log('*********** EditGetAssistsResult');
-
     final assists = <plugin.PrioritizedSourceChange>[
       new plugin.PrioritizedSourceChange(
           0,

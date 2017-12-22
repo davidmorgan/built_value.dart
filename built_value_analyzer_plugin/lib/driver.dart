@@ -2,9 +2,12 @@ import 'dart:async';
 
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/channel/channel.dart';
-import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart';
+import 'package:built_value_analyzer_plugin/logger.dart';
 import 'package:built_value_analyzer_plugin/source_file.dart';
+
+Set<String> pending = new Set<String>();
+int count = 0;
 
 class BuiltValueDriver implements AnalysisDriverGeneric {
   final AnalysisDriver driver;
@@ -19,71 +22,70 @@ class BuiltValueDriver implements AnalysisDriverGeneric {
 
   @override
   void addFile(String path) {
+    log('addFile');
     _sourceFiles[path] = new SourceFile(NextAction.analyze, path, null, [], {});
+    scheduler.notify(this);
   }
 
   @override
   void dispose() {}
 
   @override
-  bool get hasFilesToAnalyze =>
-      _sourceFiles.values.any((f) => f.nextAction == NextAction.analyze);
+  bool get hasFilesToAnalyze {
+    log('hasFilesToAnalyze ${_sourceFiles.values.any((f) => f.nextAction == NextAction.analyze)}');
+    return _sourceFiles.values.any((f) => f.nextAction == NextAction.analyze);
+  }
 
   @override
   Future<Null> performWork() {
-    for (final sourceFile in _sourceFiles.values
-        .where((f) => f.nextAction == NextAction.analyze)) {
-      driver.getResult(sourceFile.path).then((result) {
-        _sourceFiles[sourceFile.path] = sourceFile.withAnalysisResult(result);
-        scheduler.notify(this);
-      });
-    }
+    ++count;
+    final myCount = count;
+    log('performWork $myCount');
+    try {
+      for (final sourceFile in _sourceFiles.values
+          .where((f) => f.nextAction == NextAction.analyze)) {
+        if (sourceFile.path.endsWith('.dart')) {
+          _sourceFiles[sourceFile.path] =
+              sourceFile.withNextAction(NextAction.wait);
 
-    for (final path in _resultsToProcess) {
-      final result = _analysisResults[path];
+          pending.add(sourceFile.path);
+          log('++${pending.length}: $pending');
+          driver.getResult(sourceFile.path).then((result) {
+            pending.remove(sourceFile.path);
+            log('--${pending.length}: $pending');
 
-      for (final compilationUnit in result.libraryElement.units) {
-        for (final type in compilationUnit.types) {
-          for (final interface in type.interfaces) {
-            final expectedInterface =
-                'Built<${type.displayName}, ${type.displayName}Builder>';
-
-            if (interface.displayName.startsWith('Built<') &&
-                interface.displayName != expectedInterface) {
-              final node = type.computeNode();
-
-              final lineInfo = compilationUnit.lineInfo;
-              final offsetLineLocation = lineInfo.getLocation(node.offset);
-              final error = new AnalysisError(
-                  AnalysisErrorSeverity.INFO,
-                  AnalysisErrorType.HINT,
-                  new Location(
-                      path,
-                      node.offset,
-                      node.length,
-                      offsetLineLocation.lineNumber,
-                      offsetLineLocation.columnNumber),
-                  'Wrong implements.',
-                  'whee',
-                  correction: 'correctMe',
-                  hasFix: true);
-              _errors[path] = error;
-              _errorsToPublish.add(path);
-            }
-          }
+            _sourceFiles[sourceFile.path] =
+                sourceFile.withAnalysisResult(result);
+            scheduler.notify(this);
+          }, onError: (e, stack) => log(stack.toString()));
+        } else {
+          _sourceFiles[sourceFile.path] =
+              sourceFile.withNextAction(NextAction.done);
         }
+
+        return new Future.value(null);
       }
-    }
-    _resultsToProcess.clear();
 
-    for (final path in _errorsToPublish) {
-      final error = _errors[path];
-      channel.sendNotification(
-          new AnalysisErrorsParams(path, [error]).toNotification());
-    }
-    _errorsToPublish.clear();
+      for (final sourceFile in _sourceFiles.values
+          .where((f) => f.nextAction == NextAction.check)) {
+        _sourceFiles[sourceFile.path] = sourceFile.doCheck();
+        return new Future.value(null);
+      }
 
-    return new Future.value(null);
+      for (final sourceFile in _sourceFiles.values
+          .where((f) => f.nextAction == NextAction.publish)) {
+        channel.sendNotification(
+            new AnalysisErrorsParams(sourceFile.path, sourceFile.analysisErrors)
+                .toNotification());
+        _sourceFiles[sourceFile.path] =
+            sourceFile.withNextAction(NextAction.done);
+        return new Future.value(null);
+      }
+
+      return new Future.value(null);
+    } finally {
+      log('end performWork $myCount');
+    }
   }
 
   @override
@@ -91,34 +93,17 @@ class BuiltValueDriver implements AnalysisDriverGeneric {
 
   @override
   AnalysisDriverPriority get workPriority {
-    return _pathsToAnalyze.isEmpty
-        ? AnalysisDriverPriority.nothing
-        : AnalysisDriverPriority.interactive;
+    log('workPriority');
+    return hasFilesToAnalyze
+        ? AnalysisDriverPriority.general
+        : AnalysisDriverPriority.nothing;
   }
 
   Future<EditGetFixesResult> getFixes(EditGetFixesParams parameters) async {
-    if (_errors.isEmpty) {
-      return new EditGetFixesResult([]);
-    }
-
-    return new EditGetFixesResult([
-      new AnalysisErrorFixes(_errors.values.first,
-          fixes: <PrioritizedSourceChange>[
-            new PrioritizedSourceChange(
-                0,
-                new SourceChange('fix fix fix', edits: [
-                  new SourceFileEdit(
-                      '/usr/local/google/home/davidmorgan/git/built-value-dart/built_value/lib/built_value.dart',
-                      0,
-                      edits: [
-                        new SourceEdit(
-                          0,
-                          10,
-                          'wheeeee',
-                        )
-                      ])
-                ])),
-          ])
-    ]);
+    log('getFixes');
+    final fixes = <AnalysisErrorFixes>[];
+    _sourceFiles.values
+        .forEach((f) => fixes.addAll(f.analysisErrorFixes.values));
+    return new EditGetFixesResult(fixes);
   }
 }

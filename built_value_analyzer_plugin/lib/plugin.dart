@@ -44,12 +44,6 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
   @override
   String get contactInfo => 'hi';
 
-  /*@override
-  void sendNotificationsForSubscriptions(
-      Map<String, List<AnalysisService>> subscriptions) {
-    log('sendNotificationForSubscriptions');
-  }*/
-
   @override
   void onError(Object exception, StackTrace stackTrace) {}
 
@@ -63,27 +57,5 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
       plugin.EditGetFixesParams parameters) async {
     return await (driverForPath(parameters.file) as BuiltValueDriver)
         .getFixes(parameters);
-  }
-
-  @override
-  Future<plugin.EditGetAssistsResult> handleEditGetAssists(
-      plugin.EditGetAssistsParams parameters) async {
-    final assists = <plugin.PrioritizedSourceChange>[
-      new plugin.PrioritizedSourceChange(
-          0,
-          new plugin.SourceChange('fix fix fix', edits: [
-            new plugin.SourceFileEdit(
-                '/usr/local/google/home/davidmorgan/git/built-value-dart/built_value/lib/built_value.dart',
-                0,
-                edits: [
-                  new plugin.SourceEdit(
-                    0,
-                    10,
-                    'wheeeee',
-                  )
-                ])
-          ])),
-    ];
-    return new plugin.EditGetAssistsResult(assists);
   }
 }

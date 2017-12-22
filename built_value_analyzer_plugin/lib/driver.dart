@@ -6,9 +6,6 @@ import 'package:analyzer_plugin/protocol/protocol_generated.dart';
 import 'package:built_value_analyzer_plugin/logger.dart';
 import 'package:built_value_analyzer_plugin/source_file.dart';
 
-Set<String> pending = new Set<String>();
-int count = 0;
-
 class BuiltValueDriver implements AnalysisDriverGeneric {
   final AnalysisDriver driver;
   final AnalysisDriverScheduler scheduler;
@@ -31,60 +28,54 @@ class BuiltValueDriver implements AnalysisDriverGeneric {
   void dispose() {}
 
   @override
-  bool get hasFilesToAnalyze {
-    log('hasFilesToAnalyze ${_sourceFiles.values.any((f) => f.nextAction == NextAction.analyze)}');
-    return _sourceFiles.values.any((f) => f.nextAction == NextAction.analyze);
-  }
+  bool get hasFilesToAnalyze =>
+      _sourceFiles.values.any((f) => f.nextAction == NextAction.analyze);
+
+  SourceFile _nextSourceFile() => _sourceFiles.values.firstWhere(
+      (f) => f.nextAction != NextAction.wait && f.nextAction != NextAction.done,
+      orElse: () => null);
 
   @override
   Future<Null> performWork() {
-    ++count;
-    final myCount = count;
-    log('performWork $myCount');
-    try {
-      for (final sourceFile in _sourceFiles.values
-          .where((f) => f.nextAction == NextAction.analyze)) {
+    final sourceFile = _nextSourceFile();
+
+    if (sourceFile != null) {
+      _sourceFiles[sourceFile.path] = _performWork(sourceFile);
+    }
+  }
+
+  SourceFile _performWork(SourceFile sourceFile) {
+    switch (sourceFile.nextAction) {
+      case NextAction.analyze:
         if (sourceFile.path.endsWith('.dart')) {
-          _sourceFiles[sourceFile.path] =
-              sourceFile.withNextAction(NextAction.wait);
-
-          pending.add(sourceFile.path);
-          log('++${pending.length}: $pending');
           driver.getResult(sourceFile.path).then((result) {
-            pending.remove(sourceFile.path);
-            log('--${pending.length}: $pending');
-
             _sourceFiles[sourceFile.path] =
                 sourceFile.withAnalysisResult(result);
             scheduler.notify(this);
           }, onError: (e, stack) => log(stack.toString()));
+
+          return sourceFile.withNextAction(NextAction.wait);
         } else {
-          _sourceFiles[sourceFile.path] =
-              sourceFile.withNextAction(NextAction.done);
+          return sourceFile.withNextAction(NextAction.done);
         }
 
-        return new Future.value(null);
-      }
+      case NextAction.wait:
+        log('Whoops.');
+        break;
 
-      for (final sourceFile in _sourceFiles.values
-          .where((f) => f.nextAction == NextAction.check)) {
-        _sourceFiles[sourceFile.path] = sourceFile.doCheck();
-        return new Future.value(null);
-      }
+      case NextAction.check:
+        return sourceFile.doCheck();
 
-      for (final sourceFile in _sourceFiles.values
-          .where((f) => f.nextAction == NextAction.publish)) {
+      case NextAction.publish:
         channel.sendNotification(
             new AnalysisErrorsParams(sourceFile.path, sourceFile.analysisErrors)
                 .toNotification());
-        _sourceFiles[sourceFile.path] =
-            sourceFile.withNextAction(NextAction.done);
-        return new Future.value(null);
-      }
 
-      return new Future.value(null);
-    } finally {
-      log('end performWork $myCount');
+        return sourceFile.withNextAction(NextAction.done);
+
+      case NextAction.done:
+        log('Oh dear.');
+        break;
     }
   }
 

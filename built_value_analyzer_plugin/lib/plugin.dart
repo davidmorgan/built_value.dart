@@ -10,7 +10,6 @@ import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
 import 'package:analyzer_plugin/plugin/fix_mixin.dart';
-import 'package:built_value_analyzer_plugin/logger.dart';
 
 class BuiltValueAnalyzerPlugin extends ServerPlugin with FixesMixin {
   BuiltValueAnalyzerPlugin(ResourceProvider provider) : super(provider);
@@ -55,15 +54,19 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin with FixesMixin {
   }
 
   @override
-  List<FixContributor> getFixContributors(String path) => [new MyFixContributor()];
+  List<FixContributor> getFixContributors(String path) =>
+      [new MyFixContributor()];
 
   @override
-  Future<FixesRequest> getFixesRequest(plugin.EditGetFixesParams parameters) async {
+  Future<FixesRequest> getFixesRequest(
+      plugin.EditGetFixesParams parameters) async {
+    final source = new ResourceUriResolver(resourceProvider)
+        .resolveAbsolute(new Uri.file(parameters.file));
 
-    // Use UriResolver or ResourceUriResolver to get a Source
+    // need to channel.sendNotification for these errors.
+
     return new FixesRequestImpl([
-  new AnalysisError(parameters., 1, 1, new MyErrorCode('foo', 'bar')),
-
+      new AnalysisError(source, 10, 100, new MyErrorCode('foo', 'bar')),
     ], parameters.offset, resourceProvider);
   }
 }
@@ -94,6 +97,23 @@ class MyErrorCode extends ErrorCode {
 class MyFixContributor extends FixContributor {
   @override
   void computeFixes(FixesRequest request, FixCollector collector) {
-    log('computeFixes: $request');
+    collector.addFix(request.errorsToFix.first, new plugin.PrioritizedSourceChange(
+        100,
+        new plugin.SourceChange(
+          'Implement Built<> for built_value.',
+          edits: [
+            new plugin.SourceFileEdit(
+              request.errorsToFix.first.source.uri.toFilePath(),
+              request.errorsToFix.first.source.modificationStamp,
+              edits: [
+                new plugin.SourceEdit(
+                  10,
+                  100,
+                  'implements Built<>',
+                )
+              ],
+            )
+          ],
+        )));
   }
 }

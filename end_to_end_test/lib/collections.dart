@@ -33,3 +33,7 @@ abstract class Collections implements Built<Collections, CollectionsBuilder> {
   factory Collections([updates(CollectionsBuilder b)]) = _$Collections;
   Collections._();
 }
+
+void x {
+
+}

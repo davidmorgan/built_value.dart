@@ -1,15 +1,18 @@
 import 'dart:async';
 
 import 'package:analyzer/context/context_root.dart';
+import 'package:analyzer/error/error.dart';
 import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/src/context/builder.dart';
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
-import 'package:built_value_analyzer_plugin/driver.dart';
+import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
+import 'package:analyzer_plugin/plugin/fix_mixin.dart';
+import 'package:built_value_analyzer_plugin/logger.dart';
 
-class BuiltValueAnalyzerPlugin extends ServerPlugin {
+class BuiltValueAnalyzerPlugin extends ServerPlugin with FixesMixin {
   BuiltValueAnalyzerPlugin(ResourceProvider provider) : super(provider);
 
   @override
@@ -22,8 +25,7 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
           ..byteStore = byteStore
           ..performanceLog = performanceLog
           ..fileContentOverlay = fileContentOverlay;
-    return new BuiltValueDriver(
-        contextBuilder.buildDriver(root), analysisDriverScheduler, channel);
+    return contextBuilder.buildDriver(root);
   }
 
   @override
@@ -53,9 +55,45 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
   }
 
   @override
-  Future<plugin.EditGetFixesResult> handleEditGetFixes(
-      plugin.EditGetFixesParams parameters) async {
-    return await (driverForPath(parameters.file) as BuiltValueDriver)
-        .getFixes(parameters);
+  List<FixContributor> getFixContributors(String path) => [new MyFixContributor()];
+
+  @override
+  Future<FixesRequest> getFixesRequest(plugin.EditGetFixesParams parameters) async {
+
+    // Use UriResolver or ResourceUriResolver to get a Source
+    return new FixesRequestImpl([
+  new AnalysisError(parameters., 1, 1, new MyErrorCode('foo', 'bar')),
+
+    ], parameters.offset, resourceProvider);
+  }
+}
+
+class FixesRequestImpl implements FixesRequest {
+  @override
+  final List<AnalysisError> errorsToFix;
+
+  @override
+  final int offset;
+
+  @override
+  final ResourceProvider resourceProvider;
+
+  FixesRequestImpl(this.errorsToFix, this.offset, this.resourceProvider);
+}
+
+class MyErrorCode extends ErrorCode {
+  MyErrorCode(String name, String message) : super(name, message);
+
+  @override
+  ErrorSeverity get errorSeverity => ErrorSeverity.ERROR;
+
+  @override
+  ErrorType get type => ErrorType.COMPILE_TIME_ERROR;
+}
+
+class MyFixContributor extends FixContributor {
+  @override
+  void computeFixes(FixesRequest request, FixCollector collector) {
+    log('computeFixes: $request');
   }
 }

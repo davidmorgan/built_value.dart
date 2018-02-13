@@ -51,6 +51,22 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin with FixesMixin {
   @override
   void contentChanged(String path) {
     super.driverForPath(path).addFile(path);
+    /*
+    (super.driverForPath(path) as AnalysisDriver)
+        .results
+        .listen((AnalysisResult result) {
+      channel.sendNotification(new plugin.AnalysisErrorsParams(result.path, [
+        new plugin.AnalysisError(
+          plugin.AnalysisErrorSeverity.ERROR,
+          plugin.AnalysisErrorType.COMPILE_TIME_ERROR,
+          new plugin.Location(result.path, 10, 100, 1, 100),
+          'error here',
+          'code here',
+          correction: 'correction here',
+          hasFix: true,
+        )
+      ]).toNotification());
+    });*/
   }
 
   @override
@@ -91,29 +107,31 @@ class MyErrorCode extends ErrorCode {
   ErrorSeverity get errorSeverity => ErrorSeverity.ERROR;
 
   @override
-  ErrorType get type => ErrorType.COMPILE_TIME_ERROR;
+  ErrorType get type => ErrorType.HINT;
 }
 
 class MyFixContributor extends FixContributor {
   @override
   void computeFixes(FixesRequest request, FixCollector collector) {
-    collector.addFix(request.errorsToFix.first, new plugin.PrioritizedSourceChange(
-        100,
-        new plugin.SourceChange(
-          'Implement Built<> for built_value.',
-          edits: [
-            new plugin.SourceFileEdit(
-              request.errorsToFix.first.source.uri.toFilePath(),
-              request.errorsToFix.first.source.modificationStamp,
+    collector.addFix(
+        request.errorsToFix.first,
+        new plugin.PrioritizedSourceChange(
+            100,
+            new plugin.SourceChange(
+              'Implement Built<> for built_value.',
               edits: [
-                new plugin.SourceEdit(
-                  10,
-                  100,
-                  'implements Built<>',
+                new plugin.SourceFileEdit(
+                  request.errorsToFix.first.source.uri.toFilePath(),
+                  request.errorsToFix.first.source.modificationStamp,
+                  edits: [
+                    new plugin.SourceEdit(
+                      10,
+                      100,
+                      'implements Built<>',
+                    )
+                  ],
                 )
               ],
-            )
-          ],
-        )));
+            )));
   }
 }

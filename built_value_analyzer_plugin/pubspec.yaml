@@ -17,8 +17,6 @@ dependencies:
 # built_value: ^5.2.0
   built_value:
     path: ../built_value
-  built_value:
-    path: ../built_value
   plugin: ^0.2.0
   quiver: '>=0.21.0 <0.29.0'
 

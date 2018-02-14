@@ -8,24 +8,28 @@ void main() {
   group('corrects implements statement', () {
     test('with no generics', () async {
       final src = 'class Foo implements Built {}';
-      final totalSrc = 'library test_library; class Built {}; $src';
+      final srcPrefix = 'library test_library; class Built {};';
+      final totalSrc = '$srcPrefix$src';
 
       final element = await resolveSource(
           totalSrc, (resolver) => resolver.findLibraryByName('test_library'));
 
       final results = checker.check(element);
 
-      var fixedSrc = src;
+      var fixedSrc = totalSrc;
       for (final correction in results.values) {
         for (final edits in correction.change.edits) {
           for (final edit in edits.edits) {
             fixedSrc = fixedSrc.replaceRange(
-                edit.offset, edit.length, edit.replacement);
+                edit.offset, edit.offset + edit.length, edit.replacement);
           }
         }
       }
 
-      expect(fixedSrc, 'class Foo implements Built<Foo, Bar> {}');
+      expect(fixedSrc, startsWith(srcPrefix));
+      fixedSrc = fixedSrc.substring(srcPrefix.length);
+
+      expect(fixedSrc, 'class Foo implements Built<Foo, FooBuilder> {}');
     });
   });
 }

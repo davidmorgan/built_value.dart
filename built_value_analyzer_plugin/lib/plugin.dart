@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:analyzer/analyzer.dart';
 import 'package:analyzer/context/context_root.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/file_system/file_system.dart';
@@ -9,7 +10,6 @@ import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:built_value_analyzer_plugin/logger.dart';
-import 'package:built_value_analyzer_plugin/source_file.dart';
 
 class BuiltValueAnalyzerPlugin extends ServerPlugin {
   final Map<plugin.AnalysisError, plugin.PrioritizedSourceChange>
@@ -144,5 +144,40 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
     }
 
     return new plugin.EditGetFixesResult(fixes);
+  }
+}
+
+/// Extracts the type parameters used for the `Built` interface.
+class BuiltParametersVisitor extends RecursiveAstVisitor {
+  String result;
+  int offset;
+  int length;
+
+  @override
+  void visitImplementsClause(ImplementsClause implementsClause) {
+    for (final interface in implementsClause.interfaces) {
+      final parameters =
+      _extractParameters('Built', 'Built<', interface.toString());
+
+      if (parameters != null) {
+        result = parameters;
+        offset = implementsClause.offset;
+        length = implementsClause.length;
+      }
+    }
+  }
+
+  /// If [[code]] starts with [[prefix]] then strips it off, strips off the
+  /// last character, and returns it.
+  ///
+  /// Otherwise returns null.
+  String _extractParameters(String match, String prefix, String code) {
+    if (code == match) {
+      return '';
+    } else if (code.startsWith(prefix)) {
+      return code.substring(prefix.length, code.length - 1);
+    } else {
+      return null;
+    }
   }
 }

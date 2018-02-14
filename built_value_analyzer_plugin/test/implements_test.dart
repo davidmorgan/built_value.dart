@@ -15,5 +15,10 @@ void main() {
       await expectCorrection('class Foo implements Built<Bar, Baz> {}',
           'class Foo implements Built<Foo, FooBuilder> {}');
     });
+
+    test('with more interfaces', () async {
+      await expectCorrection('class Foo implements Bar, Built<Bar, Baz> {}',
+          'class Foo implements Bar, Built<Foo, FooBuilder> {}');
+    });
   });
 }

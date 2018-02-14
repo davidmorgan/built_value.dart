@@ -10,5 +10,10 @@ void main() {
       await expectCorrection('class Foo implements Built {}',
           'class Foo implements Built<Foo, FooBuilder> {}');
     });
+
+    test('with wrong generics', () async {
+      await expectCorrection('class Foo implements Built<Bar, Baz> {}',
+          'class Foo implements Built<Foo, FooBuilder> {}');
+    });
   });
 }

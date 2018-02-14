@@ -3,9 +3,7 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart';
-import 'package:built_value_analyzer_plugin/logger.dart';
 
-// TODO: refactor to take LibraryElement then use build_test to add tests.
 class Checker {
   Map<AnalysisError, PrioritizedSourceChange> check(
       LibraryElement libraryElement) {
@@ -13,10 +11,9 @@ class Checker {
 
     for (final compilationUnit in libraryElement.units) {
       for (final type in compilationUnit.types) {
-        log('check ${type.displayName}');
         if (!type.interfaces.any((i) => i.displayName.startsWith('Built')))
           continue;
-        log('check ${type.displayName} via ast');
+
         final visitor = new BuiltParametersVisitor();
         type.computeNode().accept(visitor);
         if (visitor.result != null) {

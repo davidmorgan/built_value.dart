@@ -52,7 +52,7 @@ class Checker {
                       new SourceEdit(
                         visitor.offset,
                         visitor.length,
-                        'implements Built<$expectedParams>',
+                        'Built<$expectedParams>',
                       )
                     ],
                   )
@@ -81,8 +81,8 @@ class BuiltParametersVisitor extends RecursiveAstVisitor {
 
       if (parameters != null) {
         result = parameters;
-        offset = implementsClause.offset;
-        length = implementsClause.length;
+        offset = interface.offset;
+        length = interface.length;
       }
     }
   }

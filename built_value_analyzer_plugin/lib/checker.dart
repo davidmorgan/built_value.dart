@@ -1,7 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart';
 import 'package:built_value_analyzer_plugin/logger.dart';
@@ -9,15 +8,10 @@ import 'package:built_value_analyzer_plugin/logger.dart';
 // TODO: refactor to take LibraryElement then use build_test to add tests.
 class Checker {
   Map<AnalysisError, PrioritizedSourceChange> check(
-      AnalysisResult analysisResult) {
+      LibraryElement libraryElement) {
     final result = <AnalysisError, PrioritizedSourceChange>{};
-    if (analysisResult.unit == null) {
-      log('no unit!');
-      return result;
-    }
 
-    for (final compilationUnit in analysisResult?.libraryElement?.units ??
-        <CompilationUnitElement>[]) {
+    for (final compilationUnit in libraryElement.units) {
       for (final type in compilationUnit.types) {
         log('check ${type.displayName}');
         if (!type.interfaces.any((i) => i.displayName.startsWith('Built')))
@@ -36,7 +30,7 @@ class Checker {
               AnalysisErrorSeverity.ERROR,
               AnalysisErrorType.COMPILE_TIME_ERROR,
               new Location(
-                  analysisResult.path,
+                  compilationUnit.source.fullName,
                   visitor.offset,
                   visitor.length,
                   offsetLineLocation.lineNumber,
@@ -52,8 +46,8 @@ class Checker {
                 'Implement Built<$expectedParams> for built_value.',
                 edits: [
                   new SourceFileEdit(
-                    analysisResult.path,
-                    0,
+                    compilationUnit.source.fullName,
+                    compilationUnit.source.modificationStamp,
                     edits: [
                       new SourceEdit(
                         visitor.offset,

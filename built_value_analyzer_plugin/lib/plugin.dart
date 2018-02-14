@@ -44,7 +44,13 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
 
   void processResult(AnalysisResult analysisResult) {
     try {
-      final checkResult = checker.check(analysisResult);
+      if (analysisResult.unit == null ||
+          analysisResult.libraryElement == null) {
+        channel.sendNotification(
+            new plugin.AnalysisErrorsParams(analysisResult.path, [])
+                .toNotification());
+      }
+      final checkResult = checker.check(analysisResult.libraryElement);
       channel.sendNotification(new plugin.AnalysisErrorsParams(
               analysisResult.path, checkResult.keys.toList())
           .toNotification());
@@ -61,16 +67,20 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
   @override
   Future<plugin.EditGetFixesResult> handleEditGetFixes(
       plugin.EditGetFixesParams parameters) async {
+    final analysisResult = (driverForPath(parameters.file) as AnalysisDriver)
+        .getCachedResult(parameters.file);
+
+    if (analysisResult.unit == null || analysisResult.libraryElement == null) {
+      return new plugin.EditGetFixesResult([]);
+    }
+
+    final checkResult = checker.check(analysisResult?.libraryElement);
+
     final fixes = <plugin.AnalysisErrorFixes>[];
-
-    final checkResult = checker.check(
-        (driverForPath(parameters.file) as AnalysisDriver)
-            .getCachedResult(parameters.file));
-
     for (final error in checkResult.keys) {
       if (error.location.file == parameters.file) {
-        fixes.add(new plugin.AnalysisErrorFixes(error,
-            fixes: [checkResult[error]]));
+        fixes.add(
+            new plugin.AnalysisErrorFixes(error, fixes: [checkResult[error]]));
       }
     }
 

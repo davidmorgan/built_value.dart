@@ -18,7 +18,11 @@ class Checker {
         type.computeNode().accept(visitor);
         if (visitor.result != null) {
           final name = type.displayName;
-          final expectedParams = '$name, ${name}Builder';
+          final typeParameters = type.typeParameters.join(', ');
+          final typeParametersWithBrackets =
+              typeParameters.isEmpty ? '' : '<$typeParameters>';
+          final expectedParams = '$name$typeParametersWithBrackets, '
+              '${name}Builder$typeParametersWithBrackets';
           if (visitor.result == expectedParams) continue;
 
           final lineInfo = compilationUnit.lineInfo;

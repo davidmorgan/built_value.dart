@@ -22,5 +22,10 @@ void main() {
           'class Foo extends Bar '
           'implements Bar, Built<Foo, FooBuilder>, Bop {}');
     });
+
+    test('with generic class', () async {
+      await expectCorrection('class Foo<T> implements Built {}',
+          'class Foo<T> implements Built<Foo<T>, FooBuilder<T>> {}');
+    });
   });
 }

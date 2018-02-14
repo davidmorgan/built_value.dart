@@ -1,21 +1,27 @@
 import 'dart:async';
 
 import 'package:analyzer/context/context_root.dart';
-import 'package:analyzer/error/error.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/src/context/builder.dart';
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
-import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
-import 'package:analyzer_plugin/plugin/fix_mixin.dart';
+import 'package:built_value_analyzer_plugin/logger.dart';
+import 'package:built_value_analyzer_plugin/source_file.dart';
 
-class BuiltValueAnalyzerPlugin extends ServerPlugin with FixesMixin {
+class BuiltValueAnalyzerPlugin extends ServerPlugin {
+  final Map<plugin.AnalysisError, plugin.PrioritizedSourceChange>
+      analysisErrorFixes =
+      <plugin.AnalysisError, plugin.PrioritizedSourceChange>{};
+
   BuiltValueAnalyzerPlugin(ResourceProvider provider) : super(provider);
 
   @override
   AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
+    log('Create driver');
+
     final root = new ContextRoot(contextRoot.root, contextRoot.exclude)
       ..optionsFilePath = contextRoot.optionsFile;
     final contextBuilder =
@@ -24,7 +30,9 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin with FixesMixin {
           ..byteStore = byteStore
           ..performanceLog = performanceLog
           ..fileContentOverlay = fileContentOverlay;
-    return contextBuilder.buildDriver(root);
+    final result = contextBuilder.buildDriver(root);
+    result.results.listen(processResult);
+    return result;
   }
 
   @override
@@ -48,90 +56,93 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin with FixesMixin {
   @override
   void onError(Object exception, StackTrace stackTrace) {}
 
+  void processResult(AnalysisResult result) {
+    log('processResult ${result.path}');
+
+    final errors = <plugin.AnalysisError>[];
+    if (result.unit == null) {
+      log('no unit!');
+      return;
+    }
+    try {
+      for (final compilationUnit
+          in result?.libraryElement?.units ?? <CompilationUnitElement>[]) {
+        for (final type in compilationUnit.types) {
+          log('check ${type.displayName}');
+          if (!type.interfaces.any((i) => i.displayName.startsWith('Built')))
+            continue;
+          log('check ${type.displayName} via ast');
+          final visitor = new BuiltParametersVisitor();
+          type.computeNode().accept(visitor);
+          if (visitor.result != null) {
+            final name = type.displayName;
+            final expectedParams = '$name, ${name}Builder';
+            if (visitor.result == expectedParams) continue;
+
+            final lineInfo = compilationUnit.lineInfo;
+            final offsetLineLocation = lineInfo.getLocation(visitor.offset);
+            final error = new plugin.AnalysisError(
+                plugin.AnalysisErrorSeverity.INFO,
+                plugin.AnalysisErrorType.HINT,
+                new plugin.Location(
+                    result.path,
+                    visitor.offset,
+                    visitor.length,
+                    offsetLineLocation.lineNumber,
+                    offsetLineLocation.columnNumber),
+                'Class must implement Built<$expectedParams> to use built_value.',
+                '',
+                correction: 'correctMe',
+                hasFix: true);
+            errors.add(error);
+
+            final fix = new plugin.PrioritizedSourceChange(
+                0,
+                new plugin.SourceChange(
+                  'Implement Built<$expectedParams> for built_value.',
+                  edits: [
+                    new plugin.SourceFileEdit(
+                      result.path,
+                      0,
+                      edits: [
+                        new plugin.SourceEdit(
+                          visitor.offset,
+                          visitor.length,
+                          'implements Built<$expectedParams>',
+                        )
+                      ],
+                    )
+                  ],
+                ));
+            analysisErrorFixes[error] = fix;
+          }
+        }
+      }
+      channel.sendNotification(
+          new plugin.AnalysisErrorsParams(result.path, errors)
+              .toNotification());
+    } catch (e, stack) {
+      log(e.toString() + '\n' + stack.toString());
+    }
+  }
+
   @override
   void contentChanged(String path) {
     super.driverForPath(path).addFile(path);
-    /*
-    (super.driverForPath(path) as AnalysisDriver)
-        .results
-        .listen((AnalysisResult result) {
-      channel.sendNotification(new plugin.AnalysisErrorsParams(result.path, [
-        new plugin.AnalysisError(
-          plugin.AnalysisErrorSeverity.ERROR,
-          plugin.AnalysisErrorType.COMPILE_TIME_ERROR,
-          new plugin.Location(result.path, 10, 100, 1, 100),
-          'error here',
-          'code here',
-          correction: 'correction here',
-          hasFix: true,
-        )
-      ]).toNotification());
-    });*/
   }
 
   @override
-  List<FixContributor> getFixContributors(String path) =>
-      [new MyFixContributor()];
-
-  @override
-  Future<FixesRequest> getFixesRequest(
+  Future<plugin.EditGetFixesResult> handleEditGetFixes(
       plugin.EditGetFixesParams parameters) async {
-    final source = new ResourceUriResolver(resourceProvider)
-        .resolveAbsolute(new Uri.file(parameters.file));
+    final fixes = <plugin.AnalysisErrorFixes>[];
 
-    // need to channel.sendNotification for these errors.
+    for (final error in analysisErrorFixes.keys) {
+      if (error.location.file == parameters.file) {
+        fixes.add(new plugin.AnalysisErrorFixes(error,
+            fixes: [analysisErrorFixes[error]]));
+      }
+    }
 
-    return new FixesRequestImpl([
-      new AnalysisError(source, 10, 100, new MyErrorCode('foo', 'bar')),
-    ], parameters.offset, resourceProvider);
-  }
-}
-
-class FixesRequestImpl implements FixesRequest {
-  @override
-  final List<AnalysisError> errorsToFix;
-
-  @override
-  final int offset;
-
-  @override
-  final ResourceProvider resourceProvider;
-
-  FixesRequestImpl(this.errorsToFix, this.offset, this.resourceProvider);
-}
-
-class MyErrorCode extends ErrorCode {
-  MyErrorCode(String name, String message) : super(name, message);
-
-  @override
-  ErrorSeverity get errorSeverity => ErrorSeverity.ERROR;
-
-  @override
-  ErrorType get type => ErrorType.HINT;
-}
-
-class MyFixContributor extends FixContributor {
-  @override
-  void computeFixes(FixesRequest request, FixCollector collector) {
-    collector.addFix(
-        request.errorsToFix.first,
-        new plugin.PrioritizedSourceChange(
-            100,
-            new plugin.SourceChange(
-              'Implement Built<> for built_value.',
-              edits: [
-                new plugin.SourceFileEdit(
-                  request.errorsToFix.first.source.uri.toFilePath(),
-                  request.errorsToFix.first.source.modificationStamp,
-                  edits: [
-                    new plugin.SourceEdit(
-                      10,
-                      100,
-                      'implements Built<>',
-                    )
-                  ],
-                )
-              ],
-            )));
+    return new plugin.EditGetFixesResult(fixes);
   }
 }

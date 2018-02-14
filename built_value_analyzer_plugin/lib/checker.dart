@@ -6,6 +6,7 @@ import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart';
 import 'package:built_value_analyzer_plugin/logger.dart';
 
+// TODO: refactor to take LibraryElement then use build_test to add tests.
 class Checker {
   Map<AnalysisError, PrioritizedSourceChange> check(
       AnalysisResult analysisResult) {
@@ -32,8 +33,8 @@ class Checker {
           final lineInfo = compilationUnit.lineInfo;
           final offsetLineLocation = lineInfo.getLocation(visitor.offset);
           final error = new AnalysisError(
-              AnalysisErrorSeverity.INFO,
-              AnalysisErrorType.HINT,
+              AnalysisErrorSeverity.ERROR,
+              AnalysisErrorType.COMPILE_TIME_ERROR,
               new Location(
                   analysisResult.path,
                   visitor.offset,
@@ -46,7 +47,7 @@ class Checker {
               hasFix: true);
 
           final fix = new PrioritizedSourceChange(
-              0,
+              100,
               new SourceChange(
                 'Implement Built<$expectedParams> for built_value.',
                 edits: [

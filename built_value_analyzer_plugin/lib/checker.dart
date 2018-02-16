@@ -15,6 +15,8 @@ class Checker {
           continue;
 
         final visitor = new BuiltParametersVisitor();
+        // NodeLocator2 gives us the AST node for a particular offset--don't need
+        // computeNode.
         type.computeNode().accept(visitor);
         if (visitor.result != null) {
           final name = type.displayName;
@@ -41,6 +43,7 @@ class Checker {
               correction: 'correctMe',
               hasFix: true);
 
+          // Take a look at utilities/change_builder for examples.
           final fix = new PrioritizedSourceChange(
               100,
               new SourceChange(

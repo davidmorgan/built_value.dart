@@ -14,6 +14,7 @@ Future expectCorrection(String src, String expectedFixedSource) async {
 
   final results = checker.check(element);
 
+  // TODO: find shared code that does this.
   var fixedSrc = totalSrc;
   for (final correction in results.values) {
     for (final edits in correction.change.edits) {

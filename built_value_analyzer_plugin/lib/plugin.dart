@@ -49,12 +49,14 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
         channel.sendNotification(
             new plugin.AnalysisErrorsParams(analysisResult.path, [])
                 .toNotification());
+        return;
       }
       final checkResult = checker.check(analysisResult.libraryElement);
       channel.sendNotification(new plugin.AnalysisErrorsParams(
               analysisResult.path, checkResult.keys.toList())
           .toNotification());
     } catch (e, stack) {
+      // Send notification.
       log(e.toString() + '\n' + stack.toString());
     }
   }

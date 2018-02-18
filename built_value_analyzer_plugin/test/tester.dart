@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:build_test/build_test.dart';
-import 'package:built_value_analyzer_plugin/checker.dart';
+import '../../built_value_generator/lib/src/plugin/checker.dart';
 import 'package:test/test.dart';
 
 Future expectCorrection(String src, String expectedFixedSource) async {

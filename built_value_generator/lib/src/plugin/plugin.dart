@@ -70,8 +70,13 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
   @override
   Future<plugin.EditGetFixesResult> handleEditGetFixes(
       plugin.EditGetFixesParams parameters) async {
+    // TODO: use fresh, not cached, result.
     final analysisResult = (driverForPath(parameters.file) as AnalysisDriver)
         .getCachedResult(parameters.file);
+
+    if (analysisResult == null) {
+      return new plugin.EditGetFixesResult([]);
+    }
 
     if (analysisResult.unit == null || analysisResult.libraryElement == null) {
       return new plugin.EditGetFixesResult([]);

@@ -3,6 +3,8 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart';
+import 'package:built_value_generator/src/value_source_class.dart';
+//import 'package:built_value_generator/src/value_source_class.dart';
 
 class Checker {
   Map<AnalysisError, PrioritizedSourceChange> check(
@@ -13,6 +15,38 @@ class Checker {
       for (final type in compilationUnit.types) {
         if (!type.interfaces.any((i) => i.displayName.startsWith('Built')))
           continue;
+
+        // Need to only check if not in *.g.dart.
+        // Then: better errors class than string. Easy...
+        final ValueSourceClass sourceClass = new ValueSourceClass(type);
+        final errors = sourceClass.computeErrors();
+
+        if (errors.isNotEmpty) {
+          final lineInfo = compilationUnit.lineInfo;
+          final offsetLineLocation = lineInfo.getLocation(1);
+          final error = new AnalysisError(
+              AnalysisErrorSeverity.ERROR,
+              AnalysisErrorType.COMPILE_TIME_ERROR,
+              new Location(
+                  compilationUnit.source.fullName,
+                  1,
+                  10,
+                  offsetLineLocation.lineNumber,
+                  offsetLineLocation.columnNumber),
+              'Class has Built errors: ' + errors.join('\n'),
+              '',
+              correction: 'correctMe',
+              hasFix: true);
+
+          // Take a look at utilities/change_builder for examples.
+          final fix = new PrioritizedSourceChange(
+              100,
+              new SourceChange(
+                'Fix Built errors.',
+                edits: [],
+              ));
+          result[error] = fix;
+        }
 
         final visitor = new BuiltParametersVisitor();
         // NodeLocator2 gives us the AST node for a particular offset--don't need

@@ -248,7 +248,7 @@ abstract class ValueSourceClass
                 .any((value) => value?.type?.displayName == 'BuiltValue'));
   }
 
-  Iterable<String> _computeErrors() {
+  Iterable<String> computeErrors() {
     return concat([
       _checkPart(),
       _checkValueClass(),
@@ -407,7 +407,7 @@ abstract class ValueSourceClass
           '>';
 
   String generateCode() {
-    final errors = _computeErrors();
+    final errors = computeErrors();
     if (errors.isNotEmpty) throw _makeError(errors);
 
     final result = new StringBuffer();

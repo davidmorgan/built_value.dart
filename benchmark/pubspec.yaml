@@ -23,3 +23,9 @@ dev_dependencies:
     path: ../built_value_generator
   quiver: '>=0.21.0 <0.29.0'
   test: any
+
+dependency_overrides:
+  built_value:
+    path: ../built_value
+  built_value_generator:
+    path: ../built_value_generator

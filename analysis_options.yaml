@@ -4,10 +4,10 @@ analyzer:
     # implicit-dynamic: false
 
   plugins:
-    built_value
+    built_value_generator
 
 plugins:
-  built_value:
+  built_value_generator:
     enabled: true
 
 linter:

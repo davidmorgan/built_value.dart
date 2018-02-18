@@ -4,5 +4,5 @@ description: This pubspec determines the version of the analyzer plugin to load.
 environment:
   sdk: '>=1.24.0-dev.1.0'
 dependencies:
-  built_value_analyzer_plugin:
-    path: /usr/local/google/home/davidmorgan/git/built-value-dart/built_value_analyzer_plugin
+  built_value_generator:
+    path: /usr/local/google/home/davidmorgan/git/built-value-dart/built_value_generator

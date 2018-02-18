@@ -1,8 +1,6 @@
-import 'package:build_test/build_test.dart';
-import '../../built_value_generator/lib/src/plugin/checker.dart';
 import 'package:test/test.dart';
 
-import 'tester.dart';
+import 'plugin_tester.dart';
 
 void main() {
   group('corrects implements statement', () {

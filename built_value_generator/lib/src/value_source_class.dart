@@ -178,10 +178,10 @@ abstract class ValueSourceClass
           .map((constructor) => constructor.computeNode()));
 
   @memoized
-  BuiltList<String> get valueClassFactories =>
-      new BuiltList<String>(element.constructors
+  BuiltList<ConstructorDeclaration> get valueClassFactories =>
+      new BuiltList<ConstructorDeclaration>(element.constructors
           .where((constructor) => constructor.isFactory)
-          .map((factory) => factory.computeNode().toSource()));
+          .map((factory) => factory.computeNode()));
 
   @memoized
   bool get builderClassIsAbstract => builderElement.isAbstract;
@@ -393,7 +393,7 @@ abstract class ValueSourceClass
 
     if (settings.instantiable) {
       if (!valueClassFactories
-          .any((factory) => factory.contains('$implName$_generics'))) {
+          .any((factory) => factory.toSource().contains('$implName$_generics'))) {
         result.add(new GeneratorError((b) => b
           ..message =
               'Add a factory so your class can be instantiated. Example:\n\n'

@@ -56,9 +56,11 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
       channel.sendNotification(new plugin.AnalysisErrorsParams(
               analysisResult.path, checkResult.keys.toList())
           .toNotification());
-    } catch (e, stack) {
+    } catch (e, stackTrace) {
       // Send notification.
-      log(e.toString() + '\n' + stack.toString());
+      channel.sendNotification(new plugin.PluginErrorParams(
+              false, e.toString(), stackTrace.toString())
+          .toNotification());
     }
   }
 
@@ -70,28 +72,40 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
   @override
   Future<plugin.EditGetFixesResult> handleEditGetFixes(
       plugin.EditGetFixesParams parameters) async {
-    // TODO: use fresh, not cached, result.
-    final analysisResult = (driverForPath(parameters.file) as AnalysisDriver)
-        .getCachedResult(parameters.file);
+    try {
+      // TODO: surround with try/catch.
 
-    if (analysisResult == null) {
-      return new plugin.EditGetFixesResult([]);
-    }
+      // TODO: use fresh, not cached, result.
+      final analysisResult = (driverForPath(parameters.file) as AnalysisDriver)
+          .getCachedResult(parameters.file);
 
-    if (analysisResult.unit == null || analysisResult.libraryElement == null) {
-      return new plugin.EditGetFixesResult([]);
-    }
-
-    final checkResult = checker.check(analysisResult?.libraryElement);
-
-    final fixes = <plugin.AnalysisErrorFixes>[];
-    for (final error in checkResult.keys) {
-      if (error.location.file == parameters.file) {
-        fixes.add(
-            new plugin.AnalysisErrorFixes(error, fixes: [checkResult[error]]));
+      if (analysisResult == null) {
+        return new plugin.EditGetFixesResult([]);
       }
-    }
 
-    return new plugin.EditGetFixesResult(fixes);
+      if (analysisResult.unit == null ||
+          analysisResult.libraryElement == null) {
+        return new plugin.EditGetFixesResult([]);
+      }
+
+      final checkResult = checker.check(analysisResult?.libraryElement);
+
+      final fixes = <plugin.AnalysisErrorFixes>[];
+      for (final error in checkResult.keys) {
+        if (error.location.file == parameters.file &&
+            checkResult[error].change.edits.single.edits.isNotEmpty) {
+          fixes.add(new plugin.AnalysisErrorFixes(error,
+              fixes: [checkResult[error]]));
+        }
+      }
+
+      return new plugin.EditGetFixesResult(fixes);
+    } catch (e, stackTrace) {
+      // Send notification.
+      channel.sendNotification(new plugin.PluginErrorParams(
+              false, e.toString(), stackTrace.toString())
+          .toNotification());
+      return new plugin.EditGetFixesResult([]);
+    }
   }
 }

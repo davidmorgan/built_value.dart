@@ -9,6 +9,9 @@ class Checker {
     final result = <AnalysisError, PrioritizedSourceChange>{};
 
     for (final compilationUnit in libraryElement.units) {
+      // Don't analyze generated source; there's nothing to do.
+      if (compilationUnit.source.fullName.endsWith('.g.dart')) continue;
+
       for (final type in compilationUnit.types) {
         if (!type.interfaces.any((i) => i.displayName.startsWith('Built')))
           continue;
@@ -21,6 +24,7 @@ class Checker {
         if (errors.isNotEmpty) {
           final lineInfo = compilationUnit.lineInfo;
 
+          // Need to find a good place to surface the error. Class declaration?
           final offset = errors.first.offset;
           final length = errors.first.length;
 
@@ -40,6 +44,14 @@ class Checker {
               hasFix: true);
 
           // Take a look at utilities/change_builder for examples.
+
+          final edits = errors
+              .where((error) => error.fix != null)
+              .map((error) => new SourceEdit(
+              error.offset, error.length, error.fix))
+              .toList();
+          edits.sort((left, right) => right.offset.compareTo(left.offset));
+
           final fix = new PrioritizedSourceChange(
               100,
               new SourceChange(
@@ -48,11 +60,7 @@ class Checker {
                   new SourceFileEdit(
                     compilationUnit.source.fullName,
                     compilationUnit.source.modificationStamp,
-                    edits: errors
-                        .where((error) => error.fix != null)
-                        .map((error) => new SourceEdit(
-                            error.offset, error.length, error.fix))
-                        .toList(),
+                    edits: edits,
                   )
                 ],
               ));

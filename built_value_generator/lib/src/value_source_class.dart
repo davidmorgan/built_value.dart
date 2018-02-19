@@ -265,7 +265,7 @@ abstract class ValueSourceClass
         : [
             new GeneratorError((b) => b
               ..message = 'Import generated part: $partStatement'
-              ..position = 0
+              ..offset = 0
               ..length = 0)
           ];
   }
@@ -276,7 +276,7 @@ abstract class ValueSourceClass
     if (!valueClassIsAbstract) {
       result.add(new GeneratorError((b) => b
         ..message = 'Make class abstract.'
-        ..position = 0
+        ..offset = 0
         ..length = 0));
     }
 
@@ -285,7 +285,7 @@ abstract class ValueSourceClass
         ..message = 'Stop using "show" when importing '
             '"package:built_value/built_value.dart". It prevents the generated '
             'code from finding helper methods.'
-        ..position = 0
+        ..offset = 0
         ..length = 0));
     }
 
@@ -294,7 +294,7 @@ abstract class ValueSourceClass
         ..message = 'Stop using "as" when importing '
             '"package:built_value/built_value.dart". It prevents the generated '
             'code from finding helper methods.'
-        ..position = 0
+        ..offset = 0
         ..length = 0));
     }
 
@@ -306,7 +306,7 @@ abstract class ValueSourceClass
         !(!settings.instantiable && builtParameters == null)) {
       result.add(new GeneratorError((b) => b
         ..message = 'Make class implement Built<$expectedBuiltParameters>.'
-        ..position = 0
+        ..offset = 0
         ..length = 0));
     }
 
@@ -314,7 +314,7 @@ abstract class ValueSourceClass
       result.add(new GeneratorError((b) => b
         ..message = 'Stop class extending other classes. '
             'Only "implements" and "extends Object with" are allowed.'
-        ..position = 0
+        ..offset = 0
         ..length = 0));
     }
 
@@ -325,14 +325,14 @@ abstract class ValueSourceClass
         result.add(new GeneratorError((b) => b
           ..message =
               'Make class have exactly one constructor: $expectedConstructor;'
-          ..position = 0
+          ..offset = 0
           ..length = 0));
       }
     } else {
       if (valueClassConstructors.isNotEmpty) {
         result.add(new GeneratorError((b) => b
           ..message = 'Remove all constructors or remove "instantiable: false".'
-          ..position = 0
+          ..offset = 0
           ..length = 0));
       }
     }
@@ -345,14 +345,14 @@ abstract class ValueSourceClass
               'Add a factory so your class can be instantiated. Example:\n\n'
               'factory $name([updates(${name}Builder$_generics b)]) = '
               '$implName$_generics;'
-          ..position = 0
+          ..offset = 0
           ..length = 0));
       }
     } else {
       if (valueClassFactories.isNotEmpty) {
         result.add(new GeneratorError((b) => b
           ..message = 'Remove all factories or remove "instantiable: false".'
-          ..position = 0
+          ..offset = 0
           ..length = 0));
       }
     }
@@ -360,7 +360,7 @@ abstract class ValueSourceClass
     if (implementsHashCode) {
       result.add(new GeneratorError((b) => b
         ..message = 'Stop implementing hashCode; it will be generated for you.'
-        ..position = 0
+        ..offset = 0
         ..length = 0));
     }
 
@@ -368,7 +368,7 @@ abstract class ValueSourceClass
       result.add(new GeneratorError((b) => b
         ..message =
             'Stop implementing operator==; it will be generated for you.'
-        ..position = 0
+        ..offset = 0
         ..length = 0));
     }
 
@@ -382,7 +382,7 @@ abstract class ValueSourceClass
     if (!builderClassIsAbstract) {
       result.add(new GeneratorError((b) => b
         ..message = 'Make builder class abstract.'
-        ..position = 0
+        ..offset = 0
         ..length = 0));
     }
 
@@ -394,7 +394,7 @@ abstract class ValueSourceClass
           ..message =
               'Make builder class implement Builder<$expectedBuilderParameters>. '
               'Currently: Builder<$builderParameters>'
-          ..position = 0
+          ..offset = 0
           ..length = 0));
       }
     }
@@ -406,7 +406,7 @@ abstract class ValueSourceClass
         result.add(new GeneratorError((b) => b
           ..message =
               'Make builder class have exactly one constructor: $expectedConstructor;'
-          ..position = 0
+          ..offset = 0
           ..length = 0));
       }
     } else {
@@ -414,7 +414,7 @@ abstract class ValueSourceClass
         result.add(new GeneratorError((b) => b
           ..message = 'Remove all builder constructors '
               'or remove "instantiable: false".'
-          ..position = 0
+          ..offset = 0
           ..length = 0));
       }
     }
@@ -427,7 +427,7 @@ abstract class ValueSourceClass
         result.add(new GeneratorError((b) => b
           ..message =
               'Make builder class have exactly one factory: $expectedFactory'
-          ..position = 0
+          ..offset = 0
           ..length = 0));
       }
     } else {
@@ -435,7 +435,7 @@ abstract class ValueSourceClass
         result.add(new GeneratorError((b) => b
           ..message =
               'Remove all builder factories or remove "instantiable: false".'
-          ..position = 0
+          ..offset = 0
           ..length = 0));
       }
     }
@@ -450,7 +450,7 @@ abstract class ValueSourceClass
             new GeneratorError((b) => b
               ..message = 'Make builder have exactly these fields: ' +
                   fields.map((field) => field.name).join(', ')
-              ..position = 0
+              ..offset = 0
               ..length = 0)
           ]
         : [];

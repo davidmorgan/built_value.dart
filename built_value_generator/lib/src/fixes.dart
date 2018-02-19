@@ -7,7 +7,7 @@ import 'package:built_value/built_value.dart';
 part 'fixes.g.dart';
 
 abstract class SourceSnippet implements Built<SourceSnippet, SourceSnippetBuilder> {
-  int get position;
+  int get offset;
   String get source;
 
   factory SourceSnippet([updates(SourceSnippetBuilder b)]) = _$SourceSnippet;
@@ -17,7 +17,7 @@ abstract class SourceSnippet implements Built<SourceSnippet, SourceSnippetBuilde
 abstract class GeneratorError implements Built<GeneratorError, GeneratorErrorBuilder> {
   String get message;
 
-  int get position;
+  int get offset;
   int get length;
 
   @nullable

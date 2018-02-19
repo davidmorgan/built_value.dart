@@ -24,7 +24,7 @@ class Checker {
         if (errors.isNotEmpty) {
           final lineInfo = compilationUnit.lineInfo;
 
-          final offset = errors.first.position;
+          final offset = errors.first.offset;
           final length = errors.first.length;
 
           final offsetLineLocation = lineInfo.getLocation(offset);
@@ -54,7 +54,7 @@ class Checker {
                     edits: errors
                         .where((error) => error.fix != null)
                         .map((error) => new SourceEdit(
-                            error.position, error.length, error.fix))
+                            error.offset, error.length, error.fix))
                         .toList(),
                   )
                 ],

@@ -16,16 +16,16 @@ part of 'fixes.dart';
 
 class _$SourceSnippet extends SourceSnippet {
   @override
-  final int position;
+  final int offset;
   @override
   final String source;
 
   factory _$SourceSnippet([void updates(SourceSnippetBuilder b)]) =>
       (new SourceSnippetBuilder()..update(updates)).build();
 
-  _$SourceSnippet._({this.position, this.source}) : super._() {
-    if (position == null)
-      throw new BuiltValueNullFieldError('SourceSnippet', 'position');
+  _$SourceSnippet._({this.offset, this.source}) : super._() {
+    if (offset == null)
+      throw new BuiltValueNullFieldError('SourceSnippet', 'offset');
     if (source == null)
       throw new BuiltValueNullFieldError('SourceSnippet', 'source');
   }
@@ -41,18 +41,18 @@ class _$SourceSnippet extends SourceSnippet {
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
     if (other is! SourceSnippet) return false;
-    return position == other.position && source == other.source;
+    return offset == other.offset && source == other.source;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, position.hashCode), source.hashCode));
+    return $jf($jc($jc(0, offset.hashCode), source.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('SourceSnippet')
-          ..add('position', position)
+          ..add('offset', offset)
           ..add('source', source))
         .toString();
   }
@@ -62,9 +62,9 @@ class SourceSnippetBuilder
     implements Builder<SourceSnippet, SourceSnippetBuilder> {
   _$SourceSnippet _$v;
 
-  int _position;
-  int get position => _$this._position;
-  set position(int position) => _$this._position = position;
+  int _offset;
+  int get offset => _$this._offset;
+  set offset(int offset) => _$this._offset = offset;
 
   String _source;
   String get source => _$this._source;
@@ -74,7 +74,7 @@ class SourceSnippetBuilder
 
   SourceSnippetBuilder get _$this {
     if (_$v != null) {
-      _position = _$v.position;
+      _offset = _$v.offset;
       _source = _$v.source;
       _$v = null;
     }
@@ -95,7 +95,7 @@ class SourceSnippetBuilder
   @override
   _$SourceSnippet build() {
     final _$result =
-        _$v ?? new _$SourceSnippet._(position: position, source: source);
+        _$v ?? new _$SourceSnippet._(offset: offset, source: source);
     replace(_$result);
     return _$result;
   }
@@ -105,7 +105,7 @@ class _$GeneratorError extends GeneratorError {
   @override
   final String message;
   @override
-  final int position;
+  final int offset;
   @override
   final int length;
   @override
@@ -114,12 +114,12 @@ class _$GeneratorError extends GeneratorError {
   factory _$GeneratorError([void updates(GeneratorErrorBuilder b)]) =>
       (new GeneratorErrorBuilder()..update(updates)).build();
 
-  _$GeneratorError._({this.message, this.position, this.length, this.fix})
+  _$GeneratorError._({this.message, this.offset, this.length, this.fix})
       : super._() {
     if (message == null)
       throw new BuiltValueNullFieldError('GeneratorError', 'message');
-    if (position == null)
-      throw new BuiltValueNullFieldError('GeneratorError', 'position');
+    if (offset == null)
+      throw new BuiltValueNullFieldError('GeneratorError', 'offset');
     if (length == null)
       throw new BuiltValueNullFieldError('GeneratorError', 'length');
   }
@@ -137,7 +137,7 @@ class _$GeneratorError extends GeneratorError {
     if (identical(other, this)) return true;
     if (other is! GeneratorError) return false;
     return message == other.message &&
-        position == other.position &&
+        offset == other.offset &&
         length == other.length &&
         fix == other.fix;
   }
@@ -145,7 +145,7 @@ class _$GeneratorError extends GeneratorError {
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc(0, message.hashCode), position.hashCode), length.hashCode),
+        $jc($jc($jc(0, message.hashCode), offset.hashCode), length.hashCode),
         fix.hashCode));
   }
 
@@ -153,7 +153,7 @@ class _$GeneratorError extends GeneratorError {
   String toString() {
     return (newBuiltValueToStringHelper('GeneratorError')
           ..add('message', message)
-          ..add('position', position)
+          ..add('offset', offset)
           ..add('length', length)
           ..add('fix', fix))
         .toString();
@@ -168,9 +168,9 @@ class GeneratorErrorBuilder
   String get message => _$this._message;
   set message(String message) => _$this._message = message;
 
-  int _position;
-  int get position => _$this._position;
-  set position(int position) => _$this._position = position;
+  int _offset;
+  int get offset => _$this._offset;
+  set offset(int offset) => _$this._offset = offset;
 
   int _length;
   int get length => _$this._length;
@@ -185,7 +185,7 @@ class GeneratorErrorBuilder
   GeneratorErrorBuilder get _$this {
     if (_$v != null) {
       _message = _$v.message;
-      _position = _$v.position;
+      _offset = _$v.offset;
       _length = _$v.length;
       _fix = _$v.fix;
       _$v = null;
@@ -208,7 +208,7 @@ class GeneratorErrorBuilder
   _$GeneratorError build() {
     final _$result = _$v ??
         new _$GeneratorError._(
-            message: message, position: position, length: length, fix: fix);
+            message: message, offset: offset, length: length, fix: fix);
     replace(_$result);
     return _$result;
   }

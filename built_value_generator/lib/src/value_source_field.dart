@@ -157,7 +157,7 @@ abstract class ValueSourceField
     if (!isGetter) {
       result.add(new GeneratorError((b) => b
         ..message = 'Make field $name a getter.'
-        ..position = 0
+        ..offset = 0
         ..length = 0));
     }
 
@@ -166,14 +166,14 @@ abstract class ValueSourceField
         ..message = 'Make field $name have non-dynamic type. '
             'If you are already specifying a type, '
             'please make sure the type is correctly imported.'
-        ..position = 0
+        ..offset = 0
         ..length = 0));
     }
 
     if (name.startsWith('_')) {
       result.add(new GeneratorError((b) => b
         ..message = 'Make field $name public; remove the underscore.'
-        ..position = 0
+        ..offset = 0
         ..length = 0));
     }
 
@@ -181,7 +181,7 @@ abstract class ValueSourceField
       result.add(new GeneratorError((b) => b
         ..message = 'Make field "$name" have type "${_suggestedTypes[type]}". '
             'The current type, "$type", is not allowed because it is mutable.'
-        ..position = 0
+        ..offset = 0
         ..length = 0));
     }
 
@@ -193,14 +193,14 @@ abstract class ValueSourceField
       result.add(new GeneratorError((b) => b
         ..message = 'Make builder field $name have type: '
             '$type (or, if applicable, builder)'
-        ..position = 0
+        ..offset = 0
         ..length = 0));
     }
 
     if (builderFieldExists && !builderFieldIsNormalField) {
       result.add(new GeneratorError((b) => b
         ..message = 'Make builder field $name a normal field.'
-        ..position = 0
+        ..offset = 0
         ..length = 0));
     }
 

@@ -7,7 +7,7 @@ library built_value_generator.source_class;
 import 'package:analyzer/dart/element/element.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
-import 'package:built_value_generator/src/built_parameters_visitor.dart';
+import 'package:built_value_generator/src/implements_clause_visitor.dart';
 import 'package:built_value_generator/src/fixes.dart';
 import 'package:built_value_generator/src/memoized_getter.dart';
 import 'package:built_value_generator/src/value_source_field.dart';
@@ -112,13 +112,10 @@ abstract class ValueSourceClass
           .map((element) => (element.bound ?? '').toString()));
 
   @memoized
-  SourceSnippet get builtParameters {
-    final visitor = new BuiltParametersVisitor();
+  SourceSnippet get implementsClause {
+    final visitor = new ImplementsClauseVisitor();
     element.computeNode().accept(visitor);
-    return visitor.result ??
-        new SourceSnippet((b) => b
-          ..source = ''
-          ..offset = 0);
+    return visitor.result;
   }
 
   @memoized
@@ -301,17 +298,20 @@ abstract class ValueSourceClass
         ..length = 0));
     }
 
-    final expectedBuiltParameters = '$name$_generics, ${name}Builder$_generics';
+    final expectedBuiltParameters =
+        'Built<$name$_generics, ${name}Builder$_generics>';
     // Built parameters need fixing if they are not as expected, unless 1) the
     // class is marked `@BuiltValue(instantiable: false)` and 2) the parameters
     // are not wrong, they're completely missing.
-    if (builtParameters.source != expectedBuiltParameters &&
-        !(!settings.instantiable && builtParameters == null)) {
+    if (!implementsClause.source.contains(expectedBuiltParameters) &&
+        !(!settings.instantiable &&
+            !implementsClause.source.contains('Built<'))) {
+      final expectedImplementsClause = 'implements $expectedBuiltParameters';
       result.add(new GeneratorError((b) => b
-        ..message = 'Make class implement Built<$expectedBuiltParameters>.'
-        ..offset = builtParameters.offset
-        ..length = builtParameters.source.length + 'Built<>'.length
-        ..fix = 'Built<$expectedBuiltParameters>'));
+        ..message = 'Make class implement $expectedBuiltParameters.'
+        ..offset = implementsClause.offset
+        ..length = implementsClause.source.length
+        ..fix = expectedImplementsClause));
     }
 
     if (!extendsIsAllowed) {

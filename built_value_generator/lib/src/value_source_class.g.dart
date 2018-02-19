@@ -82,7 +82,7 @@ class _$ValueSourceClass extends ValueSourceClass {
       __genericBounds ??= super.genericBounds;
 
   @override
-  SourceSnippet get builtParameters => __builtParameters ??= super.builtParameters;
+  SourceSnippet get implementsClause => __builtParameters ??= super.implementsClause;
 
   @override
   bool get hasBuilder => __hasBuilder ??= super.hasBuilder;

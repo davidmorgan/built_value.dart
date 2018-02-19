@@ -258,14 +258,26 @@ abstract class ValueSourceClass
   }
 
   Iterable<GeneratorError> _checkPart() {
-    return hasPartStatement
-        ? []
-        : [
-            new GeneratorError((b) => b
-              ..message = 'Import generated part: $partStatement'
-              ..offset = 0
-              ..length = 0)
-          ];
+    if (hasPartStatement) return [];
+
+    final directives = (classDeclaration.parent as CompilationUnit).directives;
+    if (directives.isEmpty) {
+      return [
+        new GeneratorError((b) => b
+          ..message = 'Import generated part: $partStatement'
+          ..offset = 0
+            ..length = 0
+        ..fix = partStatement)
+      ];
+    } else {
+      return [
+        new GeneratorError((b) => b
+          ..message = 'Import generated part: $partStatement'
+          ..offset = directives.last.offset + directives.last.length
+          ..length = 0
+          ..fix = partStatement)
+      ];
+    }
   }
 
   Iterable<GeneratorError> _checkValueClass() {

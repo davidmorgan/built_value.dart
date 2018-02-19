@@ -6,8 +6,9 @@ import 'package:test/test.dart';
 
 Future expectCorrection(String src, String expectedFixedSource) async {
   final checker = new Checker();
-  final srcPrefix = 'library test_library; class Built {};';
-  final totalSrc = '$srcPrefix$src';
+  final srcPrefix = 'library test_library;';
+  final srcSuffix = 'class Built {};';
+  final totalSrc = '$srcPrefix$src$srcSuffix';
 
   final element = await resolveSource(
       totalSrc, (resolver) => resolver.findLibraryByName('test_library'));
@@ -32,6 +33,8 @@ Future expectCorrection(String src, String expectedFixedSource) async {
 
   expect(fixedSrc, startsWith(srcPrefix));
   fixedSrc = fixedSrc.substring(srcPrefix.length);
+  expect(fixedSrc, endsWith(srcSuffix));
+  fixedSrc = fixedSrc.substring(0, fixedSrc.length - srcSuffix.length);
 
   expect(fixedSrc, expectedFixedSource);
 }

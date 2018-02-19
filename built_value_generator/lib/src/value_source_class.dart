@@ -274,8 +274,9 @@ abstract class ValueSourceClass
     if (!valueClassIsAbstract) {
       result.add(new GeneratorError((b) => b
         ..message = 'Make class abstract.'
-        ..offset = 0
-        ..length = 0));
+        ..offset = classDeclaration.offset
+        ..length = 0
+        ..fix = 'abstract '));
     }
 
     if (hasBuiltValueImportWithShow) {

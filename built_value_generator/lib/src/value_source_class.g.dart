@@ -25,7 +25,7 @@ class _$ValueSourceClass extends ValueSourceClass {
   BuiltValue __settings;
   BuiltList<String> __genericParameters;
   BuiltList<String> __genericBounds;
-  String __builtParameters;
+  SourceSnippet __builtParameters;
   bool __hasBuilder;
   String __builderParameters;
   BuiltList<ValueSourceField> __fields;
@@ -82,7 +82,7 @@ class _$ValueSourceClass extends ValueSourceClass {
       __genericBounds ??= super.genericBounds;
 
   @override
-  String get builtParameters => __builtParameters ??= super.builtParameters;
+  SourceSnippet get builtParameters => __builtParameters ??= super.builtParameters;
 
   @override
   bool get hasBuilder => __hasBuilder ??= super.hasBuilder;

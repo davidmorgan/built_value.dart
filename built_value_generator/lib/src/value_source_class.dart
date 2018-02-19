@@ -112,10 +112,13 @@ abstract class ValueSourceClass
           .map((element) => (element.bound ?? '').toString()));
 
   @memoized
-  String get builtParameters {
+  SourceSnippet get builtParameters {
     final visitor = new BuiltParametersVisitor();
     element.computeNode().accept(visitor);
-    return visitor.result;
+    return visitor.result ??
+        new SourceSnippet((b) => b
+          ..source = ''
+          ..offset = 0);
   }
 
   @memoized
@@ -302,12 +305,13 @@ abstract class ValueSourceClass
     // Built parameters need fixing if they are not as expected, unless 1) the
     // class is marked `@BuiltValue(instantiable: false)` and 2) the parameters
     // are not wrong, they're completely missing.
-    if (builtParameters != expectedBuiltParameters &&
+    if (builtParameters.source != expectedBuiltParameters &&
         !(!settings.instantiable && builtParameters == null)) {
       result.add(new GeneratorError((b) => b
         ..message = 'Make class implement Built<$expectedBuiltParameters>.'
-        ..offset = 0
-        ..length = 0));
+        ..offset = builtParameters.offset
+        ..length = builtParameters.source.length + 'Built<>'.length
+        ..fix = 'Built<$expectedBuiltParameters>'));
     }
 
     if (!extendsIsAllowed) {

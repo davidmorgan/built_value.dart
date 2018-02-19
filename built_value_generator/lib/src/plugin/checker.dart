@@ -1,10 +1,7 @@
-import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart';
 import 'package:built_value_generator/src/value_source_class.dart';
-//import 'package:built_value_generator/src/value_source_class.dart';
 
 class Checker {
   Map<AnalysisError, PrioritizedSourceChange> check(

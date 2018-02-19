@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'error.dart';
+part of 'fixes.dart';
 
 // **************************************************************************
 // Generator: BuiltValueGenerator
@@ -13,6 +13,41 @@ part of 'error.dart';
 // ignore_for_file: omit_local_variable_types
 // ignore_for_file: prefer_expression_function_bodies
 // ignore_for_file: sort_constructors_first
+
+class _$SourceSnippet extends SourceSnippet {
+  int position;
+  String source;
+
+  _$SourceSnippet([updates(SourceSnippetBuilder b)]);
+
+  @override
+  SourceSnippet rebuild(updates(SourceSnippetBuilder b)) {
+    // TODO: implement rebuild
+  }
+
+  @override
+  toBuilder() {
+    // TODO: implement toBuilder
+  }
+}
+
+class SourceSnippetBuilder implements Builder<SourceSnippet, SourceSnippetBuilder> {
+  @override
+  SourceSnippet build() {
+    // TODO: implement build
+  }
+
+  @override
+  void replace(SourceSnippet value) {
+    // TODO: implement replace
+  }
+
+  @override
+  void update(Function updates) {
+    // TODO: implement update
+  }
+
+}
 
 class _$GeneratorError extends GeneratorError {
   @override

@@ -4,7 +4,15 @@
 
 import 'package:built_value/built_value.dart';
 
-part 'error.g.dart';
+part 'fixes.g.dart';
+
+abstract class SourceSnippet implements Built<SourceSnippet, SourceSnippetBuilder> {
+  int get position;
+  String get source;
+
+  factory SourceSnippet([updates(SourceSnippetBuilder b)]) = _$SourceSnippet;
+  SourceSnippet._();
+}
 
 abstract class GeneratorError implements Built<GeneratorError, GeneratorErrorBuilder> {
   String get message;

@@ -10,10 +10,10 @@ void main() {
   group('corrects constructors', () {
     test('when there is one invalid constructor', () async {
       await expectCorrection(
-          '''abstract class Foo implements Built<Foo, FooBuilder> {
+          '''part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {
   factory Foo() => new _\$Foo();
   Foo();
-}''', '''abstract class Foo implements Built<Foo, FooBuilder> {
+}''', '''part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {
   factory Foo() => new _\$Foo();
   Foo._();
 }''');
@@ -21,20 +21,20 @@ void main() {
 
     test('when the are no constructors', () async {
       await expectCorrection(
-          'abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();}',
-          'abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}');
+          'part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();}',
+          'part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}');
     });
 
     test('when the are multiple invalid constructors', () async {
       await expectCorrection(
-          'abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo.a();Foo.b();}',
-          'abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}');
+          'part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo.a();Foo.b();}',
+          'part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}');
     });
 
     test('when the are valid and invalid constructors', () async {
       await expectCorrection(
-          'abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._() {}Foo.b();}',
-          'abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._() {}}');
+          'part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._() {}Foo.b();}',
+          'part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._() {}}');
     });
   });
 }

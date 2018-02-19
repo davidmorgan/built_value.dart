@@ -7,9 +7,9 @@ import 'package:test/test.dart';
 import 'plugin_tester.dart';
 
 void main() {
-  group('corrects abstract', () {
-    test('when class is not abstract', () async {
-      await expectCorrection('part \'_resolve_source.g.dart\';class Foo implements Built<Foo, FooBuilder> {Foo._();}',
+  group('corrects part', () {
+    test('when part is not referenced', () async {
+      await expectCorrection('abstract class Foo implements Built<Foo, FooBuilder> {Foo._();}',
           'part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {Foo._();factory Foo([updates(FooBuilder b)]) = _\$Foo;}');
     });
   });

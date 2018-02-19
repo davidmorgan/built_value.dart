@@ -21,9 +21,26 @@ void main() {
           'implements Bar, Built<Foo, FooBuilder>, Bop {}');
     });
 
+    test('with interfaces and no generics', () async {
+      await expectCorrection(
+          'class Foo extends Bar implements Bar, Built, Bop {}',
+          'class Foo extends Bar '
+              'implements Bar, Built<Foo, FooBuilder>, Bop {}');
+    });
+
     test('with generic class', () async {
       await expectCorrection('class Foo<T> implements Built {}',
           'class Foo<T> implements Built<Foo<T>, FooBuilder<T>> {}');
+    });
+
+    test('with awkward formatting', () async {
+      await expectCorrection(
+          '''class Foo extends Bar implements Bar<A,
+    B>, Built,
+    Bop {}''',
+          '''class Foo extends Bar implements Bar<A,
+    B>, Built<Foo, FooBuilder>,
+    Bop {}''');
     });
   });
 }

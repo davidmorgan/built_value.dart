@@ -10,7 +10,7 @@ void main() {
   group('corrects abstract', () {
     test('when class is not abstract', () async {
       await expectCorrection('class Foo implements Built<Foo, FooBuilder> {Foo._();}',
-          'class Foo implements Built<Foo, FooBuilder> {Foo._();factory Foo([updates(FooBuilder b)]) = _\$Foo;}');
+          'abstract class Foo implements Built<Foo, FooBuilder> {Foo._();factory Foo([updates(FooBuilder b)]) = _\$Foo;}');
     });
   });
 }

@@ -10,7 +10,7 @@ void main() {
   group('corrects factories', () {
     test('when the are no factories', () async {
       await expectCorrection(
-          'class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}',
+          'abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}',
           'abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}');
     });
   });

@@ -9,28 +9,32 @@ import 'plugin_tester.dart';
 void main() {
   group('corrects constructors', () {
     test('when there is one invalid constructor', () async {
-      await expectCorrection('''class Foo implements Built<Foo, FooBuilder> {
+      await expectCorrection(
+          '''abstract class Foo implements Built<Foo, FooBuilder> {
   factory Foo() => new _\$Foo();
   Foo();
-}''', '''class Foo implements Built<Foo, FooBuilder> {
+}''', '''abstract class Foo implements Built<Foo, FooBuilder> {
   factory Foo() => new _\$Foo();
   Foo._();
 }''');
     });
 
     test('when the are no constructors', () async {
-      await expectCorrection('class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();}',
-          'class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}');
+      await expectCorrection(
+          'abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();}',
+          'abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}');
     });
 
     test('when the are multiple invalid constructors', () async {
-      await expectCorrection('class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo.a();Foo.b();}',
-          'class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}');
+      await expectCorrection(
+          'abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo.a();Foo.b();}',
+          'abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}');
     });
 
     test('when the are valid and invalid constructors', () async {
-      await expectCorrection('class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._() {}Foo.b();}',
-          'class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._() {}}');
+      await expectCorrection(
+          'abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._() {}Foo.b();}',
+          'abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._() {}}');
     });
   });
 }

@@ -16,13 +16,18 @@ Future expectCorrection(String src, String expectedFixedSource) async {
 
   // TODO: find shared code that does this.
   var fixedSrc = totalSrc;
-  for (final correction in results.values) {
-    for (final edits in correction.change.edits) {
-      for (final edit in edits.edits) {
+
+  final edits = results.values
+      .expand((correction) =>
+          correction.change.edits.expand((edits) => edits.edits))
+      .toList();
+  edits.sort((left, right) {
+    return right.offset.compareTo(left.offset);
+  });
+
+  for (final edit in edits) {
         fixedSrc = fixedSrc.replaceRange(
             edit.offset, edit.offset + edit.length, edit.replacement);
-      }
-    }
   }
 
   expect(fixedSrc, startsWith(srcPrefix));

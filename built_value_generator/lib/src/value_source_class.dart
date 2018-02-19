@@ -392,15 +392,18 @@ abstract class ValueSourceClass
     }
 
     if (settings.instantiable) {
-      if (!valueClassFactories
-          .any((factory) => factory.toSource().contains('$implName$_generics'))) {
+      if (!valueClassFactories.any(
+          (factory) => factory.toSource().contains('$implName$_generics'))) {
+        final exampleFactory =
+            'factory $name([updates(${name}Builder$_generics b)]) = '
+            '$implName$_generics;';
         result.add(new GeneratorError((b) => b
           ..message =
               'Add a factory so your class can be instantiated. Example:\n\n'
-              'factory $name([updates(${name}Builder$_generics b)]) = '
-              '$implName$_generics;'
-          ..offset = 0
-          ..length = 0));
+              '$exampleFactory'
+          ..offset = classDeclaration.rightBracket.offset
+          ..length = 0
+          ..fix = exampleFactory));
       }
     } else {
       if (valueClassFactories.isNotEmpty) {

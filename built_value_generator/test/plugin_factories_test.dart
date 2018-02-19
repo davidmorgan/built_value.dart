@@ -9,8 +9,8 @@ import 'plugin_tester.dart';
 void main() {
   group('corrects factories', () {
     test('when the are no factories', () async {
-      await expectCorrection('class Foo implements Built<Foo, FooBuilder> {}',
-          'class Foo implements Built<Foo, FooBuilder> {factory Foo([updates(FooBuilder b)]) = _\$Foo;}');
+      await expectCorrection('class Foo implements Built<Foo, FooBuilder> {Foo._();}',
+          'class Foo implements Built<Foo, FooBuilder> {Foo._();factory Foo([updates(FooBuilder b)]) = _\$Foo;}');
     });
   });
 }

@@ -352,11 +352,26 @@ abstract class ValueSourceClass
           ..length = 0
           ..fix = expectedConstructor + ';'));
       } else if (valueClassConstructors.length > 1) {
-        result.add(new GeneratorError((b) => b
-          ..message =
-              'Make class have exactly one constructor: $expectedConstructor;'
-          ..offset = 0
-          ..length = 0));
+        var found = false;
+        for (final constructor in valueClassConstructors) {
+          if (constructor.toSource().startsWith(expectedConstructor)) {
+            found = true;
+          } else {
+            result.add(new GeneratorError((b) => b
+              ..message = 'Remove invalid constructor.'
+              ..offset = constructor.offset
+              ..length = constructor.length
+              ..fix = ''));
+          }
+        }
+        if (!found) {
+          result.add(new GeneratorError((b) => b
+            ..message =
+                'Make class have exactly one constructor: $expectedConstructor;'
+            ..offset = classDeclaration.rightBracket.offset
+            ..length = 0
+            ..fix = expectedConstructor + ';'));
+        }
       } else if (!(valueClassConstructors.single
           .toSource()
           .startsWith(expectedConstructor))) {

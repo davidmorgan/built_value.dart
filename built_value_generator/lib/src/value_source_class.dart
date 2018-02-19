@@ -171,11 +171,11 @@ abstract class ValueSourceClass
   bool get valueClassIsAbstract => element.isAbstract;
 
   @memoized
-  BuiltList<String> get valueClassConstructors => new BuiltList<String>(element
-      .constructors
-      .where(
-          (constructor) => !constructor.isFactory && !constructor.isSynthetic)
-      .map((constructor) => constructor.computeNode().toSource()));
+  BuiltList<ConstructorDeclaration> get valueClassConstructors =>
+      new BuiltList<ConstructorDeclaration>(element.constructors
+          .where((constructor) =>
+              !constructor.isFactory && !constructor.isSynthetic)
+          .map((constructor) => constructor.computeNode()));
 
   @memoized
   BuiltList<String> get valueClassFactories =>
@@ -344,13 +344,28 @@ abstract class ValueSourceClass
 
     if (settings.instantiable) {
       final expectedConstructor = '$name._()';
-      if (valueClassConstructors.length != 1 ||
-          !(valueClassConstructors.single.startsWith(expectedConstructor))) {
+      if (valueClassConstructors.isEmpty) {
+        result.add(new GeneratorError((b) => b
+          ..message =
+              'Make class have exactly one constructor: $expectedConstructor;'
+          ..offset = classDeclaration.rightBracket.offset
+          ..length = 0
+          ..fix = expectedConstructor + ';'));
+      } else if (valueClassConstructors.length > 1) {
         result.add(new GeneratorError((b) => b
           ..message =
               'Make class have exactly one constructor: $expectedConstructor;'
           ..offset = 0
           ..length = 0));
+      } else if (!(valueClassConstructors.single
+          .toSource()
+          .startsWith(expectedConstructor))) {
+        result.add(new GeneratorError((b) => b
+          ..message =
+              'Make class have exactly one constructor: $expectedConstructor;'
+          ..offset = valueClassConstructors.single.offset
+          ..length = valueClassConstructors.single.length
+          ..fix = expectedConstructor + ';'));
       }
     } else {
       if (valueClassConstructors.isNotEmpty) {

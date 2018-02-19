@@ -34,7 +34,7 @@ class _$ValueSourceClass extends ValueSourceClass {
   bool __hasBuiltValueImportWithShow;
   bool __hasBuiltValueImportWithAs;
   bool __valueClassIsAbstract;
-  BuiltList<String> __valueClassConstructors;
+  BuiltList<ConstructorDeclaration> __valueClassConstructors;
   BuiltList<String> __valueClassFactories;
   bool __builderClassIsAbstract;
   BuiltList<String> __builderClassConstructors;
@@ -112,7 +112,7 @@ class _$ValueSourceClass extends ValueSourceClass {
       __valueClassIsAbstract ??= super.valueClassIsAbstract;
 
   @override
-  BuiltList<String> get valueClassConstructors =>
+  BuiltList<ConstructorDeclaration> get valueClassConstructors =>
       __valueClassConstructors ??= super.valueClassConstructors;
 
   @override

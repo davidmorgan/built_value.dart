@@ -6,13 +6,13 @@ import 'package:built_value/built_value.dart';
 
 part 'error.g.dart';
 
-abstract class Error implements Built<Error, ErrorBuilder> {
+abstract class GeneratorError implements Built<GeneratorError, GeneratorErrorBuilder> {
   String get message;
 
   int get fixAt;
   int get fixLength;
   String get fix;
 
-  factory Error([updates(ErrorBuilder b)]) = _$Error;
-  Error._();
+  factory GeneratorError([updates(GeneratorErrorBuilder b)]) = _$GeneratorError;
+  GeneratorError._();
 }

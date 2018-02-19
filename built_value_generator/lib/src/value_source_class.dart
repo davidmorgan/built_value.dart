@@ -248,7 +248,7 @@ abstract class ValueSourceClass
                 .any((value) => value?.type?.displayName == 'BuiltValue'));
   }
 
-  Iterable<String> computeErrors() {
+  Iterable<Error> computeErrors() {
     return concat([
       _checkPart(),
       _checkValueClass(),

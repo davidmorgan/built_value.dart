@@ -25,7 +25,7 @@ void main() {
       await expectCorrection(
           'class Foo extends Bar implements Bar, Built, Bop {}',
           'class Foo extends Bar '
-              'implements Bar, Built<Foo, FooBuilder>, Bop {}');
+          'implements Bar, Built<Foo, FooBuilder>, Bop {}');
     });
 
     test('with generic class', () async {
@@ -38,6 +38,14 @@ void main() {
           '''class Foo extends Bar implements Bar<A,
     B>, Built,
     Bop {}''',
+          'class Foo extends Bar implements Bar<A, B>, '
+          'Built<Foo, FooBuilder>, Bop {}');
+    });
+  });
+
+  group('does not touch correct implements statement', () {
+    test('with awkward formatting', () async {
+      await expectNoCorrection(
           '''class Foo extends Bar implements Bar<A,
     B>, Built<Foo, FooBuilder>,
     Bop {}''');

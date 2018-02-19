@@ -30,3 +30,17 @@ Future expectCorrection(String src, String expectedFixedSource) async {
 
   expect(fixedSrc, expectedFixedSource);
 }
+
+Future expectNoCorrection(String src) async {
+  final checker = new Checker();
+  final srcPrefix = 'library test_library; class Built {};';
+  final totalSrc = '$srcPrefix$src';
+
+  final element = await resolveSource(
+      totalSrc, (resolver) => resolver.findLibraryByName('test_library'));
+
+  expect(
+      checker.check(element).values.expand((correction) =>
+          correction.change.edits.expand((edits) => edits.edits)),
+      isEmpty);
+}

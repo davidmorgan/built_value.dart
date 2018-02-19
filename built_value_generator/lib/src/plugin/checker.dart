@@ -23,14 +23,18 @@ class Checker {
 
         if (errors.isNotEmpty) {
           final lineInfo = compilationUnit.lineInfo;
-          final offsetLineLocation = lineInfo.getLocation(1);
+
+          final offset = errors.first.position;
+          final length = errors.first.length;
+
+          final offsetLineLocation = lineInfo.getLocation(offset);
           final error = new AnalysisError(
               AnalysisErrorSeverity.ERROR,
               AnalysisErrorType.COMPILE_TIME_ERROR,
               new Location(
                   compilationUnit.source.fullName,
-                  1,
-                  10,
+                  offset,
+                  length,
                   offsetLineLocation.lineNumber,
                   offsetLineLocation.columnNumber),
               'Class has Built errors: ' + errors.join('\n'),
@@ -43,56 +47,15 @@ class Checker {
               100,
               new SourceChange(
                 'Fix Built errors.',
-                edits: [],
-              ));
-          result[error] = fix;
-        }
-
-        final visitor = new BuiltParametersVisitor();
-        // NodeLocator2 gives us the AST node for a particular offset--don't need
-        // computeNode.
-        type.computeNode().accept(visitor);
-        if (visitor.result != null) {
-          final name = type.displayName;
-          final typeParameters = type.typeParameters.join(', ');
-          final typeParametersWithBrackets =
-              typeParameters.isEmpty ? '' : '<$typeParameters>';
-          final expectedParams = '$name$typeParametersWithBrackets, '
-              '${name}Builder$typeParametersWithBrackets';
-          if (visitor.result == expectedParams) continue;
-
-          final lineInfo = compilationUnit.lineInfo;
-          final offsetLineLocation = lineInfo.getLocation(visitor.offset);
-          final error = new AnalysisError(
-              AnalysisErrorSeverity.ERROR,
-              AnalysisErrorType.COMPILE_TIME_ERROR,
-              new Location(
-                  compilationUnit.source.fullName,
-                  visitor.offset,
-                  visitor.length,
-                  offsetLineLocation.lineNumber,
-                  offsetLineLocation.columnNumber),
-              'Class must implement Built<$expectedParams> to use built_value.',
-              '',
-              correction: 'correctMe',
-              hasFix: true);
-
-          // Take a look at utilities/change_builder for examples.
-          final fix = new PrioritizedSourceChange(
-              100,
-              new SourceChange(
-                'Implement Built<$expectedParams> for built_value.',
                 edits: [
                   new SourceFileEdit(
                     compilationUnit.source.fullName,
                     compilationUnit.source.modificationStamp,
-                    edits: [
-                      new SourceEdit(
-                        visitor.offset,
-                        visitor.length,
-                        'Built<$expectedParams>',
-                      )
-                    ],
+                    edits: errors
+                        .where((error) => error.fix != null)
+                        .map((error) => new SourceEdit(
+                            error.position, error.length, error.fix))
+                        .toList(),
                   )
                 ],
               ));
@@ -102,40 +65,5 @@ class Checker {
     }
 
     return result;
-  }
-}
-
-/// Extracts the type parameters used for the `Built` interface.
-class BuiltParametersVisitor extends RecursiveAstVisitor {
-  String result;
-  int offset;
-  int length;
-
-  @override
-  void visitImplementsClause(ImplementsClause implementsClause) {
-    for (final interface in implementsClause.interfaces) {
-      final parameters =
-          _extractParameters('Built', 'Built<', interface.toString());
-
-      if (parameters != null) {
-        result = parameters;
-        offset = interface.offset;
-        length = interface.length;
-      }
-    }
-  }
-
-  /// If [[code]] starts with [[prefix]] then strips it off, strips off the
-  /// last character, and returns it.
-  ///
-  /// Otherwise returns null.
-  String _extractParameters(String match, String prefix, String code) {
-    if (code == match) {
-      return '';
-    } else if (code.startsWith(prefix)) {
-      return code.substring(prefix.length, code.length - 1);
-    } else {
-      return null;
-    }
   }
 }

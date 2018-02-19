@@ -15,38 +15,90 @@ part of 'fixes.dart';
 // ignore_for_file: sort_constructors_first
 
 class _$SourceSnippet extends SourceSnippet {
-  int position;
-  String source;
-
-  _$SourceSnippet([updates(SourceSnippetBuilder b)]);
-
   @override
-  SourceSnippet rebuild(updates(SourceSnippetBuilder b)) {
-    // TODO: implement rebuild
+  final int position;
+  @override
+  final String source;
+
+  factory _$SourceSnippet([void updates(SourceSnippetBuilder b)]) =>
+      (new SourceSnippetBuilder()..update(updates)).build();
+
+  _$SourceSnippet._({this.position, this.source}) : super._() {
+    if (position == null)
+      throw new BuiltValueNullFieldError('SourceSnippet', 'position');
+    if (source == null)
+      throw new BuiltValueNullFieldError('SourceSnippet', 'source');
   }
 
   @override
-  toBuilder() {
-    // TODO: implement toBuilder
+  SourceSnippet rebuild(void updates(SourceSnippetBuilder b)) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  SourceSnippetBuilder toBuilder() => new SourceSnippetBuilder()..replace(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    if (identical(other, this)) return true;
+    if (other is! SourceSnippet) return false;
+    return position == other.position && source == other.source;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, position.hashCode), source.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('SourceSnippet')
+          ..add('position', position)
+          ..add('source', source))
+        .toString();
   }
 }
 
-class SourceSnippetBuilder implements Builder<SourceSnippet, SourceSnippetBuilder> {
-  @override
-  SourceSnippet build() {
-    // TODO: implement build
+class SourceSnippetBuilder
+    implements Builder<SourceSnippet, SourceSnippetBuilder> {
+  _$SourceSnippet _$v;
+
+  int _position;
+  int get position => _$this._position;
+  set position(int position) => _$this._position = position;
+
+  String _source;
+  String get source => _$this._source;
+  set source(String source) => _$this._source = source;
+
+  SourceSnippetBuilder();
+
+  SourceSnippetBuilder get _$this {
+    if (_$v != null) {
+      _position = _$v.position;
+      _source = _$v.source;
+      _$v = null;
+    }
+    return this;
   }
 
   @override
-  void replace(SourceSnippet value) {
-    // TODO: implement replace
+  void replace(SourceSnippet other) {
+    if (other == null) throw new ArgumentError.notNull('other');
+    _$v = other as _$SourceSnippet;
   }
 
   @override
-  void update(Function updates) {
-    // TODO: implement update
+  void update(void updates(SourceSnippetBuilder b)) {
+    if (updates != null) updates(this);
   }
 
+  @override
+  _$SourceSnippet build() {
+    final _$result =
+        _$v ?? new _$SourceSnippet._(position: position, source: source);
+    replace(_$result);
+    return _$result;
+  }
 }
 
 class _$GeneratorError extends GeneratorError {

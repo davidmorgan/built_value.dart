@@ -9,8 +9,10 @@ part 'error.g.dart';
 abstract class GeneratorError implements Built<GeneratorError, GeneratorErrorBuilder> {
   String get message;
 
-  int get fixAt;
-  int get fixLength;
+  int get position;
+  int get length;
+
+  @nullable
   String get fix;
 
   factory GeneratorError([updates(GeneratorErrorBuilder b)]) = _$GeneratorError;

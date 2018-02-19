@@ -10,6 +10,7 @@ import 'package:analyzer/dart/element/type.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value_generator/src/dart_types.dart';
+import 'package:built_value_generator/src/error.dart';
 import 'package:built_value_generator/src/fields.dart' show collectFields;
 import 'package:built_value_generator/src/metadata.dart'
     show metadataToStringValue;
@@ -150,26 +151,38 @@ abstract class ValueSourceField
     }
   }
 
-  Iterable<String> computeErrors() {
-    final result = <String>[];
+  Iterable<GeneratorError> computeErrors() {
+    final result = <GeneratorError>[];
 
     if (!isGetter) {
-      result.add('Make field $name a getter.');
+      result.add(new GeneratorError((b) => b
+        ..message = 'Make field $name a getter.'
+        ..position = 0
+        ..length = 0));
     }
 
     if (type == 'dynamic') {
-      result.add('Make field $name have non-dynamic type. '
-          'If you are already specifying a type, '
-          'please make sure the type is correctly imported.');
+      result.add(new GeneratorError((b) => b
+        ..message = 'Make field $name have non-dynamic type. '
+            'If you are already specifying a type, '
+            'please make sure the type is correctly imported.'
+        ..position = 0
+        ..length = 0));
     }
 
     if (name.startsWith('_')) {
-      result.add('Make field $name public; remove the underscore.');
+      result.add(new GeneratorError((b) => b
+        ..message = 'Make field $name public; remove the underscore.'
+        ..position = 0
+        ..length = 0));
     }
 
     if (_suggestedTypes.keys.contains(type)) {
-      result.add('Make field "$name" have type "${_suggestedTypes[type]}". '
-          'The current type, "$type", is not allowed because it is mutable.');
+      result.add(new GeneratorError((b) => b
+        ..message = 'Make field "$name" have type "${_suggestedTypes[type]}". '
+            'The current type, "$type", is not allowed because it is mutable.'
+        ..position = 0
+        ..length = 0));
     }
 
     if (builderFieldExists &&
@@ -177,12 +190,18 @@ abstract class ValueSourceField
         // TODO(davidmorgan): smarter check for builder types.
         type.replaceAll('Built', '') !=
             typeInBuilder(null).replaceAll('Builder', '')) {
-      result.add('Make builder field $name have type: '
-          '$type (or, if applicable, builder)');
+      result.add(new GeneratorError((b) => b
+        ..message = 'Make builder field $name have type: '
+            '$type (or, if applicable, builder)'
+        ..position = 0
+        ..length = 0));
     }
 
     if (builderFieldExists && !builderFieldIsNormalField) {
-      result.add('Make builder field $name a normal field.');
+      result.add(new GeneratorError((b) => b
+        ..message = 'Make builder field $name a normal field.'
+        ..position = 0
+        ..length = 0));
     }
 
     return result;

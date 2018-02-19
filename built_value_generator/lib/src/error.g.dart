@@ -18,25 +18,23 @@ class _$GeneratorError extends GeneratorError {
   @override
   final String message;
   @override
-  final int fixAt;
+  final int position;
   @override
-  final int fixLength;
+  final int length;
   @override
   final String fix;
 
   factory _$GeneratorError([void updates(GeneratorErrorBuilder b)]) =>
       (new GeneratorErrorBuilder()..update(updates)).build();
 
-  _$GeneratorError._({this.message, this.fixAt, this.fixLength, this.fix})
+  _$GeneratorError._({this.message, this.position, this.length, this.fix})
       : super._() {
     if (message == null)
       throw new BuiltValueNullFieldError('GeneratorError', 'message');
-    if (fixAt == null)
-      throw new BuiltValueNullFieldError('GeneratorError', 'fixAt');
-    if (fixLength == null)
-      throw new BuiltValueNullFieldError('GeneratorError', 'fixLength');
-    if (fix == null)
-      throw new BuiltValueNullFieldError('GeneratorError', 'fix');
+    if (position == null)
+      throw new BuiltValueNullFieldError('GeneratorError', 'position');
+    if (length == null)
+      throw new BuiltValueNullFieldError('GeneratorError', 'length');
   }
 
   @override
@@ -52,15 +50,15 @@ class _$GeneratorError extends GeneratorError {
     if (identical(other, this)) return true;
     if (other is! GeneratorError) return false;
     return message == other.message &&
-        fixAt == other.fixAt &&
-        fixLength == other.fixLength &&
+        position == other.position &&
+        length == other.length &&
         fix == other.fix;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc(0, message.hashCode), fixAt.hashCode), fixLength.hashCode),
+        $jc($jc($jc(0, message.hashCode), position.hashCode), length.hashCode),
         fix.hashCode));
   }
 
@@ -68,8 +66,8 @@ class _$GeneratorError extends GeneratorError {
   String toString() {
     return (newBuiltValueToStringHelper('GeneratorError')
           ..add('message', message)
-          ..add('fixAt', fixAt)
-          ..add('fixLength', fixLength)
+          ..add('position', position)
+          ..add('length', length)
           ..add('fix', fix))
         .toString();
   }
@@ -83,13 +81,13 @@ class GeneratorErrorBuilder
   String get message => _$this._message;
   set message(String message) => _$this._message = message;
 
-  int _fixAt;
-  int get fixAt => _$this._fixAt;
-  set fixAt(int fixAt) => _$this._fixAt = fixAt;
+  int _position;
+  int get position => _$this._position;
+  set position(int position) => _$this._position = position;
 
-  int _fixLength;
-  int get fixLength => _$this._fixLength;
-  set fixLength(int fixLength) => _$this._fixLength = fixLength;
+  int _length;
+  int get length => _$this._length;
+  set length(int length) => _$this._length = length;
 
   String _fix;
   String get fix => _$this._fix;
@@ -100,8 +98,8 @@ class GeneratorErrorBuilder
   GeneratorErrorBuilder get _$this {
     if (_$v != null) {
       _message = _$v.message;
-      _fixAt = _$v.fixAt;
-      _fixLength = _$v.fixLength;
+      _position = _$v.position;
+      _length = _$v.length;
       _fix = _$v.fix;
       _$v = null;
     }
@@ -123,7 +121,7 @@ class GeneratorErrorBuilder
   _$GeneratorError build() {
     final _$result = _$v ??
         new _$GeneratorError._(
-            message: message, fixAt: fixAt, fixLength: fixLength, fix: fix);
+            message: message, position: position, length: length, fix: fix);
     replace(_$result);
     return _$result;
   }

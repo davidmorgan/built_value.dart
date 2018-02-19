@@ -9,41 +9,41 @@ import 'plugin_tester.dart';
 void main() {
   group('corrects implements statement', () {
     test('with no generics', () async {
-      await expectCorrection('class Foo implements Built {Foo._();}',
-          'class Foo implements Built<Foo, FooBuilder> {Foo._();}');
+      await expectCorrection('class Foo implements Built {factory Foo() => new _\$Foo();Foo._();}',
+          'class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}');
     });
 
     test('with wrong generics', () async {
-      await expectCorrection('class Foo implements Built<Bar, Baz> {Foo._();}',
-          'class Foo implements Built<Foo, FooBuilder> {Foo._();}');
+      await expectCorrection('class Foo implements Built<Bar, Baz> {factory Foo() => new _\$Foo();Foo._();}',
+          'class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}');
     });
 
     test('with interfaces and extends', () async {
       await expectCorrection(
-          'class Foo extends Bar implements Bar, Built<Bar, Baz>, Bop {Foo._();}',
+          'class Foo extends Bar implements Bar, Built<Bar, Baz>, Bop {factory Foo() => new _\$Foo();Foo._();}',
           'class Foo extends Bar '
-          'implements Bar, Built<Foo, FooBuilder>, Bop {Foo._();}');
+          'implements Bar, Built<Foo, FooBuilder>, Bop {factory Foo() => new _\$Foo();Foo._();}');
     });
 
     test('with interfaces and no generics', () async {
       await expectCorrection(
-          'class Foo extends Bar implements Bar, Built, Bop {Foo._();}',
+          'class Foo extends Bar implements Bar, Built, Bop {factory Foo() => new _\$Foo();Foo._();}',
           'class Foo extends Bar '
-          'implements Bar, Built<Foo, FooBuilder>, Bop {Foo._();}');
+          'implements Bar, Built<Foo, FooBuilder>, Bop {factory Foo() => new _\$Foo();Foo._();}');
     });
 
     test('with generic class', () async {
-      await expectCorrection('class Foo<T> implements Built {Foo._();}',
-          'class Foo<T> implements Built<Foo<T>, FooBuilder<T>> {Foo._();}');
+      await expectCorrection('class Foo<T> implements Built {factory Foo() => new _\$Foo<T>();Foo._();}',
+          'class Foo<T> implements Built<Foo<T>, FooBuilder<T>> {factory Foo() => new _\$Foo<T>();Foo._();}');
     });
 
     test('with awkward formatting', () async {
       await expectCorrection(
           '''class Foo extends Bar implements Bar<A,
     B>, Built,
-    Bop {Foo._();}''',
+    Bop {factory Foo() => new _\$Foo();Foo._();}''',
           'class Foo extends Bar implements Bar<A, B>, '
-          'Built<Foo, FooBuilder>, Bop {Foo._();}');
+          'Built<Foo, FooBuilder>, Bop {factory Foo() => new _\$Foo();Foo._();}');
     });
   });
 
@@ -52,7 +52,7 @@ void main() {
       await expectNoCorrection(
           '''class Foo extends Bar implements Bar<A,
     B>, Built<Foo, FooBuilder>,
-    Bop {Foo._();}''');
+    Bop {factory Foo() => new _\$Foo();Foo._();}''');
     });
   });
 }

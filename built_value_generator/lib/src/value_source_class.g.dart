@@ -25,7 +25,6 @@ class _$ValueSourceClass extends ValueSourceClass {
   BuiltValue __settings;
   BuiltList<String> __genericParameters;
   BuiltList<String> __genericBounds;
-  SourceSnippet __builtParameters;
   bool __hasBuilder;
   String __builderParameters;
   BuiltList<ValueSourceField> __fields;
@@ -80,9 +79,6 @@ class _$ValueSourceClass extends ValueSourceClass {
   @override
   BuiltList<String> get genericBounds =>
       __genericBounds ??= super.genericBounds;
-
-  @override
-  SourceSnippet get implementsClause => __builtParameters ??= super.implementsClause;
 
   @override
   bool get hasBuilder => __hasBuilder ??= super.hasBuilder;

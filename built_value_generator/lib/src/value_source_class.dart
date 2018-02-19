@@ -4,10 +4,10 @@
 
 library built_value_generator.source_class;
 
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
-import 'package:built_value_generator/src/implements_clause_visitor.dart';
 import 'package:built_value_generator/src/fixes.dart';
 import 'package:built_value_generator/src/memoized_getter.dart';
 import 'package:built_value_generator/src/value_source_field.dart';
@@ -112,10 +112,8 @@ abstract class ValueSourceClass
           .map((element) => (element.bound ?? '').toString()));
 
   @memoized
-  SourceSnippet get implementsClause {
-    final visitor = new ImplementsClauseVisitor();
-    element.computeNode().accept(visitor);
-    return visitor.result;
+  ClassDeclaration get classDeclaration {
+    return element.computeNode() as ClassDeclaration;
   }
 
   @memoized
@@ -298,20 +296,42 @@ abstract class ValueSourceClass
         ..length = 0));
     }
 
-    final expectedBuiltParameters =
+    final implementsClause = classDeclaration.implementsClause;
+    final expectedInterface =
         'Built<$name$_generics, ${name}Builder$_generics>';
     // Built parameters need fixing if they are not as expected, unless 1) the
     // class is marked `@BuiltValue(instantiable: false)` and 2) the parameters
     // are not wrong, they're completely missing.
-    if (!implementsClause.source.contains(expectedBuiltParameters) &&
+    if ((implementsClause == null ||
+            !implementsClause.interfaces
+                .any((type) => type.toSource() == expectedInterface)) &&
         !(!settings.instantiable &&
-            !implementsClause.source.contains('Built<'))) {
-      final expectedImplementsClause = 'implements $expectedBuiltParameters';
-      result.add(new GeneratorError((b) => b
-        ..message = 'Make class implement $expectedBuiltParameters.'
-        ..offset = implementsClause.offset
-        ..length = implementsClause.source.length
-        ..fix = expectedImplementsClause));
+            !implementsClause.interfaces
+                .any((type) => type.name.name == 'Built'))) {
+      if (implementsClause == null) {
+        result.add(new GeneratorError((b) => b
+          ..message = 'Make class implement $expectedInterface.'
+          ..offset = classDeclaration.leftBracket.offset - 1
+          ..length = 0
+          ..fix = 'implements $expectedInterface'));
+      } else {
+        var found = false;
+        final interfaces = implementsClause.interfaces.map((type) {
+          if (type.name.name == 'Built') {
+            found = true;
+            return expectedInterface;
+          } else {
+            return type.toSource();
+          }
+        }).toList();
+        if (!found) interfaces.add(expectedInterface);
+
+        result.add(new GeneratorError((b) => b
+          ..message = 'Make class implement $expectedInterface.'
+          ..offset = implementsClause.offset
+          ..length = implementsClause.length
+          ..fix = 'implements ${interfaces.join(", ")}'));
+      }
     }
 
     if (!extendsIsAllowed) {

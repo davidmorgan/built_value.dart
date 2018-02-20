@@ -40,7 +40,14 @@ abstract class ValueSourceClass
       name.startsWith('_') ? '_\$${name.substring(1)}' : '_\$$name';
 
   @memoized
-  ClassElement get builderElement => element.library.getType(name + 'Builder');
+  ClassElement get builderElement {
+    final result = element.library.getType(name + 'Builder');
+    if (result == null) return null;
+    // If the builder is in a generated file, then we're analyzing _after_ code
+    // generation. Ignore it. This happens when running as an analyzer plugin.
+    if (result.source.fullName.endsWith('.g.dart')) return null;
+    return result;
+  }
 
   @memoized
   bool get implementsBuilt => element.allSupertypes
@@ -275,7 +282,7 @@ abstract class ValueSourceClass
           ..message = 'Import generated part: $partStatement'
           ..offset = directives.last.offset + directives.last.length
           ..length = 0
-          ..fix = '$partStatement\n\n')
+          ..fix = '\n\n$partStatement\n\n')
       ];
     }
   }

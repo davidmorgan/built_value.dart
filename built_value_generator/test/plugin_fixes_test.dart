@@ -8,9 +8,11 @@ import 'plugin_tester.dart';
 
 void main() {
   group('corrects everything', () {
-    test('when just the interface is used', () async {
+    test('when only the part is correct', () async {
       await expectCorrection(r'''
-abstract class Foo implements Built {
+part '_resolve_source.g.dart';
+
+class Foo implements Built {
 }''', r'''
 part '_resolve_source.g.dart';
 

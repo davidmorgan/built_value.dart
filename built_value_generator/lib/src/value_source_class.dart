@@ -416,7 +416,7 @@ abstract class ValueSourceClass
               '$exampleFactory'
           ..offset = classDeclaration.rightBracket.offset
           ..length = 0
-          ..fix = exampleFactory));
+          ..fix = '  $exampleFactory\n'));
       }
     } else {
       if (valueClassFactories.isNotEmpty) {

@@ -10,8 +10,19 @@ void main() {
   group('corrects factories', () {
     test('when the are no factories', () async {
       await expectCorrection(
-          'part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}',
-          'part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}');
+          r'''
+part '_resolve_source.g.dart';
+
+abstract class Foo implements Built<Foo, FooBuilder> {
+  Foo._();
+}''',
+          r'''
+part '_resolve_source.g.dart';
+
+abstract class Foo implements Built<Foo, FooBuilder> {
+  Foo._();
+  factory Foo([updates(FooBuilder b)]) = _$Foo;
+}''');
     });
   });
 }

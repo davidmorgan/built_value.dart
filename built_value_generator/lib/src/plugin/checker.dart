@@ -24,38 +24,36 @@ class Checker {
         if (errors.isNotEmpty) {
           final lineInfo = compilationUnit.lineInfo;
 
-          // Need to find a good place to surface the error. Class declaration?
-          final offset = errors.first.offset;
-          final length = errors.first.length;
-
+          // Report one error on the class name, with all the necessary fixes.
+          final offset = sourceClass.classDeclaration.name.offset;
+          final length = sourceClass.classDeclaration.name.length;
           final offsetLineLocation = lineInfo.getLocation(offset);
           final error = new AnalysisError(
-              AnalysisErrorSeverity.ERROR,
-              AnalysisErrorType.COMPILE_TIME_ERROR,
+              AnalysisErrorSeverity.INFO,
+              AnalysisErrorType.LINT,
               new Location(
                   compilationUnit.source.fullName,
                   offset,
                   length,
                   offsetLineLocation.lineNumber,
                   offsetLineLocation.columnNumber),
-              'Class has Built errors: ' + errors.join('\n'),
-              '',
-              correction: 'correctMe',
-              hasFix: true);
+              'Class needs fixes for built_value: ' +
+                  errors.map((error) => error.message).join(' '),
+              'BUILT_VALUE_NEEDS_FIXES');
 
           // Take a look at utilities/change_builder for examples.
 
           final edits = errors
               .where((error) => error.fix != null)
-              .map((error) => new SourceEdit(
-              error.offset, error.length, error.fix))
+              .map((error) =>
+                  new SourceEdit(error.offset, error.length, error.fix))
               .toList();
           edits.sort((left, right) => right.offset.compareTo(left.offset));
 
           final fix = new PrioritizedSourceChange(
-              100,
+              10000,
               new SourceChange(
-                'Fix Built errors.',
+                'Apply fixes for built_value.',
                 edits: [
                   new SourceFileEdit(
                     compilationUnit.source.fullName,

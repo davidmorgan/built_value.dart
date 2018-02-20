@@ -8,7 +8,6 @@ import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:built_value_generator/src/plugin/checker.dart';
-import 'package:built_value_generator/src/plugin/logger.dart';
 
 // ignore_for_file: implementation_imports
 class BuiltValueAnalyzerPlugin extends ServerPlugin {

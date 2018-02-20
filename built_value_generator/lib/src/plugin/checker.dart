@@ -16,20 +16,26 @@ class Checker {
         if (!type.interfaces.any((i) => i.displayName.startsWith('Built')))
           continue;
 
-        // Need to only check if not in *.g.dart.
-        // Then: better errors class than string. Easy...
         final ValueSourceClass sourceClass = new ValueSourceClass(type);
         final errors = sourceClass.computeErrors();
 
         if (errors.isNotEmpty) {
           final lineInfo = compilationUnit.lineInfo;
 
-          // Report one error on the class name, with all the necessary fixes.
-          final offset = sourceClass.classDeclaration.name.offset;
-          final length = sourceClass.classDeclaration.name.length;
+          // Report one error on the 'Built' interface. Bundle together all the
+          // necessary fixes.
+
+          // TODO: split error message and example; only show example in the
+          // build error.
+          //
+          // TODO: stop overusing computeNode.
+          final builtNode = sourceClass.classDeclaration.implementsClause.interfaces
+              .singleWhere((typeName) => typeName.name.name == 'Built');
+          final offset = builtNode.offset;
+          final length = builtNode.length;
           final offsetLineLocation = lineInfo.getLocation(offset);
           final error = new AnalysisError(
-              AnalysisErrorSeverity.INFO,
+              AnalysisErrorSeverity.ERROR,
               AnalysisErrorType.LINT,
               new Location(
                   compilationUnit.source.fullName,
@@ -51,7 +57,7 @@ class Checker {
           edits.sort((left, right) => right.offset.compareTo(left.offset));
 
           final fix = new PrioritizedSourceChange(
-              10000,
+              1000000,
               new SourceChange(
                 'Apply fixes for built_value.',
                 edits: [

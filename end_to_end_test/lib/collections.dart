@@ -33,9 +33,3 @@ abstract class Collections implements Built<Collections, CollectionsBuilder> {
   factory Collections([updates(CollectionsBuilder b)]) = _$Collections;
   Collections._();
 }
-
-abstract class Fooble implements Built<Fooble, FoobleBuilder> {
-
-  factory Fooble([updates(FoobleBuilder b)]) = _$Fooble;
-  Fooble._();
-}

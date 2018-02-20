@@ -77,15 +77,6 @@ class BuiltValueAnalyzerPlugin extends ServerPlugin {
           await (driverForPath(parameters.file) as AnalysisDriver)
               .getResult(parameters.file);
 
-      if (analysisResult == null) {
-        return new plugin.EditGetFixesResult([]);
-      }
-
-      if (analysisResult.unit == null ||
-          analysisResult.libraryElement == null) {
-        return new plugin.EditGetFixesResult([]);
-      }
-
       final checkResult = checker.check(analysisResult?.libraryElement);
 
       final fixes = <plugin.AnalysisErrorFixes>[];

@@ -9,32 +9,73 @@ import 'plugin_tester.dart';
 void main() {
   group('corrects constructors', () {
     test('when there is one invalid constructor', () async {
-      await expectCorrection(
-          '''part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {
-  factory Foo() => new _\$Foo();
+      await expectCorrection(r'''
+part '_resolve_source.g.dart';
+
+abstract class Foo implements Built<Foo, FooBuilder> {
+  factory Foo() => new _$Foo();
   Foo();
-}''', '''part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {
-  factory Foo() => new _\$Foo();
+}''', r'''
+part '_resolve_source.g.dart';
+
+abstract class Foo implements Built<Foo, FooBuilder> {
+  factory Foo() => new _$Foo();
   Foo._();
 }''');
     });
 
     test('when the are no constructors', () async {
-      await expectCorrection(
-          'part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();}',
-          'part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}');
+      await expectCorrection(r'''
+part '_resolve_source.g.dart';
+
+abstract class Foo implements Built<Foo, FooBuilder> {
+  factory Foo() => new _$Foo();
+}''', r'''
+part '_resolve_source.g.dart';
+
+abstract class Foo implements Built<Foo, FooBuilder> {
+  factory Foo() => new _$Foo();
+  Foo._();
+}''');
     });
 
     test('when the are multiple invalid constructors', () async {
-      await expectCorrection(
-          'part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo.a();Foo.b();}',
-          'part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._();}');
+      // TODO: fix should remove blank lines and leading whitespace.
+      await expectCorrection(r'''
+part '_resolve_source.g.dart';
+
+abstract class Foo implements Built<Foo, FooBuilder> {
+  factory Foo() => new _$Foo();
+  Foo.a();
+  Foo.b();
+}''', r'''
+part '_resolve_source.g.dart';
+
+abstract class Foo implements Built<Foo, FooBuilder> {
+  factory Foo() => new _$Foo();
+  
+  
+  Foo._();
+}''');
     });
 
     test('when the are valid and invalid constructors', () async {
-      await expectCorrection(
-          'part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._() {}Foo.b();}',
-          'part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {factory Foo() => new _\$Foo();Foo._() {}}');
+      await expectCorrection(r'''
+part '_resolve_source.g.dart';
+
+abstract class Foo implements Built<Foo, FooBuilder> {
+  factory Foo() => new _$Foo();
+  Foo._() {}
+  Foo.b();
+}''',
+          r'''
+part '_resolve_source.g.dart';
+
+abstract class Foo implements Built<Foo, FooBuilder> {
+  factory Foo() => new _$Foo();
+  Foo._() {}
+  
+}''');
     });
   });
 }

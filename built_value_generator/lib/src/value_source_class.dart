@@ -363,7 +363,7 @@ abstract class ValueSourceClass
               'Make class have exactly one constructor: $expectedConstructor;'
           ..offset = classDeclaration.rightBracket.offset
           ..length = 0
-          ..fix = expectedConstructor + ';'));
+          ..fix = '  $expectedConstructor;\n'));
       } else if (valueClassConstructors.length > 1) {
         var found = false;
         for (final constructor in valueClassConstructors) {
@@ -383,7 +383,7 @@ abstract class ValueSourceClass
                 'Make class have exactly one constructor: $expectedConstructor;'
             ..offset = classDeclaration.rightBracket.offset
             ..length = 0
-            ..fix = expectedConstructor + ';'));
+            ..fix = '  $expectedConstructor;\n'));
         }
       } else if (!(valueClassConstructors.single
           .toSource()

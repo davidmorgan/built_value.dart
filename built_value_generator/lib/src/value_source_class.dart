@@ -267,7 +267,7 @@ abstract class ValueSourceClass
           ..message = 'Import generated part: $partStatement'
           ..offset = 0
             ..length = 0
-        ..fix = partStatement)
+        ..fix = '$partStatement\n\n')
       ];
     } else {
       return [
@@ -275,7 +275,7 @@ abstract class ValueSourceClass
           ..message = 'Import generated part: $partStatement'
           ..offset = directives.last.offset + directives.last.length
           ..length = 0
-          ..fix = partStatement)
+          ..fix = '$partStatement\n\n')
       ];
     }
   }

@@ -9,8 +9,17 @@ import 'plugin_tester.dart';
 void main() {
   group('corrects part', () {
     test('when part is not referenced', () async {
-      await expectCorrection('abstract class Foo implements Built<Foo, FooBuilder> {Foo._();factory Foo([updates(FooBuilder b)]) = _\$Foo;}',
-          'part \'_resolve_source.g.dart\';abstract class Foo implements Built<Foo, FooBuilder> {Foo._();factory Foo([updates(FooBuilder b)]) = _\$Foo;}');
+      await expectCorrection(r'''
+abstract class Foo implements Built<Foo, FooBuilder> {
+  Foo._();
+  factory Foo([updates(FooBuilder b)]) = _$Foo;
+}''', r'''
+part '_resolve_source.g.dart';
+
+abstract class Foo implements Built<Foo, FooBuilder> {
+  Foo._();
+  factory Foo([updates(FooBuilder b)]) = _$Foo;
+}''');
     });
   });
 }

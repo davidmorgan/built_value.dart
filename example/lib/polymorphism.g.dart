@@ -16,8 +16,8 @@ part of polymorphism;
 // ignore_for_file: prefer_expression_function_bodies
 // ignore_for_file: sort_constructors_first
 
-Serializer<Cat> _$catSerializer = new _$CatSerializer();
-Serializer<Fish> _$fishSerializer = new _$FishSerializer();
+Serializer<Cat> _$catSerializer = _$CatSerializer();
+Serializer<Fish> _$fishSerializer = _$FishSerializer();
 
 class _$CatSerializer implements StructuredSerializer<Cat> {
   @override
@@ -41,7 +41,7 @@ class _$CatSerializer implements StructuredSerializer<Cat> {
   @override
   Cat deserialize(Serializers serializers, Iterable serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new CatBuilder();
+    final result = CatBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -86,7 +86,7 @@ class _$FishSerializer implements StructuredSerializer<Fish> {
   @override
   Fish deserialize(Serializers serializers, Iterable serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new FishBuilder();
+    final result = FishBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -123,11 +123,11 @@ class _$Cat extends Cat {
   final int legs;
 
   factory _$Cat([void updates(CatBuilder b)]) =>
-      (new CatBuilder()..update(updates)).build();
+      (CatBuilder()..update(updates)).build();
 
   _$Cat._({this.tail, this.legs}) : super._() {
-    if (tail == null) throw new BuiltValueNullFieldError('Cat', 'tail');
-    if (legs == null) throw new BuiltValueNullFieldError('Cat', 'legs');
+    if (tail == null) throw BuiltValueNullFieldError('Cat', 'tail');
+    if (legs == null) throw BuiltValueNullFieldError('Cat', 'legs');
   }
 
   @override
@@ -135,12 +135,13 @@ class _$Cat extends Cat {
       (toBuilder()..update(updates)).build();
 
   @override
-  CatBuilder toBuilder() => new CatBuilder()..replace(this);
+  CatBuilder toBuilder() => CatBuilder()..replace(this);
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
-    return other is Cat && tail == other.tail && legs == other.legs;
+    if (other is! Cat) return false;
+    return tail == other.tail && legs == other.legs;
   }
 
   @override
@@ -181,7 +182,7 @@ class CatBuilder implements Builder<Cat, CatBuilder>, AnimalBuilder {
 
   @override
   void replace(covariant Cat other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) throw ArgumentError.notNull('other');
     _$v = other as _$Cat;
   }
 
@@ -192,7 +193,7 @@ class CatBuilder implements Builder<Cat, CatBuilder>, AnimalBuilder {
 
   @override
   _$Cat build() {
-    final _$result = _$v ?? new _$Cat._(tail: tail, legs: legs);
+    final _$result = _$v ?? _$Cat._(tail: tail, legs: legs);
     replace(_$result);
     return _$result;
   }
@@ -205,11 +206,11 @@ class _$Fish extends Fish {
   final int legs;
 
   factory _$Fish([void updates(FishBuilder b)]) =>
-      (new FishBuilder()..update(updates)).build();
+      (FishBuilder()..update(updates)).build();
 
   _$Fish._({this.fins, this.legs}) : super._() {
-    if (fins == null) throw new BuiltValueNullFieldError('Fish', 'fins');
-    if (legs == null) throw new BuiltValueNullFieldError('Fish', 'legs');
+    if (fins == null) throw BuiltValueNullFieldError('Fish', 'fins');
+    if (legs == null) throw BuiltValueNullFieldError('Fish', 'legs');
   }
 
   @override
@@ -217,12 +218,13 @@ class _$Fish extends Fish {
       (toBuilder()..update(updates)).build();
 
   @override
-  FishBuilder toBuilder() => new FishBuilder()..replace(this);
+  FishBuilder toBuilder() => FishBuilder()..replace(this);
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
-    return other is Fish && fins == other.fins && legs == other.legs;
+    if (other is! Fish) return false;
+    return fins == other.fins && legs == other.legs;
   }
 
   @override
@@ -263,7 +265,7 @@ class FishBuilder implements Builder<Fish, FishBuilder>, AnimalBuilder {
 
   @override
   void replace(covariant Fish other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) throw ArgumentError.notNull('other');
     _$v = other as _$Fish;
   }
 
@@ -274,7 +276,7 @@ class FishBuilder implements Builder<Fish, FishBuilder>, AnimalBuilder {
 
   @override
   _$Fish build() {
-    final _$result = _$v ?? new _$Fish._(fins: fins, legs: legs);
+    final _$result = _$v ?? _$Fish._(fins: fins, legs: legs);
     replace(_$result);
     return _$result;
   }

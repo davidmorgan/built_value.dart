@@ -16,7 +16,7 @@ part of mixins;
 // ignore_for_file: prefer_expression_function_bodies
 // ignore_for_file: sort_constructors_first
 
-Serializer<UsesMixin> _$usesMixinSerializer = new _$UsesMixinSerializer();
+Serializer<UsesMixin> _$usesMixinSerializer = _$UsesMixinSerializer();
 
 class _$UsesMixinSerializer implements StructuredSerializer<UsesMixin> {
   @override
@@ -33,7 +33,7 @@ class _$UsesMixinSerializer implements StructuredSerializer<UsesMixin> {
   @override
   UsesMixin deserialize(Serializers serializers, Iterable serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    return new UsesMixinBuilder().build();
+    return UsesMixinBuilder().build();
   }
 }
 
@@ -42,11 +42,10 @@ class _$UsesMixin extends UsesMixin {
   final String Function(String) typeDef;
 
   factory _$UsesMixin([void updates(UsesMixinBuilder b)]) =>
-      (new UsesMixinBuilder()..update(updates)).build();
+      (UsesMixinBuilder()..update(updates)).build();
 
   _$UsesMixin._({this.typeDef}) : super._() {
-    if (typeDef == null)
-      throw new BuiltValueNullFieldError('UsesMixin', 'typeDef');
+    if (typeDef == null) throw BuiltValueNullFieldError('UsesMixin', 'typeDef');
   }
 
   @override
@@ -54,12 +53,13 @@ class _$UsesMixin extends UsesMixin {
       (toBuilder()..update(updates)).build();
 
   @override
-  UsesMixinBuilder toBuilder() => new UsesMixinBuilder()..replace(this);
+  UsesMixinBuilder toBuilder() => UsesMixinBuilder()..replace(this);
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
-    return other is UsesMixin && typeDef == other.typeDef;
+    if (other is! UsesMixin) return false;
+    return typeDef == other.typeDef;
   }
 
   @override
@@ -93,7 +93,7 @@ class UsesMixinBuilder implements Builder<UsesMixin, UsesMixinBuilder> {
 
   @override
   void replace(UsesMixin other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) throw ArgumentError.notNull('other');
     _$v = other as _$UsesMixin;
   }
 
@@ -104,7 +104,7 @@ class UsesMixinBuilder implements Builder<UsesMixin, UsesMixinBuilder> {
 
   @override
   _$UsesMixin build() {
-    final _$result = _$v ?? new _$UsesMixin._(typeDef: typeDef);
+    final _$result = _$v ?? _$UsesMixin._(typeDef: typeDef);
     replace(_$result);
     return _$result;
   }

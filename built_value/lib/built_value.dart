@@ -178,7 +178,7 @@ typedef BuiltValueToStringHelper BuiltValueToStringHelperProvider(
 /// are [IndentingBuiltValueToStringHelper], which is the default, and
 /// [FlatBuiltValueToStringHelper].
 BuiltValueToStringHelperProvider newBuiltValueToStringHelper =
-    (String className) => new IndentingBuiltValueToStringHelper(className);
+    (String className) => IndentingBuiltValueToStringHelper(className);
 
 /// Interface for built_value toString() output helpers.
 ///
@@ -196,7 +196,7 @@ abstract class BuiltValueToStringHelper {
 
 /// A [BuiltValueToStringHelper] that produces multi-line indented output.
 class IndentingBuiltValueToStringHelper implements BuiltValueToStringHelper {
-  StringBuffer _result = new StringBuffer();
+  StringBuffer _result = StringBuffer();
 
   IndentingBuiltValueToStringHelper(String className) {
     _result..write(className)..write(' {\n');
@@ -229,7 +229,7 @@ int _indentingBuiltValueToStringHelperIndent = 0;
 
 /// A [BuiltValueToStringHelper] that produces single line output.
 class FlatBuiltValueToStringHelper implements BuiltValueToStringHelper {
-  StringBuffer _result = new StringBuffer();
+  StringBuffer _result = StringBuffer();
   bool _previousField = false;
 
   FlatBuiltValueToStringHelper(String className) {

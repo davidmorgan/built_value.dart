@@ -17,7 +17,7 @@ import 'package:built_value_generator/src/metadata.dart'
 
 part 'value_source_field.g.dart';
 
-const _suggestedTypes = const <String, String>{
+const _suggestedTypes = <String, String>{
   'List': 'BuiltList',
   'Map': 'BuiltMap',
   'Set': 'BuiltSet',
@@ -34,7 +34,7 @@ abstract class ValueSourceField
 
   factory ValueSourceField(BuiltValue settings, FieldElement element,
           FieldElement builderElement) =>
-      new _$ValueSourceField._(
+      _$ValueSourceField._(
           settings: settings, element: element, builderElement: builderElement);
   ValueSourceField._();
 
@@ -86,7 +86,7 @@ abstract class ValueSourceField
         .where((value) => value?.type?.displayName == 'BuiltValueField');
     if (annotations.isEmpty) return const BuiltValueField();
     final annotation = annotations.single;
-    return new BuiltValueField(
+    return BuiltValueField(
         compare: annotation.getField('compare').toBoolValue(),
         serialize: annotation.getField('serialize').toBoolValue(),
         wireName: annotation.getField('wireName').toStringValue());
@@ -135,14 +135,14 @@ abstract class ValueSourceField
 
   static BuiltList<ValueSourceField> fromClassElements(BuiltValue settings,
       ClassElement classElement, ClassElement builderClassElement) {
-    final result = new ListBuilder<ValueSourceField>();
+    final result = ListBuilder<ValueSourceField>();
 
     for (final field in collectFields(classElement)) {
       if (!field.isStatic &&
           field.getter != null &&
           (field.getter.isAbstract || field.getter.isSynthetic)) {
         final builderField = builderClassElement?.getField(field.name);
-        result.add(new ValueSourceField(settings, field, builderField));
+        result.add(ValueSourceField(settings, field, builderField));
       }
     }
 
@@ -168,23 +168,23 @@ abstract class ValueSourceField
 
     if (!isGetter) {
       result.add(
-          new GeneratorError((b) => b..message = 'Make field $name a getter.'));
+          GeneratorError((b) => b..message = 'Make field $name a getter.'));
     }
 
     if (type == 'dynamic') {
-      result.add(new GeneratorError((b) => b
+      result.add(GeneratorError((b) => b
         ..message = 'Make field $name have non-dynamic type. '
             'If you are already specifying a type, '
             'please make sure the type is correctly imported.'));
     }
 
     if (name.startsWith('_')) {
-      result.add(new GeneratorError((b) =>
+      result.add(GeneratorError((b) =>
           b..message = 'Make field $name public; remove the underscore.'));
     }
 
     if (_suggestedTypes.keys.contains(type)) {
-      result.add(new GeneratorError((b) => b
+      result.add(GeneratorError((b) => b
         ..message = 'Make field "$name" have type "${_suggestedTypes[type]}". '
             'The current type, "$type", is not allowed because it is mutable.'));
     }
@@ -194,13 +194,13 @@ abstract class ValueSourceField
         // TODO(davidmorgan): smarter check for builder types.
         type.replaceAll('Built', '') !=
             typeInBuilder(null).replaceAll('Builder', '')) {
-      result.add(new GeneratorError((b) => b
+      result.add(GeneratorError((b) => b
         ..message = 'Make builder field $name have type: '
             '$type (or, if applicable, builder)'));
     }
 
     if (builderFieldExists && !builderFieldIsNormalField) {
-      result.add(new GeneratorError(
+      result.add(GeneratorError(
           (b) => b..message = 'Make builder field $name a normal field.'));
     }
 

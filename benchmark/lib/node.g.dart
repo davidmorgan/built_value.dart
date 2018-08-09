@@ -25,7 +25,7 @@ class _$Node extends Node {
   final Node right;
 
   factory _$Node([void updates(NodeBuilder b)]) =>
-      (new NodeBuilder()..update(updates)).build();
+      (NodeBuilder()..update(updates)).build();
 
   _$Node._({this.label, this.left, this.right}) : super._();
 
@@ -34,15 +34,13 @@ class _$Node extends Node {
       (toBuilder()..update(updates)).build();
 
   @override
-  NodeBuilder toBuilder() => new NodeBuilder()..replace(this);
+  NodeBuilder toBuilder() => NodeBuilder()..replace(this);
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
-    return other is Node &&
-        label == other.label &&
-        left == other.left &&
-        right == other.right;
+    if (other is! Node) return false;
+    return label == other.label && left == other.left && right == other.right;
   }
 
   @override
@@ -68,11 +66,11 @@ class NodeBuilder implements Builder<Node, NodeBuilder> {
   set label(String label) => _$this._label = label;
 
   NodeBuilder _left;
-  NodeBuilder get left => _$this._left ??= new NodeBuilder();
+  NodeBuilder get left => _$this._left ??= NodeBuilder();
   set left(NodeBuilder left) => _$this._left = left;
 
   NodeBuilder _right;
-  NodeBuilder get right => _$this._right ??= new NodeBuilder();
+  NodeBuilder get right => _$this._right ??= NodeBuilder();
   set right(NodeBuilder right) => _$this._right = right;
 
   NodeBuilder();
@@ -89,7 +87,7 @@ class NodeBuilder implements Builder<Node, NodeBuilder> {
 
   @override
   void replace(Node other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) throw ArgumentError.notNull('other');
     _$v = other as _$Node;
   }
 
@@ -103,8 +101,7 @@ class NodeBuilder implements Builder<Node, NodeBuilder> {
     _$Node _$result;
     try {
       _$result = _$v ??
-          new _$Node._(
-              label: label, left: _left?.build(), right: _right?.build());
+          _$Node._(label: label, left: _left?.build(), right: _right?.build());
     } catch (_) {
       String _$failedField;
       try {
@@ -113,8 +110,7 @@ class NodeBuilder implements Builder<Node, NodeBuilder> {
         _$failedField = 'right';
         _right?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            'Node', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError('Node', _$failedField, e.toString());
       }
       rethrow;
     }

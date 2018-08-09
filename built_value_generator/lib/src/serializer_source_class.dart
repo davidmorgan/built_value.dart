@@ -23,7 +23,7 @@ abstract class SerializerSourceClass
   ClassElement get builderElement;
 
   factory SerializerSourceClass(ClassElement element) =>
-      new _$SerializerSourceClass._(
+      _$SerializerSourceClass._(
           element: element,
           builderElement:
               element.library.getType(element.displayName + 'Builder'));
@@ -31,11 +31,11 @@ abstract class SerializerSourceClass
 
   // TODO(davidmorgan): share common code in a nicer way.
   @memoized
-  BuiltValue get builtValueSettings => new ValueSourceClass(element).settings;
+  BuiltValue get builtValueSettings => ValueSourceClass(element).settings;
 
   // TODO(davidmorgan): share common code in a nicer way.
   @memoized
-  BuiltValueEnum get enumClassSettings => new EnumSourceClass(element).settings;
+  BuiltValueEnum get enumClassSettings => EnumSourceClass(element).settings;
 
   @memoized
   String get name => element.name;
@@ -61,12 +61,12 @@ abstract class SerializerSourceClass
   }
 
   @memoized
-  BuiltList<String> get genericParameters => new BuiltList<String>(
+  BuiltList<String> get genericParameters => BuiltList<String>(
       element.typeParameters.map((e) => e.computeNode().toString()));
 
   @memoized
   BuiltList<String> get genericBounds =>
-      new BuiltList<String>(element.typeParameters
+      BuiltList<String>(element.typeParameters
           .map((element) => (element.bound ?? '').toString()));
 
   // TODO(davidmorgan): better check.
@@ -89,11 +89,11 @@ abstract class SerializerSourceClass
 
   @memoized
   BuiltList<SerializerSourceField> get fields {
-    final result = new ListBuilder<SerializerSourceField>();
+    final result = ListBuilder<SerializerSourceField>();
     for (final fieldElement in collectFields(element)) {
       final builderFieldElement =
           builderElement?.getField(fieldElement.displayName);
-      final sourceField = new SerializerSourceField(
+      final sourceField = SerializerSourceField(
           builtValueSettings, fieldElement, builderFieldElement);
       if (sourceField.isSerializable) {
         result.add(sourceField);
@@ -106,7 +106,7 @@ abstract class SerializerSourceClass
   /// this class.
   @memoized
   BuiltSet<SerializerSourceClass> get fieldClasses {
-    final result = new SetBuilder<SerializerSourceClass>();
+    final result = SetBuilder<SerializerSourceClass>();
     for (final fieldElement in collectFields(element)) {
       if (fieldElement.isStatic) continue;
       if (fieldElement.setter != null) continue;
@@ -123,7 +123,7 @@ abstract class SerializerSourceClass
           if (type.element is! ClassElement) continue;
 
           final sourceClass =
-              new SerializerSourceClass(type.element as ClassElement);
+              SerializerSourceClass(type.element as ClassElement);
 
           if (sourceClass != this &&
               !result.build().contains(sourceClass) &&
@@ -135,7 +135,7 @@ abstract class SerializerSourceClass
       }
 
       final sourceClass =
-          new SerializerSourceClass(fieldElement.type.element as ClassElement);
+          SerializerSourceClass(fieldElement.type.element as ClassElement);
       if (sourceClass != this &&
           !result.build().contains(sourceClass) &&
           sourceClass.needsBuiltJson) {
@@ -243,11 +243,11 @@ class _\$${name}Serializer implements StructuredSerializer<$name> {
 }
 ''';
     } else if (isEnumClass) {
-      final wireNameMapping = new BuiltMap<String, String>.build((b) => element
+      final wireNameMapping = BuiltMap<String, String>.build((b) => element
               .fields
               .where((field) => field.isConst && field.isStatic)
               .forEach((field) {
-            final enumSourceField = new EnumSourceField(field);
+            final enumSourceField = EnumSourceField(field);
             if (enumSourceField.settings.wireName != null) {
               b[field.name] = enumSourceField.settings.wireName;
             }
@@ -305,7 +305,7 @@ class _\$${name}Serializer implements PrimitiveSerializer<$name> {
 }''';
       }
     } else {
-      throw new UnsupportedError('not serializable');
+      throw UnsupportedError('not serializable');
     }
   }
 
@@ -320,15 +320,15 @@ class _\$${name}Serializer implements PrimitiveSerializer<$name> {
         'serializers.newBuilder(specifiedType) as ${name}Builder';
   }
 
-  BuiltList<String> get _genericParametersUsedInFields => new BuiltList<String>(
+  BuiltList<String> get _genericParametersUsedInFields => BuiltList<String>(
       genericParameters.where((parameter) => fields.any((field) =>
           field.rawType == parameter ||
-          field.type.contains(new RegExp('[<, \n]$parameter[>, \n]')))));
+          field.type.contains(RegExp('[<, \n]$parameter[>, \n]')))));
 
   String _generateGenericsSerializerPreamble() {
     final parameters = _genericParametersUsedInFields;
     if (parameters.isEmpty) return '';
-    final result = new StringBuffer();
+    final result = StringBuffer();
     result.writeln('final isUnderspecified = specifiedType.isUnspecified || '
         'specifiedType.parameters.isEmpty;');
     result.writeln(
@@ -373,7 +373,7 @@ class _\$${name}Serializer implements PrimitiveSerializer<$name> {
   BuiltMap<String, String> get _genericBoundsAsMap {
     final genericBoundsOrObject =
         genericBounds.map((bound) => bound.isEmpty ? 'Object' : bound).toList();
-    final result = new MapBuilder<String, String>();
+    final result = MapBuilder<String, String>();
     for (var i = 0; i != genericParameters.length; ++i) {
       result[genericParameters[i]] = genericBoundsOrObject[i];
     }

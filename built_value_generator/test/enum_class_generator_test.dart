@@ -590,7 +590,7 @@ final String pkgName = 'pkg';
 
 // Recreate BuiltValueGenerator for each test because we repeatedly create
 // enums with the same name in the same library, which will clash.
-Builder get builder => new PartBuilder([new BuiltValueGenerator()], '.g.dart');
+Builder get builder => PartBuilder([BuiltValueGenerator()], '.g.dart');
 
 Future<String> generate(String source) async {
   final srcs = <String, String>{
@@ -598,10 +598,10 @@ Future<String> generate(String source) async {
     '$pkgName|lib/test_enum.dart': source,
   };
 
-  final writer = new InMemoryAssetWriter();
+  final writer = InMemoryAssetWriter();
   await testBuilder(builder, srcs, rootPackage: pkgName, writer: writer);
-  return new String.fromCharCodes(
-      writer.assets[new AssetId(pkgName, 'lib/test_enum.g.dart')]);
+  return String.fromCharCodes(
+      writer.assets[AssetId(pkgName, 'lib/test_enum.g.dart')]);
 }
 
 Future<String> generateTwo(String source, String source2) async {
@@ -611,12 +611,12 @@ Future<String> generateTwo(String source, String source2) async {
     '$pkgName|lib/test_enum_two.dart': source2
   };
 
-  final writer = new InMemoryAssetWriter();
+  final writer = InMemoryAssetWriter();
   await testBuilder(builder, srcs, rootPackage: pkgName, writer: writer);
-  return new String.fromCharCodes(
-          writer.assets[new AssetId(pkgName, 'lib/test_enum.g.dart')]) +
-      new String.fromCharCodes(
-          writer.assets[new AssetId(pkgName, 'lib/test_enum_two.g.dart')]);
+  return String.fromCharCodes(
+          writer.assets[AssetId(pkgName, 'lib/test_enum.g.dart')]) +
+      String.fromCharCodes(
+          writer.assets[AssetId(pkgName, 'lib/test_enum_two.g.dart')]);
 }
 
 const String builtValueSource = r'''

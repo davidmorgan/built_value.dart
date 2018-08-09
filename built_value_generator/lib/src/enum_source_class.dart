@@ -17,7 +17,7 @@ abstract class EnumSourceClass
   ClassElement get element;
 
   factory EnumSourceClass(ClassElement element) =>
-      new _$EnumSourceClass._(element: element);
+      _$EnumSourceClass._(element: element);
   EnumSourceClass._();
 
   @memoized
@@ -33,7 +33,7 @@ abstract class EnumSourceClass
         .where((value) => value?.type?.displayName == 'BuiltValueEnum');
     if (annotations.isEmpty) return const BuiltValueEnum();
     final annotation = annotations.single;
-    return new BuiltValueEnum(
+    return BuiltValueEnum(
         wireName: annotation.getField('wireName').toStringValue());
   }
 
@@ -45,7 +45,7 @@ abstract class EnumSourceClass
       EnumSourceField.fromClassElement(element);
 
   @memoized
-  BuiltList<String> get constructors => new BuiltList<String>(
+  BuiltList<String> get constructors => BuiltList<String>(
       element.constructors.map((element) => element.computeNode().toString()));
 
   @memoized
@@ -53,7 +53,7 @@ abstract class EnumSourceClass
     final getter = element.getGetter('values');
     if (getter == null) return null;
     final source = getter.computeNode().toSource();
-    final matches = new RegExp(r'static BuiltSet<' +
+    final matches = RegExp(r'static BuiltSet<' +
             element.displayName +
             r'> get values => (_\$\w+)\;')
         .allMatches(source);
@@ -65,7 +65,7 @@ abstract class EnumSourceClass
     final getter = element.getMethod('valueOf');
     if (getter == null) return null;
     final source = getter.computeNode().toSource();
-    final matches = new RegExp(r'static ' +
+    final matches = RegExp(r'static ' +
             element.displayName +
             r' valueOf\(String name\) \=\> (\_\$\w+)\(name\)\;')
         .allMatches(source);
@@ -154,7 +154,7 @@ abstract class EnumSourceClass
   }
 
   String generateCode() {
-    final result = new StringBuffer();
+    final result = StringBuffer();
 
     for (final field in fields) {
       result.writeln('const $name ${field.generatedIdentifier} = '
@@ -189,7 +189,7 @@ abstract class EnumSourceClass
   }
 
   String _generateMixin() {
-    final result = new StringBuffer();
+    final result = StringBuffer();
 
     result
       ..writeln('class _\$${name}Meta {')

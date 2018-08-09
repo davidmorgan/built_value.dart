@@ -165,7 +165,7 @@ abstract class Value implements Built<Value, ValueBuilder> {
 
 final String pkgName = 'pkg';
 
-final Builder builder = new PartBuilder([new BuiltValueGenerator()], '.g.dart');
+final Builder builder = PartBuilder([BuiltValueGenerator()], '.g.dart');
 
 Future<String> generate(String source) async {
   final srcs = <String, String>{
@@ -173,10 +173,10 @@ Future<String> generate(String source) async {
     '$pkgName|lib/value.dart': source,
   };
 
-  final writer = new InMemoryAssetWriter();
+  final writer = InMemoryAssetWriter();
   await testBuilder(builder, srcs, rootPackage: pkgName, writer: writer);
-  return new String.fromCharCodes(
-      writer.assets[new AssetId(pkgName, 'lib/value.g.dart')] ?? []);
+  return String.fromCharCodes(
+      writer.assets[AssetId(pkgName, 'lib/value.g.dart')] ?? []);
 }
 
 // Classes mentioned in the test input need to exist, but we don't need the

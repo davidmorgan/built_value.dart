@@ -23,12 +23,11 @@ class _$SimpleValue extends SimpleValue {
   final BuiltMap<String, int> map;
 
   factory _$SimpleValue([void updates(SimpleValueBuilder b)]) =>
-      (new SimpleValueBuilder()..update(updates)).build();
+      (SimpleValueBuilder()..update(updates)).build();
 
   _$SimpleValue._({this.anInt, this.map}) : super._() {
-    if (anInt == null)
-      throw new BuiltValueNullFieldError('SimpleValue', 'anInt');
-    if (map == null) throw new BuiltValueNullFieldError('SimpleValue', 'map');
+    if (anInt == null) throw BuiltValueNullFieldError('SimpleValue', 'anInt');
+    if (map == null) throw BuiltValueNullFieldError('SimpleValue', 'map');
   }
 
   @override
@@ -36,12 +35,13 @@ class _$SimpleValue extends SimpleValue {
       (toBuilder()..update(updates)).build();
 
   @override
-  SimpleValueBuilder toBuilder() => new SimpleValueBuilder()..replace(this);
+  SimpleValueBuilder toBuilder() => SimpleValueBuilder()..replace(this);
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
-    return other is SimpleValue && anInt == other.anInt && map == other.map;
+    if (other is! SimpleValue) return false;
+    return anInt == other.anInt && map == other.map;
   }
 
   @override
@@ -66,8 +66,7 @@ class SimpleValueBuilder implements Builder<SimpleValue, SimpleValueBuilder> {
   set anInt(int anInt) => _$this._anInt = anInt;
 
   MapBuilder<String, int> _map;
-  MapBuilder<String, int> get map =>
-      _$this._map ??= new MapBuilder<String, int>();
+  MapBuilder<String, int> get map => _$this._map ??= MapBuilder<String, int>();
   set map(MapBuilder<String, int> map) => _$this._map = map;
 
   SimpleValueBuilder();
@@ -83,7 +82,7 @@ class SimpleValueBuilder implements Builder<SimpleValue, SimpleValueBuilder> {
 
   @override
   void replace(SimpleValue other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) throw ArgumentError.notNull('other');
     _$v = other as _$SimpleValue;
   }
 
@@ -96,14 +95,14 @@ class SimpleValueBuilder implements Builder<SimpleValue, SimpleValueBuilder> {
   _$SimpleValue build() {
     _$SimpleValue _$result;
     try {
-      _$result = _$v ?? new _$SimpleValue._(anInt: anInt, map: map.build());
+      _$result = _$v ?? _$SimpleValue._(anInt: anInt, map: map.build());
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'map';
         map.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             'SimpleValue', _$failedField, e.toString());
       }
       rethrow;
@@ -120,11 +119,11 @@ class _$CompoundValue extends CompoundValue {
   final String string;
 
   factory _$CompoundValue([void updates(CompoundValueBuilder b)]) =>
-      (new CompoundValueBuilder()..update(updates)).build();
+      (CompoundValueBuilder()..update(updates)).build();
 
   _$CompoundValue._({this.simpleValue, this.string}) : super._() {
     if (simpleValue == null)
-      throw new BuiltValueNullFieldError('CompoundValue', 'simpleValue');
+      throw BuiltValueNullFieldError('CompoundValue', 'simpleValue');
   }
 
   @override
@@ -132,14 +131,13 @@ class _$CompoundValue extends CompoundValue {
       (toBuilder()..update(updates)).build();
 
   @override
-  CompoundValueBuilder toBuilder() => new CompoundValueBuilder()..replace(this);
+  CompoundValueBuilder toBuilder() => CompoundValueBuilder()..replace(this);
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
-    return other is CompoundValue &&
-        simpleValue == other.simpleValue &&
-        string == other.string;
+    if (other is! CompoundValue) return false;
+    return simpleValue == other.simpleValue && string == other.string;
   }
 
   @override
@@ -162,7 +160,7 @@ class CompoundValueBuilder
 
   SimpleValueBuilder _simpleValue;
   SimpleValueBuilder get simpleValue =>
-      _$this._simpleValue ??= new SimpleValueBuilder();
+      _$this._simpleValue ??= SimpleValueBuilder();
   set simpleValue(SimpleValueBuilder simpleValue) =>
       _$this._simpleValue = simpleValue;
 
@@ -183,7 +181,7 @@ class CompoundValueBuilder
 
   @override
   void replace(CompoundValue other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) throw ArgumentError.notNull('other');
     _$v = other as _$CompoundValue;
   }
 
@@ -197,15 +195,14 @@ class CompoundValueBuilder
     _$CompoundValue _$result;
     try {
       _$result = _$v ??
-          new _$CompoundValue._(
-              simpleValue: simpleValue.build(), string: string);
+          _$CompoundValue._(simpleValue: simpleValue.build(), string: string);
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'simpleValue';
         simpleValue.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             'CompoundValue', _$failedField, e.toString());
       }
       rethrow;
@@ -222,13 +219,12 @@ class _$ComparedValue extends ComparedValue {
   final Function onChanged;
 
   factory _$ComparedValue([void updates(ComparedValueBuilder b)]) =>
-      (new ComparedValueBuilder()..update(updates)).build();
+      (ComparedValueBuilder()..update(updates)).build();
 
   _$ComparedValue._({this.name, this.onChanged}) : super._() {
-    if (name == null)
-      throw new BuiltValueNullFieldError('ComparedValue', 'name');
+    if (name == null) throw BuiltValueNullFieldError('ComparedValue', 'name');
     if (onChanged == null)
-      throw new BuiltValueNullFieldError('ComparedValue', 'onChanged');
+      throw BuiltValueNullFieldError('ComparedValue', 'onChanged');
   }
 
   @override
@@ -236,12 +232,13 @@ class _$ComparedValue extends ComparedValue {
       (toBuilder()..update(updates)).build();
 
   @override
-  ComparedValueBuilder toBuilder() => new ComparedValueBuilder()..replace(this);
+  ComparedValueBuilder toBuilder() => ComparedValueBuilder()..replace(this);
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
-    return other is ComparedValue && name == other.name;
+    if (other is! ComparedValue) return false;
+    return name == other.name;
   }
 
   @override
@@ -283,7 +280,7 @@ class ComparedValueBuilder
 
   @override
   void replace(ComparedValue other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) throw ArgumentError.notNull('other');
     _$v = other as _$ComparedValue;
   }
 
@@ -294,8 +291,7 @@ class ComparedValueBuilder
 
   @override
   _$ComparedValue build() {
-    final _$result =
-        _$v ?? new _$ComparedValue._(name: name, onChanged: onChanged);
+    final _$result = _$v ?? _$ComparedValue._(name: name, onChanged: onChanged);
     replace(_$result);
     return _$result;
   }

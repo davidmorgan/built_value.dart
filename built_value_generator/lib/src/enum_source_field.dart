@@ -15,7 +15,7 @@ abstract class EnumSourceField
   FieldElement get element;
 
   factory EnumSourceField(FieldElement element) =>
-      new _$EnumSourceField._(element: element);
+      _$EnumSourceField._(element: element);
   EnumSourceField._();
 
   @memoized
@@ -31,7 +31,7 @@ abstract class EnumSourceField
         .where((value) => value?.type?.displayName == 'BuiltValueEnumConst');
     if (annotations.isEmpty) return const BuiltValueEnumConst();
     final annotation = annotations.single;
-    return new BuiltValueEnumConst(
+    return BuiltValueEnumConst(
         wireName: annotation.getField('wireName').toStringValue());
   }
 
@@ -49,14 +49,14 @@ abstract class EnumSourceField
 
   static BuiltList<EnumSourceField> fromClassElement(
       ClassElement classElement) {
-    final result = new ListBuilder<EnumSourceField>();
+    final result = ListBuilder<EnumSourceField>();
 
     final enumName = classElement.displayName;
     for (final fieldElement in classElement.fields) {
       final type = fieldElement.getter.returnType.displayName;
       if (!fieldElement.isSynthetic &&
           (type == enumName || type == 'dynamic')) {
-        result.add(new EnumSourceField(fieldElement));
+        result.add(EnumSourceField(fieldElement));
       }
     }
 

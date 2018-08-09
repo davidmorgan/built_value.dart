@@ -23,13 +23,12 @@ class _$SimpleValue extends SimpleValue {
   final String aString;
 
   factory _$SimpleValue([void updates(SimpleValueBuilder b)]) =>
-      (new SimpleValueBuilder()..update(updates)).build();
+      (SimpleValueBuilder()..update(updates)).build();
 
   _$SimpleValue._({this.anInt, this.aString}) : super._() {
-    if (anInt == null)
-      throw new BuiltValueNullFieldError('SimpleValue', 'anInt');
+    if (anInt == null) throw BuiltValueNullFieldError('SimpleValue', 'anInt');
     if (aString == null)
-      throw new BuiltValueNullFieldError('SimpleValue', 'aString');
+      throw BuiltValueNullFieldError('SimpleValue', 'aString');
   }
 
   @override
@@ -37,14 +36,13 @@ class _$SimpleValue extends SimpleValue {
       (toBuilder()..update(updates)).build();
 
   @override
-  SimpleValueBuilder toBuilder() => new SimpleValueBuilder()..replace(this);
+  SimpleValueBuilder toBuilder() => SimpleValueBuilder()..replace(this);
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
-    return other is SimpleValue &&
-        anInt == other.anInt &&
-        aString == other.aString;
+    if (other is! SimpleValue) return false;
+    return anInt == other.anInt && aString == other.aString;
   }
 
   @override
@@ -85,7 +83,7 @@ class SimpleValueBuilder implements Builder<SimpleValue, SimpleValueBuilder> {
 
   @override
   void replace(SimpleValue other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) throw ArgumentError.notNull('other');
     _$v = other as _$SimpleValue;
   }
 
@@ -96,7 +94,7 @@ class SimpleValueBuilder implements Builder<SimpleValue, SimpleValueBuilder> {
 
   @override
   _$SimpleValue build() {
-    final _$result = _$v ?? new _$SimpleValue._(anInt: anInt, aString: aString);
+    final _$result = _$v ?? _$SimpleValue._(anInt: anInt, aString: aString);
     replace(_$result);
     return _$result;
   }

@@ -72,5 +72,7 @@ linter:
     - type_init_formals
     - unawaited_futures
     - unnecessary_brace_in_string_interps
+    - unnecessary_const
+    - unnecessary_new
     - unnecessary_getters_setters
 

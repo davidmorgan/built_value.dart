@@ -10,7 +10,7 @@ import 'package:_fe_analyzer_shared/src/macros/executor/serialization.dart';
 import 'package:frontend_server/compute_kernel.dart';
 
 void main(List<String> args) async {
-  var scriptUri = Uri.base.resolve('test/value_test.dart').toFilePath();
+  var scriptUri = Uri.base.resolve('test/values_test.dart').toFilePath();
   watch.start();
   var dartToolDir = Directory('.dart_tool/macro_proposal')
     ..createSync(recursive: true);

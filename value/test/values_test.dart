@@ -22,6 +22,12 @@ void main() {
           () => SimpleValue((_) {}), throwsA(isErrorContaining('SimpleValue')));
     });
   });
+
+  group('CompoundValue', () {
+    test('can be instantiated', () {
+      CompoundValue((b) => b..simpleValue.anInt = 1);
+    });
+  });
 }
 
 Matcher isErrorContaining(String string) => _ErrorContaining(string);

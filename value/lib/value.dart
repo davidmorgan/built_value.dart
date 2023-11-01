@@ -6,46 +6,46 @@ macro class Value implements ClassDeclarationsMacro, ClassTypesMacro {
   const Value();
 
   @override
-  FutureOr<void> buildDeclarationsForClass(IntrospectableClassDeclaration clazz, MemberDeclarationBuilder builder) {
-    if (clazz.identifier.name == 'SimpleValue') {
-    builder.declareInType(DeclarationCode.fromString('''
-factory SimpleValue(void Function(SimpleValueBuilder) updates) {
-  final builder = SimpleValueBuilder();
-  updates(builder);
-  return builder.build();
-}
+  Future<void> buildDeclarationsForClass(IntrospectableClassDeclaration clazz, MemberDeclarationBuilder builder) async {
+      final parts = <Object>[];
 
-SimpleValue._({required this.anInt});
+      final builderType = '${clazz.identifier.name}Builder';
+      parts.addAll([
+        'factory ',
+        clazz.identifier.name,
+        '(void Function($builderType) updates) {',
+        'final builder = $builderType();',
+        'updates(builder);',
+        'return builder.build();'
+        '}'
+      ]);
 
-SimpleValueBuilder toBuilder() => SimpleValueBuilder()..anInt = anInt;
+      parts.addAll([
+        clazz.identifier.name,
+        '._({'
+      ]);
 
-SimpleValue rebuild(void Function(SimpleValueBuilder) updates) {
-  final builder = toBuilder();
-  updates(builder);
-  return builder.build();
-}
-'''));
-    } else if (clazz.identifier.name == 'CompoundValue') {
-builder.declareInType(DeclarationCode.fromString('''
-factory CompoundValue(void Function(CompoundValueBuilder) updates) {
-  final builder = CompoundValueBuilder();
-  updates(builder);
-  return builder.build();
-}
+      for (final field in await builder.fieldsOf(clazz)) {
+        parts.add('required this.${field.identifier.name},');
+      }
+      parts.add('});');
 
-CompoundValue._({required this.simpleValue});
+      parts.addAll([
+        builderType,
+        ' toBuilder() => $builderType();',
+      ]);
 
-CompoundValueBuilder toBuilder() => CompoundValueBuilder()..simpleValue = simpleValue.toBuilder();
+      parts.addAll([
+        clazz.identifier.name,
+        ' rebuild(void Function($builderType) updates) {',
+  'final builder = toBuilder();',
+  'updates(builder);',
+  'return builder.build();',
+'}'
 
-CompoundValue rebuild(void Function(CompoundValueBuilder) updates) {
-  final builder = toBuilder();
-  updates(builder);
-  return builder.build();
-}
-'''));
-    } else {
-      throw 'unsupported';
-    }
+      ]);
+
+      builder.declareInType(DeclarationCode.fromParts(parts));
   }
 
   @override

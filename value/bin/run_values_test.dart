@@ -21,6 +21,7 @@ void main(List<String> args) async {
   var bootstrapContent = bootstrapMacroIsolate({
     valueUri.toString(): {
       'Value': [''],
+      'ValueBuilder': [''],
     },
   }, SerializationMode.byteData);
   bootstrapFile.writeAsStringSync(bootstrapContent);

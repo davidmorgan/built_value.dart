@@ -9,8 +9,7 @@ void main() {
     });
 
     test('throws on null for non-nullable fields on build', () {
-      expect(() => SimpleValue((_) {}),
-          throwsA(const TypeMatcher<ValueNullFieldError>()));
+      expect(() => SimpleValue((_) {}), throwsA(const TypeMatcher<Error>()));
     });
 
     test('includes field name in null error message', () {
@@ -20,6 +19,16 @@ void main() {
     test('includes class name in null error message', () {
       expect(
           () => SimpleValue((_) {}), throwsA(isErrorContaining('SimpleValue')));
+    });
+
+    test('fields can be set via build constructor', () {
+      final value = SimpleValue((b) => b
+        ..anInt = 1
+        ..aString = 'two'
+        ..$mustBeEscaped = true);
+      expect(value.anInt, 1);
+      expect(value.aString, 'two');
+      expect(value.$mustBeEscaped, true);
     });
   });
 

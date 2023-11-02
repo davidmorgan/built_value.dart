@@ -4,8 +4,14 @@ import 'package:value/value.dart';
 class SimpleValue {
   final int anInt;
 
+  final String? aString;
+  final bool? $mustBeEscaped;
+
   String toString() => 'SimpleValue(anInt: $anInt)';
 }
+
+@ValueBuilder()
+class SimpleValueBuilder {}
 
 @Value()
 class CompoundValue {
@@ -13,3 +19,6 @@ class CompoundValue {
 
   String toString() => 'CompoundValue(simpleValue: $simpleValue)';
 }
+
+@ValueBuilder()
+class CompoundValueBuilder {}

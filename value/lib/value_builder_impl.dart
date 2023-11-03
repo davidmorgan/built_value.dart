@@ -16,8 +16,7 @@ class ValueBuilderImpl {
     final parts = <Object>[];
 
     for (final field in metadata.fields) {
-      // TODO: how to check if it's a nestable type.
-      if (field.type == 'SimpleValue') {
+      if (field.typeHasBuilder) {
         parts.addAll([
           field.type,
           'Builder ',
@@ -37,8 +36,7 @@ class ValueBuilderImpl {
     parts.addAll(['$baseName build() {', 'return $baseName._(']);
 
     for (final field in metadata.fields) {
-      // TODO: how to check if it's a nestable type.
-      if (field.type == 'SimpleValue') {
+      if (field.typeHasBuilder) {
         parts.addAll([
           field.name,
           ': ',

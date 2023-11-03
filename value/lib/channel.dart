@@ -9,9 +9,13 @@ class ValueMetadata {
 
 class FieldMetadata {
   final String type;
+  final bool typeHasBuilder;
   final bool isNullable;
   final String name;
 
   FieldMetadata(
-      {required this.type, required this.isNullable, required this.name});
+      {required this.type,
+      required this.typeHasBuilder,
+      required this.isNullable,
+      required this.name});
 }

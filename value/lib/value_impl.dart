@@ -12,9 +12,12 @@ class ValueImpl {
     metadatas.remove(clazz.identifier.name);
     final metadata = ValueMetadata();
     for (final field in await builder.fieldsOf(clazz)) {
+      final type = (field.type as NamedTypeAnnotation).identifier.name;
       metadata.fields.add(FieldMetadata(
-          type: (field.type as NamedTypeAnnotation).identifier.name,
+          type: type,
           isNullable: field.type.isNullable,
+          // TODO: how to determine whether the type has a builder.
+          typeHasBuilder: type == 'SimpleValue',
           name: field.identifier.name));
     }
     metadatas[clazz.identifier.name] = metadata;

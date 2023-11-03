@@ -68,6 +68,32 @@ class ValueBuilderImpl {
 
     parts.addAll([');}']);
 
+    parts.addAll([
+      'void replace($baseName other) {',
+    ]);
+
+    for (final field in metadata.fields) {
+      if (field.typeHasBuilder) {
+        parts.addAll([
+          field.name,
+          '= other.',
+          field.name,
+          '.toBuilder();',
+        ]);
+      } else {
+        parts.addAll([
+          field.name,
+          '= other.',
+          field.name,
+          ';',
+        ]);
+      }
+    }
+
+    parts.addAll([
+      '}',
+    ]);
+
     builder.declareInType(DeclarationCode.fromParts(parts));
   }
 }

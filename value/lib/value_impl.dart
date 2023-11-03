@@ -52,7 +52,7 @@ class ValueImpl {
 
     parts.addAll([
       builderType,
-      ' toBuilder() => $builderType();',
+      ' toBuilder() => $builderType()..replace(this);',
     ]);
 
     parts.addAll([

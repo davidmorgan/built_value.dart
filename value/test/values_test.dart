@@ -30,6 +30,30 @@ void main() {
       expect(value.aString, 'two');
       expect(value.$mustBeEscaped, true);
     });
+
+    test('fields can be updated via rebuild method', () {
+      final value = SimpleValue((b) => b
+        ..anInt = 0
+        ..aString = ''
+        ..$mustBeEscaped = true).rebuild((b) => b
+        ..anInt = 1
+        ..aString = 'two'
+        ..$mustBeEscaped = false);
+      expect(value.anInt, 1);
+      expect(value.aString, 'two');
+      expect(value.$mustBeEscaped, false);
+    });
+
+    test('builder can be instantiated', () {
+      SimpleValueBuilder();
+    });
+
+    test('builder exposes values via getters', () {
+      final builder = SimpleValue((b) => b
+        ..anInt = 0
+        ..aString = '').toBuilder();
+      expect(builder.anInt, 0);
+    });
   });
 
   group('CompoundValue', () {

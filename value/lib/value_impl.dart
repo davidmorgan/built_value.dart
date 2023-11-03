@@ -69,16 +69,18 @@ class ValueImpl {
 
   Future<void> buildTypesForClass(
       ClassDeclaration clazz, ClassTypeBuilder builder) async {
-    /*final hasBuilderIdentifier = await builder.resolveIdentifier(
-        Uri.parse('package:value/value.dart'), 'HasBuilder');
-    builder.appendInterfaces(
-        [NamedTypeAnnotationCode(name: hasBuilderIdentifier)]);*/
-    /*final parts = <Object>[];
-    final builderType = '${clazz.identifier.name}Builder';
+    // This should create the builder and trigger the builder macro on it; the
+    // creating works but not the macro trigger.
+    /*final builderType = '${clazz.identifier.name}Builder';
+    final parts = <Object>[];
+    final valueBuilderIdentifier = await builder.resolveIdentifier(
+        Uri.parse('package:value/value.dart'), 'ValueBuilder');
 
     parts.addAll([
-      '@Value() ',
-      'class $builderType {}',
+      '@',
+      valueBuilderIdentifier,
+      '() ',
+      ' class $builderType {}',
     ]);
 
     builder.declareType(builderType, DeclarationCode.fromParts(parts));*/

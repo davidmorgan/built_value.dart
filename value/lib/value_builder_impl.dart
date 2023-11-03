@@ -34,6 +34,8 @@ class ValueBuilderImpl {
     }
 
     parts.addAll(['$baseName build() {', 'return $baseName._(']);
+    final valueNullFieldErrorIdentifier = await builder.resolveIdentifier(
+        Uri.parse('package:value/value.dart'), 'ValueNullFieldError');
 
     for (final field in metadata.fields) {
       if (field.typeHasBuilder) {
@@ -55,7 +57,8 @@ class ValueBuilderImpl {
           parts.addAll([
             field.name,
             ': ',
-            'ValueNullFieldError.checkNotNull(',
+            valueNullFieldErrorIdentifier,
+            '.checkNotNull(',
             field.name,
             ", '$baseName', r'${field.name}'),",
           ]);

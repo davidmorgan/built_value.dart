@@ -33,3 +33,24 @@ macro class ValueBuilder implements ClassDeclarationsMacro {
 }
 
 class HasBuilder {}
+
+/// [Error] indicating that a `value` class constructor was called with
+/// a `null` value for a field not marked nullable.
+class ValueNullFieldError extends Error {
+  final String type;
+  final String field;
+
+  ValueNullFieldError(this.type, this.field);
+
+  /// Throws a [BuiltValueNullFieldError] if [value] is `null`.
+  static T checkNotNull<T>(T? value, String type, String field) {
+    if (value == null) {
+      throw ValueNullFieldError(type, field);
+    }
+    return value;
+  }
+
+  @override
+  String toString() =>
+      'Tried to construct class "$type" with null for non-nullable field "$field".';
+}

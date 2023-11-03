@@ -1,7 +1,7 @@
 import 'package:value/value.dart';
 
 @Value()
-class SimpleValue {
+class SimpleValue implements HasBuilder {
   final int anInt;
 
   final String? aString;

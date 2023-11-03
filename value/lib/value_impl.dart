@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:_fe_analyzer_shared/src/macros/api.dart';
+import 'package:_fe_analyzer_shared/src/macros/executor/introspection_impls.dart';
 
 import 'channel.dart';
 
@@ -11,13 +12,18 @@ class ValueImpl {
       MemberDeclarationBuilder builder) async {
     metadatas.remove(clazz.identifier.name);
     final metadata = ValueMetadata();
+    final hasBuilderIdentifier = await builder.resolveIdentifier(
+        Uri.parse('package:value/value.dart'), 'HasBuilder');
+    final hasBuilderType = await builder
+        .resolve(NamedTypeAnnotationCode(name: hasBuilderIdentifier));
     for (final field in await builder.fieldsOf(clazz)) {
       final type = (field.type as NamedTypeAnnotation).identifier.name;
+      final resolvedType = await builder.resolve(field.type.code);
       metadata.fields.add(FieldMetadata(
           type: type,
           isNullable: field.type.isNullable,
           // TODO: how to determine whether the type has a builder.
-          typeHasBuilder: type == 'SimpleValue',
+          typeHasBuilder: await resolvedType.isSubtypeOf(hasBuilderType),
           name: field.identifier.name));
     }
     metadatas[clazz.identifier.name] = metadata;
@@ -61,8 +67,12 @@ class ValueImpl {
     builder.declareInType(DeclarationCode.fromParts(parts));
   }
 
-  FutureOr<void> buildTypesForClass(
-      ClassDeclaration clazz, ClassTypeBuilder builder) {
+  Future<void> buildTypesForClass(
+      ClassDeclaration clazz, ClassTypeBuilder builder) async {
+    /*final hasBuilderIdentifier = await builder.resolveIdentifier(
+        Uri.parse('package:value/value.dart'), 'HasBuilder');
+    builder.appendInterfaces(
+        [NamedTypeAnnotationCode(name: hasBuilderIdentifier)]);*/
     /*final parts = <Object>[];
     final builderType = '${clazz.identifier.name}Builder';
 

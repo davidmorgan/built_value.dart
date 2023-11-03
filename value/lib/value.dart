@@ -32,3 +32,4 @@ macro class ValueBuilder implements ClassDeclarationsMacro {
       MemberDeclarationBuilder builder) => _impl.buildDeclarationsForClass(clazz, builder);
 }
 
+class HasBuilder {}

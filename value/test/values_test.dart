@@ -54,6 +54,26 @@ void main() {
         ..aString = '').toBuilder();
       expect(builder.anInt, 0);
     });
+
+    test('compares equal when equal', () {
+      final value1 = SimpleValue((b) => b
+        ..anInt = 0
+        ..aString = '');
+      final value2 = SimpleValue((b) => b
+        ..anInt = 0
+        ..aString = '');
+      expect(value1, value2);
+    });
+
+    test('compares not equal when not equal', () {
+      final value1 = SimpleValue((b) => b
+        ..anInt = 0
+        ..aString = '');
+      final value2 = SimpleValue((b) => b
+        ..anInt = 1
+        ..aString = '');
+      expect(value1, isNot(equals(value2)));
+    });
   });
 
   group('CompoundValue', () {

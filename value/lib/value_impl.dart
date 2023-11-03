@@ -64,6 +64,22 @@ class ValueImpl {
       '}'
     ]);
 
+    parts.addAll([
+      'bool operator== (Object other) =>',
+      'other is ${clazz.identifier.name} &&'
+    ]);
+
+    for (final field in metadata.fields) {
+      parts.addAll([
+        field.name,
+        '== other.',
+        field.name,
+        ' &&',
+      ]);
+    }
+    parts.removeLast();
+    parts.addAll([';']);
+
     builder.declareInType(DeclarationCode.fromParts(parts));
   }
 

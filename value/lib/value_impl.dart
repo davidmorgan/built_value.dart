@@ -84,5 +84,13 @@ class ValueImpl {
     ]);
 
     builder.declareType(builderType, DeclarationCode.fromParts(parts));*/
+
+    // This should add the HasBuilder marker interface, doesn't seem to work.
+    /*
+    final hasBuilderIdentifier = await builder.resolveIdentifier(
+        Uri.parse('package:value/value.dart'), 'HasBuilder');
+    builder.appendInterfaces(
+        [NamedTypeAnnotationCode(name: hasBuilderIdentifier)]);
+    */
   }
 }

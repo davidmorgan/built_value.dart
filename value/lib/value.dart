@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:_fe_analyzer_shared/src/macros/api.dart';
 
+import 'value_builder_impl.dart';
 import 'value_impl.dart';
 
 macro class Value implements ClassDeclarationsMacro, ClassTypesMacro {

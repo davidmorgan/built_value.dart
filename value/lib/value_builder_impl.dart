@@ -12,22 +12,23 @@ class ValueBuilderImpl {
     final baseName = clazz.identifier.name.replaceAll('Builder', '');
     completers[baseName] ??= Completer();
     await completers[baseName]!;
+    final metadata = metadatas[baseName]!;
     final parts = <Object>[];
 
-    for (final field in fields[baseName]!) {
+    for (final field in metadata.fields) {
       // TODO: how to check if it's a nestable type.
-      if (field.$1 == 'SimpleValue') {
+      if (field.type == 'SimpleValue') {
         parts.addAll([
-          field.$1,
+          field.type,
           'Builder ',
-          field.$3,
-          ' = ${field.$1}Builder();',
+          field.name,
+          ' = ${field.type}Builder();',
         ]);
       } else {
         parts.addAll([
-          field.$1,
+          field.type,
           '? ',
-          field.$3,
+          field.name,
           ';',
         ]);
       }
@@ -35,30 +36,30 @@ class ValueBuilderImpl {
 
     parts.addAll(['$baseName build() {', 'return $baseName._(']);
 
-    for (final field in fields[baseName]!) {
+    for (final field in metadata.fields) {
       // TODO: how to check if it's a nestable type.
-      if (field.$1 == 'SimpleValue') {
+      if (field.type == 'SimpleValue') {
         parts.addAll([
-          field.$3,
+          field.name,
           ': ',
-          field.$3,
+          field.name,
           '.build(),',
         ]);
       } else {
-        if (field.$2) {
+        if (field.isNullable) {
           parts.addAll([
-            field.$3,
+            field.name,
             ': ',
-            field.$3,
+            field.name,
             ',',
           ]);
         } else {
           parts.addAll([
-            field.$3,
+            field.name,
             ': ',
             'ValueNullFieldError.checkNotNull(',
-            field.$3,
-            ", '$baseName', r'${field.$3}'),",
+            field.name,
+            ", '$baseName', r'${field.name}'),",
           ]);
         }
       }

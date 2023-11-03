@@ -9,14 +9,15 @@ class ValueImpl {
 
   Future<void> buildDeclarationsForClass(IntrospectableClassDeclaration clazz,
       MemberDeclarationBuilder builder) async {
-    fields[clazz.identifier.name] = [];
+    metadatas.remove(clazz.identifier.name);
+    final metadata = ValueMetadata();
     for (final field in await builder.fieldsOf(clazz)) {
-      fields[clazz.identifier.name]!.add((
-        (field.type as NamedTypeAnnotation).identifier.name,
-        field.type.isNullable,
-        field.identifier.name
-      ));
+      metadata.fields.add(FieldMetadata(
+          type: (field.type as NamedTypeAnnotation).identifier.name,
+          isNullable: field.type.isNullable,
+          name: field.identifier.name));
     }
+    metadatas[clazz.identifier.name] = metadata;
     completers[clazz.identifier.name] ??= Completer();
     completers[clazz.identifier.name]!.complete();
 

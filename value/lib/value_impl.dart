@@ -48,7 +48,19 @@ class ValueImpl {
     for (final field in await builder.fieldsOf(clazz)) {
       parts.add('required this.${field.identifier.name},');
     }
-    parts.add('});');
+    parts.add('})');
+    final methods = await builder.methodsOf(clazz);
+    // Annotation check doesn't seem to work.
+    final validateMethods = methods.where((m) =>
+        m.metadata.any((a) =>
+            a is IdentifierMetadataAnnotation &&
+            a.identifier.name == 'Validate') ||
+        m.identifier.name == 'validate');
+    if (validateMethods.isNotEmpty) {
+      parts.add("{ ${validateMethods.first.identifier.name}(); }");
+    } else {
+      parts.add(';');
+    }
 
     parts.addAll([
       builderType,

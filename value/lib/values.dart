@@ -22,3 +22,17 @@ class CompoundValue {
 
 @ValueBuilder()
 class CompoundValueBuilder {}
+
+@Value()
+class ValidatedValue {
+  final int anInt;
+  final String? aString;
+
+  @Validate
+  void validate() {
+    if (anInt == 7) throw StateError('anInt may not be 7');
+  }
+}
+
+@ValueBuilder()
+class ValidatedValueBuilder {}

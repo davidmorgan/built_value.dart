@@ -81,6 +81,17 @@ void main() {
       CompoundValue((b) => b..simpleValue.anInt = 1);
     });
   });
+
+  group('ValidatedValue', () {
+    test('can be instantiated', () {
+      ValidatedValue((b) => b..anInt = 1);
+    });
+
+    test('does custom validation', () {
+      expect(() => ValidatedValue((b) => b..anInt = 7),
+          throwsA(const TypeMatcher<StateError>()));
+    });
+  });
 }
 
 Matcher isErrorContaining(String string) => _ErrorContaining(string);

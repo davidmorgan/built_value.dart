@@ -54,3 +54,5 @@ class ValueNullFieldError extends Error {
   String toString() =>
       'Tried to construct class "$type" with null for non-nullable field "$field".';
 }
+
+const Validate = 'validate';

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:_fe_analyzer_shared/src/macros/api.dart';
 
+import 'serializers_for_impl.dart';
 import 'value_builder_impl.dart';
 import 'value_impl.dart';
 
@@ -19,9 +20,6 @@ macro class Value implements ClassDeclarationsMacro, ClassTypesMacro {
       ClassDeclaration clazz, ClassTypeBuilder builder) => _impl.buildTypesForClass(clazz, builder);
 }
 
-final fields = <String, List<(String, bool, String)>>{};
-final completers = <String, Completer<void>>{};
-
 macro class ValueBuilder implements ClassDeclarationsMacro {
   final ValueBuilderImpl _impl = const ValueBuilderImpl();
 
@@ -30,6 +28,18 @@ macro class ValueBuilder implements ClassDeclarationsMacro {
   @override
   Future<void> buildDeclarationsForClass(IntrospectableClassDeclaration clazz,
       MemberDeclarationBuilder builder) => _impl.buildDeclarationsForClass(clazz, builder);
+}
+
+macro class SerializersFor implements VariableDefinitionMacro {
+  final List<Type> types;
+
+  const SerializersFor(this.types);
+
+  @override
+  Future<void> buildDefinitionForVariable(VariableDeclaration variable, VariableDefinitionBuilder builder) async {
+    final impl = SerializersForImpl(types);
+    await impl.buildDefinitionForVariable(variable, builder);
+  }
 }
 
 class HasBuilder {}
@@ -56,3 +66,13 @@ class ValueNullFieldError extends Error {
 }
 
 const Validate = 'validate';
+
+class Serializers {
+  final List<Serializer> serializers = [];
+}
+
+class Serializer {
+  String forType;
+
+  Serializer({required this.forType});
+}

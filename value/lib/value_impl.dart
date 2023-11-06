@@ -93,6 +93,12 @@ class ValueImpl {
     parts.addAll([';']);
 
     builder.declareInType(DeclarationCode.fromParts(parts));
+
+    // Doesn't seem to do anything.
+    /*
+    builder.report(Diagnostic(
+        DiagnosticMessage('oh no', target: clazz.asDiagnosticTarget),
+        Severity.error));*/
   }
 
   Future<void> buildTypesForClass(

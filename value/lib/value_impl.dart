@@ -8,8 +8,8 @@ import 'channel.dart';
 class ValueImpl {
   const ValueImpl();
 
-  Future<void> buildDeclarationsForClass(IntrospectableClassDeclaration clazz,
-      MemberDeclarationBuilder builder) async {
+  Future<void> buildDeclarationsForClass(
+      ClassDeclaration clazz, MemberDeclarationBuilder builder) async {
     metadatas.remove(clazz.identifier.name);
     final metadata = ValueMetadata();
     final hasBuilderIdentifier = await builder.resolveIdentifier(

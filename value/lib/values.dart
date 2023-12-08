@@ -37,8 +37,8 @@ class ValidatedValue {
 @ValueBuilder()
 class ValidatedValueBuilder {}
 
-@SerializersFor([
+/*@SerializersFor([
   Value,
-])
+])*/
 // Initializer should be added by the macro...
 final Serializers serializers = Serializers();

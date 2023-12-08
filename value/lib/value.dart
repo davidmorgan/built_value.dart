@@ -12,7 +12,7 @@ macro class Value implements ClassDeclarationsMacro, ClassTypesMacro {
   const Value();
 
   @override
-  Future<void> buildDeclarationsForClass(IntrospectableClassDeclaration clazz,
+  Future<void> buildDeclarationsForClass(ClassDeclaration clazz,
       MemberDeclarationBuilder builder) => _impl.buildDeclarationsForClass(clazz, builder);
 
   @override
@@ -26,7 +26,7 @@ macro class ValueBuilder implements ClassDeclarationsMacro {
   const ValueBuilder();
 
   @override
-  Future<void> buildDeclarationsForClass(IntrospectableClassDeclaration clazz,
+  Future<void> buildDeclarationsForClass(ClassDeclaration clazz,
       MemberDeclarationBuilder builder) => _impl.buildDeclarationsForClass(clazz, builder);
 }
 

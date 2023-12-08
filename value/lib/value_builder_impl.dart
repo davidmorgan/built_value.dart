@@ -7,8 +7,8 @@ import 'channel.dart';
 class ValueBuilderImpl {
   const ValueBuilderImpl();
 
-  Future<void> buildDeclarationsForClass(IntrospectableClassDeclaration clazz,
-      MemberDeclarationBuilder builder) async {
+  Future<void> buildDeclarationsForClass(
+      ClassDeclaration clazz, MemberDeclarationBuilder builder) async {
     final baseName = clazz.identifier.name.replaceAll('Builder', '');
     completers[baseName] ??= Completer();
     await completers[baseName]!;

@@ -10,9 +10,28 @@ class ValueBuilderImpl {
   Future<void> buildDeclarationsForClass(
       ClassDeclaration clazz, MemberDeclarationBuilder builder) async {
     final baseName = clazz.identifier.name.replaceAll('Builder', '');
-    completers[baseName] ??= Completer();
-    await completers[baseName]!;
-    final metadata = metadatas[baseName]!;
+    final typeDeclarationIdentifier =
+        await builder.resolveIdentifier(clazz.library.uri, baseName);
+    final typeDeclaration =
+        await builder.typeDeclarationOf(typeDeclarationIdentifier);
+    //completers[baseName] ??= Completer();
+    //await completers[baseName]!;
+    //final metadata = metadatas[baseName]!;
+    final hasBuilderIdentifier = await builder.resolveIdentifier(
+        Uri.parse('package:value/value.dart'), 'HasBuilder');
+    final hasBuilderType = await builder
+        .resolve(NamedTypeAnnotationCode(name: hasBuilderIdentifier));
+    final metadata = ValueMetadata();
+    for (final field in await builder.fieldsOf(typeDeclaration)) {
+      final type = (field.type as NamedTypeAnnotation).identifier.name;
+      final resolvedType = await builder.resolve(field.type.code);
+      metadata.fields.add(FieldMetadata(
+          type: type,
+          isNullable: field.type.isNullable,
+          // TODO: how to determine whether the type has a builder.
+          typeHasBuilder: await resolvedType.isSubtypeOf(hasBuilderType),
+          name: field.identifier.name));
+    }
     final parts = <Object>[];
 
     for (final field in metadata.fields) {

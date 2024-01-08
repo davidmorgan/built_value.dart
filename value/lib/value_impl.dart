@@ -10,7 +10,6 @@ class ValueImpl {
 
   Future<void> buildDeclarationsForClass(
       ClassDeclaration clazz, MemberDeclarationBuilder builder) async {
-    metadatas.remove(clazz.identifier.name);
     final metadata = ValueMetadata();
     final hasBuilderIdentifier = await builder.resolveIdentifier(
         Uri.parse('package:value/value.dart'), 'HasBuilder');
@@ -26,9 +25,6 @@ class ValueImpl {
           typeHasBuilder: await resolvedType.isSubtypeOf(hasBuilderType),
           name: field.identifier.name));
     }
-    metadatas[clazz.identifier.name] = metadata;
-    completers[clazz.identifier.name] ??= Completer();
-    completers[clazz.identifier.name]!.complete();
 
     final parts = <Object>[];
 

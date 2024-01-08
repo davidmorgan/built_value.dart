@@ -15,91 +15,42 @@ dev_dependencies:
   _fe_analyzer_shared: any
   frontend_server: any
   build_runner: ^2.4.7
-  build_web_compilers: ^4.0.7
 
 # Override to the latest version of the in progress api.
 dependency_overrides:
   _fe_analyzer_shared:
     path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/_fe_analyzer_shared
   _js_interop_checks:
-    git:
-      url: https://github.com/dart-lang/sdk.git
-      path: pkg/_js_interop_checks
-      ref: 3.2.0-149.0.dev
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/_js_interop_checks
   analyzer:
     path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/analyzer
   build_integration:
-    git:
-      url: https://github.com/dart-lang/sdk.git
-      path: pkg/build_integration
-      ref: 3.2.0-149.0.dev
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/build_integration
   compiler:
-    git:
-      url: https://github.com/dart-lang/sdk.git
-      path: pkg/compiler
-      ref: 3.2.0-149.0.dev
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/compiler
   dart2wasm:
-    git:
-      url: https://github.com/dart-lang/sdk.git
-      path: pkg/dart2wasm
-      ref: 3.2.0-149.0.dev
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/dart2wasm
   dart2js_info:
-    git:
-      url: https://github.com/dart-lang/sdk.git
-      path: pkg/dart2js_info
-      ref: 3.2.0-149.0.dev
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/dart2js_info
   dev_compiler:
-    git:
-      url: https://github.com/dart-lang/sdk.git
-      path: pkg/dev_compiler
-      ref: 3.2.0-149.0.dev
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/dev_compiler
   front_end:
-    git:
-      url: https://github.com/dart-lang/sdk.git
-      path: pkg/front_end
-      ref: 3.2.0-149.0.dev
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/front_end
   frontend_server:
-    git:
-      url: https://github.com/dart-lang/sdk.git
-      path: pkg/frontend_server
-      ref: 3.2.0-149.0.dev
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/frontend_server
   js_ast:
-    git:
-      url: https://github.com/dart-lang/sdk.git
-      path: pkg/js_ast
-      ref: 3.2.0-149.0.dev
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/js_ast
   js_runtime:
-    git:
-      url: https://github.com/dart-lang/sdk.git
-      path: pkg/js_runtime
-      ref: 3.2.0-149.0.dev
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/js_runtime
   js_shared:
-    git:
-      url: https://github.com/dart-lang/sdk.git
-      path: pkg/js_shared
-      ref: 3.2.0-149.0.dev
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/js_shared
   kernel:
-    git:
-      url: https://github.com/dart-lang/sdk.git
-      path: pkg/kernel
-      ref: 3.2.0-149.0.dev
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/kernel
   meta:
-    git:
-      url: https://github.com/dart-lang/sdk.git
-      path: pkg/meta
-      ref: 3.2.0-149.0.dev
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/meta
   mmap:
-    git:
-      url: https://github.com/dart-lang/sdk.git
-      path: pkg/mmap
-      ref: 3.2.0-149.0.dev
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/mmap
   vm:
-    git:
-      url: https://github.com/dart-lang/sdk.git
-      path: pkg/vm
-      ref: 3.2.0-149.0.dev
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/vm
   wasm_builder:
-    git:
-      url: https://github.com/dart-lang/sdk.git
-      path: pkg/wasm_builder
-      ref: 3.2.0-149.0.dev
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/wasm_builder

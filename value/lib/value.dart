@@ -12,12 +12,14 @@ macro class Value implements ClassDeclarationsMacro, ClassTypesMacro {
   const Value();
 
   @override
-  Future<void> buildDeclarationsForClass(ClassDeclaration clazz,
-      MemberDeclarationBuilder builder) => _impl.buildDeclarationsForClass(clazz, builder);
+  Future<void> buildDeclarationsForClass(
+          ClassDeclaration clazz, MemberDeclarationBuilder builder) =>
+      _impl.buildDeclarationsForClass(clazz, builder);
 
   @override
   FutureOr<void> buildTypesForClass(
-      ClassDeclaration clazz, ClassTypeBuilder builder) => _impl.buildTypesForClass(clazz, builder);
+          ClassDeclaration clazz, ClassTypeBuilder builder) =>
+      _impl.buildTypesForClass(clazz, builder);
 }
 
 macro class ValueBuilder implements ClassDeclarationsMacro {
@@ -26,8 +28,9 @@ macro class ValueBuilder implements ClassDeclarationsMacro {
   const ValueBuilder();
 
   @override
-  Future<void> buildDeclarationsForClass(ClassDeclaration clazz,
-      MemberDeclarationBuilder builder) => _impl.buildDeclarationsForClass(clazz, builder);
+  Future<void> buildDeclarationsForClass(
+          ClassDeclaration clazz, MemberDeclarationBuilder builder) =>
+      _impl.buildDeclarationsForClass(clazz, builder);
 }
 
 macro class SerializersFor implements VariableDefinitionMacro {
@@ -36,7 +39,8 @@ macro class SerializersFor implements VariableDefinitionMacro {
   const SerializersFor(this.types);
 
   @override
-  Future<void> buildDefinitionForVariable(VariableDeclaration variable, VariableDefinitionBuilder builder) async {
+  Future<void> buildDefinitionForVariable(
+      VariableDeclaration variable, VariableDefinitionBuilder builder) async {
     final impl = SerializersForImpl(types);
     await impl.buildDefinitionForVariable(variable, builder);
   }

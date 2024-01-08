@@ -1,3 +1,5 @@
+// TODO(davidmorgan): this import is load bearing, not clear why.
+import 'package:_fe_analyzer_shared/src/macros/api.dart';
 import 'package:value/value.dart';
 
 @Value()

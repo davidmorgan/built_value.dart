@@ -7,8 +7,11 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
+import 'macro.dart';
+
 part 'generics.g.dart';
 
+@DeclareX()
 abstract class GenericValue<T>
     implements Built<GenericValue<T>, GenericValueBuilder<T>> {
   static Serializer<GenericValue<Object?>> get serializer =>

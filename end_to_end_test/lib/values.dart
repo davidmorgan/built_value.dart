@@ -9,6 +9,8 @@ import 'package:end_to_end_test/enums.dart' as using_import_as;
 import 'package:end_to_end_test/mixins_src.dart';
 import 'package:fixnum/fixnum.dart';
 
+// import 'macro.dart';
+
 part 'values.g.dart';
 
 abstract class SimpleValue implements Built<SimpleValue, SimpleValueBuilder> {

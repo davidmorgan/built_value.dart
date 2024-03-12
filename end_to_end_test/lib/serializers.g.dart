@@ -9,8 +9,6 @@ part of 'serializers.dart';
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add($ValueSpecial.serializer)
       ..add(BoundGenericValue.serializer)
-      ..add(Cage.serializer)
-      ..add(Cat.serializer)
       ..add(CollectionGenericValue.serializer)
       ..add(Collections.serializer)
       ..add(ComplexValue.serializer)
@@ -28,11 +26,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(FallbackEnum.serializer)
       ..add(FallbackNumberEnum.serializer)
       ..add(FieldDiscoveryValue.serializer)
-      ..add(Fish.serializer)
       ..add(GenericContainer.serializer)
       ..add(GenericValue.serializer)
-      ..add(HasDouble.serializer)
-      ..add(HasString.serializer)
       ..add(ImportedCustomNestedValue.serializer)
       ..add(ImportedCustomValue.serializer)
       ..add(ImportedValue.serializer)
@@ -44,16 +39,13 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(PartiallySerializableValue.serializer)
       ..add(PassthroughGenericContainer.serializer)
       ..add(PrimitivesValue.serializer)
-      ..add(Robot.serializer)
       ..add(SecondDiscoverableValue.serializer)
       ..add(SerializableRecordValue.serializer)
       ..add(SerializesNullsValue.serializer)
       ..add(SimpleValue.serializer)
-      ..add(StandardCat.serializer)
       ..add(StandardJsonValue.serializer)
       ..add(TestEnum.serializer)
       ..add(ThirdDiscoverableValue.serializer)
-      ..add(UsesHandCoded.serializer)
       ..add(ValidatedValue.serializer)
       ..add(ValueUsingImportAs.serializer)
       ..add(ValueWithAwkwardNestedBuilder.serializer)
@@ -65,9 +57,6 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(WireNameEnum.serializer)
       ..add(WireNameValue.serializer)
       ..add(WireNumberEnum.serializer)
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(Animal)]),
-          () => new ListBuilder<Animal>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(SimpleValue)]),
           () => new ListBuilder<SimpleValue>())
@@ -160,12 +149,6 @@ Serializers _$serializers = (new Serializers().toBuilder()
               const [const FullType(String), const FullType(JsonObject)]),
           () => new MapBuilder<String, JsonObject>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(Animal)]),
-          () => new ListBuilder<Animal>())
-      ..addBuilderFactory(
-          const FullType(BuiltSet, const [const FullType(Animal)]),
-          () => new SetBuilder<Animal>())
-      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
@@ -199,6 +182,6 @@ Serializers _$serializers = (new Serializers().toBuilder()
           () => new CollectionGenericValueBuilder<String>()))
     .build();
 Serializers _$moreSerializers =
-    (new Serializers().toBuilder()..add(Cat.serializer)).build();
+    (new Serializers().toBuilder()..add(WireNumberEnum.serializer)).build();
 
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint

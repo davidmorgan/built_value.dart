@@ -1,5 +1,4 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart=2.12
 
 part of 'collections.dart';
 
@@ -7,7 +6,8 @@ part of 'collections.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<Collections> _$collectionsSerializer = new _$CollectionsSerializer();
+Serializer<Collections> _$collectionsSerializer =
+    new _$CollectionsSerializer(); //@DeclareY()
 
 class _$CollectionsSerializer implements StructuredSerializer<Collections> {
   @override

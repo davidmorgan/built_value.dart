@@ -312,6 +312,7 @@ T $cast<T>(dynamic any) => any as T;
           : '';
 
       return '''
+//@DeclareY()
 class $serializerImplName implements StructuredSerializer<$genericName> {
   @override
   final Iterable<Type> types = const [$name, $implName];

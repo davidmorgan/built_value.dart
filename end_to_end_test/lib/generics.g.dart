@@ -1,11 +1,33 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart=2.12
 
 part of 'generics.dart';
 
 // **************************************************************************
 // BuiltValueGenerator
 // **************************************************************************
+
+const BarEnum _$yes = const BarEnum._('yes');
+const BarEnum _$no = const BarEnum._('no');
+const BarEnum _$maybe = const BarEnum._('maybe');
+
+BarEnum _$valueOf(String name) {
+  switch (name) {
+    case 'yes':
+      return _$yes;
+    case 'no':
+      return _$no;
+    case 'maybe':
+      return _$maybe;
+    default:
+      throw new ArgumentError(name);
+  }
+}
+
+final BuiltSet<BarEnum> _$values = new BuiltSet<BarEnum>(const <BarEnum>[
+  _$yes,
+  _$no,
+  _$maybe,
+]);
 
 Serializer<GenericValue<Object?>> _$genericValueSerializer =
     new _$GenericValueSerializer();
@@ -30,7 +52,7 @@ Serializer<NonBuiltGeneric> _$nonBuiltGenericSerializer =
 Serializer<EmptyGeneric<Object?, Object?>> _$emptyGenericSerializer =
     new _$EmptyGenericSerializer();
 Serializer<ConstAndGeneric<Object?>> _$constAndGenericSerializer =
-    new _$ConstAndGenericSerializer();
+    new _$ConstAndGenericSerializer(); //@DeclareY()
 
 class _$GenericValueSerializer
     implements StructuredSerializer<GenericValue<Object?>> {
@@ -88,6 +110,7 @@ class _$GenericValueSerializer
   }
 }
 
+//@DeclareY()
 class _$BoundGenericValueSerializer
     implements StructuredSerializer<BoundGenericValue<num>> {
   @override
@@ -155,6 +178,7 @@ class _$BoundGenericValueSerializer
   }
 }
 
+//@DeclareY()
 class _$BoundNullableGenericValueSerializer
     implements StructuredSerializer<BoundNullableGenericValue<num>> {
   @override
@@ -225,6 +249,7 @@ class _$BoundNullableGenericValueSerializer
   }
 }
 
+//@DeclareY()
 class _$CollectionGenericValueSerializer
     implements StructuredSerializer<CollectionGenericValue<Object?>> {
   @override
@@ -287,6 +312,7 @@ class _$CollectionGenericValueSerializer
   }
 }
 
+//@DeclareY()
 class _$GenericContainerSerializer
     implements StructuredSerializer<GenericContainer> {
   @override
@@ -352,6 +378,7 @@ class _$GenericContainerSerializer
   }
 }
 
+//@DeclareY()
 class _$PassthroughGenericContainerSerializer
     implements StructuredSerializer<PassthroughGenericContainer<Object?>> {
   @override
@@ -423,6 +450,7 @@ class _$PassthroughGenericContainerSerializer
   }
 }
 
+//@DeclareY()
 class _$NestedGenericContainerSerializer
     implements StructuredSerializer<NestedGenericContainer> {
   @override
@@ -475,6 +503,7 @@ class _$NestedGenericContainerSerializer
   }
 }
 
+//@DeclareY()
 class _$ConcreteGenericSerializer
     implements StructuredSerializer<ConcreteGeneric> {
   @override
@@ -516,6 +545,7 @@ class _$ConcreteGenericSerializer
   }
 }
 
+//@DeclareY()
 class _$NonBuiltGenericSerializer
     implements StructuredSerializer<NonBuiltGeneric> {
   @override
@@ -560,6 +590,7 @@ class _$NonBuiltGenericSerializer
   }
 }
 
+//@DeclareY()
 class _$EmptyGenericSerializer
     implements StructuredSerializer<EmptyGeneric<Object?, Object?>> {
   @override
@@ -582,6 +613,7 @@ class _$EmptyGenericSerializer
   }
 }
 
+//@DeclareY()
 class _$ConstAndGenericSerializer
     implements StructuredSerializer<ConstAndGeneric<Object?>> {
   @override

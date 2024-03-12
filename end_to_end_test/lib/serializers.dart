@@ -12,17 +12,15 @@ import 'package:end_to_end_test/enums.dart';
 import 'package:end_to_end_test/generics.dart';
 import 'package:end_to_end_test/imported_values.dart';
 import 'package:end_to_end_test/interfaces.dart';
-import 'package:end_to_end_test/polymorphism.dart';
 import 'package:end_to_end_test/records.dart';
 import 'package:end_to_end_test/standard_json.dart';
 import 'package:end_to_end_test/values.dart';
 
 part 'serializers.g.dart';
 
+//
 @SerializersFor([
   BoundGenericValue,
-  Cage,
-  Cat,
   CollectionGenericValue,
   Collections,
   CompoundValue,
@@ -38,11 +36,8 @@ part 'serializers.g.dart';
   FallbackEnum,
   FallbackNumberEnum,
   FieldDiscoveryValue,
-  Fish,
   GenericContainer,
   GenericValue,
-  HasDouble,
-  HasString,
   ImportedValue,
   ImportedCustomValue,
   ImportedCustomNestedValue,
@@ -53,15 +48,12 @@ part 'serializers.g.dart';
   PartiallySerializableValue,
   PassthroughGenericContainer,
   PrimitivesValue,
-  Robot,
   SecondTestEnum,
   SerializesNullsValue,
   SerializableRecordValue,
   SimpleValue,
-  StandardCat,
   StandardJsonValue,
   TestEnum,
-  UsesHandCoded,
   $ValueSpecial,
   ValueUsingImportAs,
   ValueWithAwkwardNestedBuilder,
@@ -78,7 +70,7 @@ final Serializers serializers = _$serializers;
 
 // Check that multiple `Serializers` can be declared in one file.
 @SerializersFor([
-  Cat,
+  WireNumberEnum,
 ])
 final Serializers moreSerializers = _$moreSerializers;
 

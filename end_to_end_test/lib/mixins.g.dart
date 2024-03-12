@@ -1,5 +1,4 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart=2.12
 
 part of 'mixins.dart';
 
@@ -7,7 +6,8 @@ part of 'mixins.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<UsesMixin> _$usesMixinSerializer = new _$UsesMixinSerializer();
+Serializer<UsesMixin> _$usesMixinSerializer =
+    new _$UsesMixinSerializer(); //@DeclareY()
 
 class _$UsesMixinSerializer implements StructuredSerializer<UsesMixin> {
   @override

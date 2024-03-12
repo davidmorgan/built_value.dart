@@ -37,10 +37,14 @@ abstract class SerializerSourceLibrary
   @memoized
   BuiltMap<String, ElementAnnotation> get serializersForAnnotations {
     var result = MapBuilder<String, ElementAnnotation>();
-    var accessors = element.definingCompilationUnit.accessors
-        .where((element) =>
+    var compilationUnits = [element.definingCompilationUnit];
+    compilationUnits.addAll(element.library.augmentationImports
+        .map((i) => i.importedAugmentation!.definingCompilationUnit));
+    var accessors = compilationUnits
+        .map((e) => e.accessors.where((element) =>
             element.isGetter &&
-            DartTypes.getName(element.returnType) == 'Serializers')
+            DartTypes.getName(element.returnType) == 'Serializers'))
+        .expand((x) => x)
         .toList();
 
     for (var accessor in accessors) {

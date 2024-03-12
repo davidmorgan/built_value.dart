@@ -7,12 +7,22 @@ import 'package:analyzer/dart/element/visitor.dart';
 import 'package:analyzer/src/dart/analysis/experiments.dart';
 import 'package:built_collection/built_collection.dart';
 
+var printing = false;
+
 /// Tools for [LibraryElement]s.
 class LibraryElements {
   static BuiltList<ClassElement> getClassElements(
       LibraryElement libraryElement) {
     var result = _GetClassesVisitor();
     libraryElement.visitChildren(result);
+    for (final augmentation in libraryElement.augmentationImports) {
+      print(
+          '*** visiting augmentation ${(augmentation.uri as dynamic).source}');
+      print(augmentation.children);
+      printing = true;
+      augmentation.importedAugmentation!.visitChildren(result);
+      printing = false;
+    }
     return BuiltList<ClassElement>(result.classElements);
   }
 
@@ -28,6 +38,7 @@ class _GetClassesVisitor extends SimpleElementVisitor {
 
   @override
   void visitClassElement(ClassElement element) {
+    if (printing) print('Found class: ${element.displayName}');
     classElements.add(element);
   }
 

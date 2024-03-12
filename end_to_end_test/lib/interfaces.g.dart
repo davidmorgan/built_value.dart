@@ -1,5 +1,4 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart=2.12
 
 part of 'interfaces.dart';
 
@@ -35,7 +34,7 @@ Serializer<ValueWithInt> _$valueWithIntSerializer =
     new _$ValueWithIntSerializer();
 Serializer<EnumWithInt> _$enumWithIntSerializer = new _$EnumWithIntSerializer();
 Serializer<ValueWithHasInt> _$valueWithHasIntSerializer =
-    new _$ValueWithHasIntSerializer();
+    new _$ValueWithHasIntSerializer(); //@DeclareY()
 
 class _$ValueWithIntSerializer implements StructuredSerializer<ValueWithInt> {
   @override
@@ -100,6 +99,7 @@ class _$EnumWithIntSerializer implements PrimitiveSerializer<EnumWithInt> {
       EnumWithInt.valueOf(serialized as String);
 }
 
+//@DeclareY()
 class _$ValueWithHasIntSerializer
     implements StructuredSerializer<ValueWithHasInt> {
   @override

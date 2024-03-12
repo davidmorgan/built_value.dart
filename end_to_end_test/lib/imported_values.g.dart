@@ -1,5 +1,4 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart=2.12
 
 part of 'imported_values.dart';
 
@@ -12,7 +11,7 @@ Serializer<ImportedValue> _$importedValueSerializer =
 Serializer<ImportedCustomValue> _$importedCustomValueSerializer =
     new _$ImportedCustomValueSerializer();
 Serializer<ImportedCustomNestedValue> _$importedCustomNestedValueSerializer =
-    new _$ImportedCustomNestedValueSerializer();
+    new _$ImportedCustomNestedValueSerializer(); //@DeclareY()
 
 class _$ImportedValueSerializer implements StructuredSerializer<ImportedValue> {
   @override
@@ -66,6 +65,7 @@ class _$ImportedValueSerializer implements StructuredSerializer<ImportedValue> {
   }
 }
 
+//@DeclareY()
 class _$ImportedCustomValueSerializer
     implements StructuredSerializer<ImportedCustomValue> {
   @override
@@ -123,6 +123,7 @@ class _$ImportedCustomValueSerializer
   }
 }
 
+//@DeclareY()
 class _$ImportedCustomNestedValueSerializer
     implements StructuredSerializer<ImportedCustomNestedValue> {
   @override

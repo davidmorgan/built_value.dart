@@ -75,7 +75,7 @@ Serializer<$ValueSpecial> _$$valueSpecialSerializer =
     new _$$ValueSpecialSerializer();
 Serializer<ValueWithAwkwardNestedBuilder>
     _$valueWithAwkwardNestedBuilderSerializer =
-    new _$ValueWithAwkwardNestedBuilderSerializer();
+    new _$ValueWithAwkwardNestedBuilderSerializer(); //@DeclareY()
 
 class _$SimpleValueSerializer implements StructuredSerializer<SimpleValue> {
   @override
@@ -138,6 +138,7 @@ class _$SimpleValueSerializer implements StructuredSerializer<SimpleValue> {
   }
 }
 
+//@DeclareY()
 class _$CompoundValueSerializer implements StructuredSerializer<CompoundValue> {
   @override
   final Iterable<Type> types = const [CompoundValue, _$CompoundValue];
@@ -191,6 +192,7 @@ class _$CompoundValueSerializer implements StructuredSerializer<CompoundValue> {
   }
 }
 
+//@DeclareY()
 class _$CompoundValueNoNestingSerializer
     implements StructuredSerializer<CompoundValueNoNesting> {
   @override
@@ -248,6 +250,7 @@ class _$CompoundValueNoNestingSerializer
   }
 }
 
+//@DeclareY()
 class _$CompoundValueNoAutoNestingSerializer
     implements StructuredSerializer<CompoundValueNoAutoNesting> {
   @override
@@ -296,6 +299,7 @@ class _$CompoundValueNoAutoNestingSerializer
   }
 }
 
+//@DeclareY()
 class _$CompoundValueComparableBuildersSerializer
     implements StructuredSerializer<CompoundValueComparableBuilders> {
   @override
@@ -353,6 +357,7 @@ class _$CompoundValueComparableBuildersSerializer
   }
 }
 
+//@DeclareY()
 class _$CompoundValueNoNestingFieldSerializer
     implements StructuredSerializer<CompoundValueNoNestingField> {
   @override
@@ -429,6 +434,7 @@ class _$CompoundValueNoNestingFieldSerializer
   }
 }
 
+//@DeclareY()
 class _$CompoundValueNestingFieldSerializer
     implements StructuredSerializer<CompoundValueNestingField> {
   @override
@@ -505,6 +511,7 @@ class _$CompoundValueNestingFieldSerializer
   }
 }
 
+//@DeclareY()
 class _$CompoundValueNoAutoNestingFieldSerializer
     implements StructuredSerializer<CompoundValueNoAutoNestingField> {
   @override
@@ -560,6 +567,7 @@ class _$CompoundValueNoAutoNestingFieldSerializer
   }
 }
 
+//@DeclareY()
 class _$CompoundValueAutoNestingFieldSerializer
     implements StructuredSerializer<CompoundValueAutoNestingField> {
   @override
@@ -613,6 +621,7 @@ class _$CompoundValueAutoNestingFieldSerializer
   }
 }
 
+//@DeclareY()
 class _$CompoundValueExplicitNoNestingSerializer
     implements StructuredSerializer<CompoundValueExplicitNoNesting> {
   @override
@@ -670,6 +679,7 @@ class _$CompoundValueExplicitNoNestingSerializer
   }
 }
 
+//@DeclareY()
 class _$ValidatedValueSerializer
     implements StructuredSerializer<ValidatedValue> {
   @override
@@ -722,6 +732,7 @@ class _$ValidatedValueSerializer
   }
 }
 
+//@DeclareY()
 class _$ValueUsingImportAsSerializer
     implements StructuredSerializer<ValueUsingImportAs> {
   @override
@@ -778,6 +789,7 @@ class _$ValueUsingImportAsSerializer
   }
 }
 
+//@DeclareY()
 class _$NoFieldsValueSerializer implements StructuredSerializer<NoFieldsValue> {
   @override
   final Iterable<Type> types = const [NoFieldsValue, _$NoFieldsValue];
@@ -798,6 +810,7 @@ class _$NoFieldsValueSerializer implements StructuredSerializer<NoFieldsValue> {
   }
 }
 
+//@DeclareY()
 class _$PrimitivesValueSerializer
     implements StructuredSerializer<PrimitivesValue> {
   @override
@@ -905,6 +918,7 @@ class _$PrimitivesValueSerializer
   }
 }
 
+//@DeclareY()
 class _$PartiallySerializableValueSerializer
     implements StructuredSerializer<PartiallySerializableValue> {
   @override
@@ -950,6 +964,7 @@ class _$PartiallySerializableValueSerializer
   }
 }
 
+//@DeclareY()
 class _$NamedFactoryValueSerializer
     implements StructuredSerializer<NamedFactoryValue> {
   @override
@@ -991,6 +1006,7 @@ class _$NamedFactoryValueSerializer
   }
 }
 
+//@DeclareY()
 class _$WireNameValueSerializer implements StructuredSerializer<WireNameValue> {
   @override
   final Iterable<Type> types = const [WireNameValue, _$WireNameValue];
@@ -1031,6 +1047,7 @@ class _$WireNameValueSerializer implements StructuredSerializer<WireNameValue> {
   }
 }
 
+//@DeclareY()
 class _$FieldDiscoveryValueSerializer
     implements StructuredSerializer<FieldDiscoveryValue> {
   @override
@@ -1100,6 +1117,7 @@ class _$FieldDiscoveryValueSerializer
   }
 }
 
+//@DeclareY()
 class _$DiscoverableValueSerializer
     implements StructuredSerializer<DiscoverableValue> {
   @override
@@ -1143,6 +1161,7 @@ class _$DiscoverableValueSerializer
   }
 }
 
+//@DeclareY()
 class _$SecondDiscoverableValueSerializer
     implements StructuredSerializer<SecondDiscoverableValue> {
   @override
@@ -1188,6 +1207,7 @@ class _$SecondDiscoverableValueSerializer
   }
 }
 
+//@DeclareY()
 class _$ThirdDiscoverableValueSerializer
     implements StructuredSerializer<ThirdDiscoverableValue> {
   @override
@@ -1233,6 +1253,7 @@ class _$ThirdDiscoverableValueSerializer
   }
 }
 
+//@DeclareY()
 class _$RecursiveValueASerializer
     implements StructuredSerializer<RecursiveValueA> {
   @override
@@ -1276,6 +1297,7 @@ class _$RecursiveValueASerializer
   }
 }
 
+//@DeclareY()
 class _$RecursiveValueBSerializer
     implements StructuredSerializer<RecursiveValueB> {
   @override
@@ -1319,6 +1341,7 @@ class _$RecursiveValueBSerializer
   }
 }
 
+//@DeclareY()
 class _$OtherValueSerializer implements StructuredSerializer<OtherValue> {
   @override
   final Iterable<Type> types = const [OtherValue, _$OtherValue];
@@ -1358,6 +1381,7 @@ class _$OtherValueSerializer implements StructuredSerializer<OtherValue> {
   }
 }
 
+//@DeclareY()
 class _$DefaultsForFieldSettingsValueSerializer
     implements StructuredSerializer<DefaultsForFieldSettingsValue> {
   @override
@@ -1404,6 +1428,7 @@ class _$DefaultsForFieldSettingsValueSerializer
   }
 }
 
+//@DeclareY()
 class _$ValueWithBuilderInitializerSerializer
     implements StructuredSerializer<ValueWithBuilderInitializer> {
   @override
@@ -1513,6 +1538,7 @@ class _$ValueWithBuilderInitializerSerializer
   }
 }
 
+//@DeclareY()
 class _$ValueWithBuilderFinalizerSerializer
     implements StructuredSerializer<ValueWithBuilderFinalizer> {
   @override
@@ -1558,6 +1584,7 @@ class _$ValueWithBuilderFinalizerSerializer
   }
 }
 
+//@DeclareY()
 class _$SerializesNullsValueSerializer
     implements StructuredSerializer<SerializesNullsValue> {
   @override
@@ -1607,6 +1634,7 @@ class _$SerializesNullsValueSerializer
   }
 }
 
+//@DeclareY()
 class _$NullableObjectValueSerializer
     implements StructuredSerializer<NullableObjectValue> {
   @override
@@ -1656,6 +1684,7 @@ class _$NullableObjectValueSerializer
   }
 }
 
+//@DeclareY()
 class _$ValueWithHooksSerializer
     implements StructuredSerializer<ValueWithHooks> {
   @override
@@ -1715,6 +1744,7 @@ class _$ValueWithHooksSerializer
   }
 }
 
+//@DeclareY()
 class _$$ValueSpecialSerializer implements StructuredSerializer<$ValueSpecial> {
   @override
   final Iterable<Type> types = const [$ValueSpecial, _$$ValueSpecial];
@@ -1810,6 +1840,7 @@ class _$$ValueSpecialSerializer implements StructuredSerializer<$ValueSpecial> {
   }
 }
 
+//@DeclareY()
 class _$ValueWithAwkwardNestedBuilderSerializer
     implements StructuredSerializer<ValueWithAwkwardNestedBuilder> {
   @override

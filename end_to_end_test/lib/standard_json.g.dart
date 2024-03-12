@@ -1,5 +1,4 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart=2.12
 
 part of 'standard_json.dart';
 
@@ -10,7 +9,7 @@ part of 'standard_json.dart';
 Serializer<StandardJsonValue> _$standardJsonValueSerializer =
     new _$StandardJsonValueSerializer();
 Serializer<ComplexValue> _$complexValueSerializer =
-    new _$ComplexValueSerializer();
+    new _$ComplexValueSerializer(); //@DeclareY()
 
 class _$StandardJsonValueSerializer
     implements StructuredSerializer<StandardJsonValue> {
@@ -34,14 +33,6 @@ class _$StandardJsonValueSerializer
       serializers.serialize(object.keyValues,
           specifiedType: const FullType(BuiltMap,
               const [const FullType(String), const FullType(JsonObject)])),
-      'zoo',
-      serializers.serialize(object.zoo,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(Animal)])),
-      'uniqueZoo',
-      serializers.serialize(object.uniqueZoo,
-          specifiedType:
-              const FullType(BuiltSet, const [const FullType(Animal)])),
       'nullsInList',
       serializers.serialize(object.nullsInList,
           specifiedType:
@@ -109,18 +100,6 @@ class _$StandardJsonValueSerializer
                 const FullType(JsonObject)
               ]))!);
           break;
-        case 'zoo':
-          result.zoo.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(Animal)]))!
-              as BuiltList<Object?>);
-          break;
-        case 'uniqueZoo':
-          result.uniqueZoo.replace(serializers.deserialize(value,
-                  specifiedType:
-                      const FullType(BuiltSet, const [const FullType(Animal)]))!
-              as BuiltSet<Object?>);
-          break;
         case 'strings':
           result.strings.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
@@ -164,6 +143,7 @@ class _$StandardJsonValueSerializer
   }
 }
 
+//@DeclareY()
 class _$ComplexValueSerializer implements StructuredSerializer<ComplexValue> {
   @override
   final Iterable<Type> types = const [ComplexValue, _$ComplexValue];
@@ -264,10 +244,6 @@ class _$StandardJsonValue extends StandardJsonValue {
   @override
   final BuiltMap<String, JsonObject> keyValues;
   @override
-  final BuiltList<Animal> zoo;
-  @override
-  final BuiltSet<Animal> uniqueZoo;
-  @override
   final BuiltList<String>? strings;
   @override
   final BuiltList<int?> nullsInList;
@@ -289,8 +265,6 @@ class _$StandardJsonValue extends StandardJsonValue {
       required this.text,
       required this.value,
       required this.keyValues,
-      required this.zoo,
-      required this.uniqueZoo,
       this.strings,
       required this.nullsInList,
       required this.nullsInSet,
@@ -304,9 +278,6 @@ class _$StandardJsonValue extends StandardJsonValue {
     BuiltValueNullFieldError.checkNotNull(value, r'StandardJsonValue', 'value');
     BuiltValueNullFieldError.checkNotNull(
         keyValues, r'StandardJsonValue', 'keyValues');
-    BuiltValueNullFieldError.checkNotNull(zoo, r'StandardJsonValue', 'zoo');
-    BuiltValueNullFieldError.checkNotNull(
-        uniqueZoo, r'StandardJsonValue', 'uniqueZoo');
     BuiltValueNullFieldError.checkNotNull(
         nullsInList, r'StandardJsonValue', 'nullsInList');
     BuiltValueNullFieldError.checkNotNull(
@@ -333,8 +304,6 @@ class _$StandardJsonValue extends StandardJsonValue {
         text == other.text &&
         value == other.value &&
         keyValues == other.keyValues &&
-        zoo == other.zoo &&
-        uniqueZoo == other.uniqueZoo &&
         strings == other.strings &&
         nullsInList == other.nullsInList &&
         nullsInSet == other.nullsInSet &&
@@ -350,8 +319,6 @@ class _$StandardJsonValue extends StandardJsonValue {
     _$hash = $jc(_$hash, text.hashCode);
     _$hash = $jc(_$hash, value.hashCode);
     _$hash = $jc(_$hash, keyValues.hashCode);
-    _$hash = $jc(_$hash, zoo.hashCode);
-    _$hash = $jc(_$hash, uniqueZoo.hashCode);
     _$hash = $jc(_$hash, strings.hashCode);
     _$hash = $jc(_$hash, nullsInList.hashCode);
     _$hash = $jc(_$hash, nullsInSet.hashCode);
@@ -369,8 +336,6 @@ class _$StandardJsonValue extends StandardJsonValue {
           ..add('text', text)
           ..add('value', value)
           ..add('keyValues', keyValues)
-          ..add('zoo', zoo)
-          ..add('uniqueZoo', uniqueZoo)
           ..add('strings', strings)
           ..add('nullsInList', nullsInList)
           ..add('nullsInSet', nullsInSet)
@@ -402,15 +367,6 @@ class StandardJsonValueBuilder
       _$this._keyValues ??= new MapBuilder<String, JsonObject>();
   set keyValues(MapBuilder<String, JsonObject>? keyValues) =>
       _$this._keyValues = keyValues;
-
-  ListBuilder<Animal>? _zoo;
-  ListBuilder<Animal> get zoo => _$this._zoo ??= new ListBuilder<Animal>();
-  set zoo(ListBuilder<Animal>? zoo) => _$this._zoo = zoo;
-
-  SetBuilder<Animal>? _uniqueZoo;
-  SetBuilder<Animal> get uniqueZoo =>
-      _$this._uniqueZoo ??= new SetBuilder<Animal>();
-  set uniqueZoo(SetBuilder<Animal>? uniqueZoo) => _$this._uniqueZoo = uniqueZoo;
 
   ListBuilder<String>? _strings;
   ListBuilder<String> get strings =>
@@ -453,8 +409,6 @@ class StandardJsonValueBuilder
       _text = $v.text;
       _value = $v.value.toBuilder();
       _keyValues = $v.keyValues.toBuilder();
-      _zoo = $v.zoo.toBuilder();
-      _uniqueZoo = $v.uniqueZoo.toBuilder();
       _strings = $v.strings?.toBuilder();
       _nullsInList = $v.nullsInList.toBuilder();
       _nullsInSet = $v.nullsInSet.toBuilder();
@@ -491,8 +445,6 @@ class StandardJsonValueBuilder
                   text, r'StandardJsonValue', 'text'),
               value: value.build(),
               keyValues: keyValues.build(),
-              zoo: zoo.build(),
-              uniqueZoo: uniqueZoo.build(),
               strings: _strings?.build(),
               nullsInList: nullsInList.build(),
               nullsInSet: nullsInSet.build(),
@@ -506,10 +458,6 @@ class StandardJsonValueBuilder
         value.build();
         _$failedField = 'keyValues';
         keyValues.build();
-        _$failedField = 'zoo';
-        zoo.build();
-        _$failedField = 'uniqueZoo';
-        uniqueZoo.build();
         _$failedField = 'strings';
         _strings?.build();
         _$failedField = 'nullsInList';

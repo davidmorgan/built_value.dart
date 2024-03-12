@@ -7,7 +7,7 @@ part of 'records.dart';
 // **************************************************************************
 
 Serializer<SerializableRecordValue> _$serializableRecordValueSerializer =
-    new _$SerializableRecordValueSerializer();
+    new _$SerializableRecordValueSerializer(); //@DeclareY()
 
 class _$SerializableRecordValueSerializer
     implements StructuredSerializer<SerializableRecordValue> {

@@ -1,7 +1,10 @@
 #!/bin/bash --
 
-for i in $(seq 0 99); do
-  j=$(echo "($i + 1) % 10" | bc)
+max=$1
+maxm=$(echo "$max - 1" | bc)
+rm -f lib/codegen/value*.dart
+for i in $(seq 0 $maxm); do
+  j=$(echo "($i + 1) % $max" | bc)
   cat > "lib/codegen/value$i.dart" <<EOF
 // Copyright (c) 2024, Google Inc. Please see the AUTHORS file for details.
 // All rights reserved. Use of this source code is governed by a BSD-style
@@ -11,23 +14,41 @@ import 'package:built_value/built_value.dart';
 
 import 'value$j.dart';
 
-part 'value$i.g.dart';
+import augment 'value$i.bv.dart';
 
-abstract class Value$i implements Built<Value$i, Value${i}Builder> {
-  Value$j get other;
-  int get int1;
-  int get int2;
-  int get int3;
-  int get int4;
-  int get int5;
-  int get int6;
-  int get int7;
-  int get int8;
-  int get int9;
-  int get int10;
-
-  factory Value$i([void Function(Value${i}Builder)? updates]) = _\$Value$i;
-  Value$i._();
+@BuiltValue()
+class Value$i {
+  final Value$j other;
+  final int int1;
+  final int int2;
+  final int int3;
+  final int int4;
+  final int int5;
+  final int int6;
+  final int int7;
+  final int int8;
+  final int int9;
+  final int int10;
+  final int int11;
+  final int int12;
+  final int int13;
+  final int int14;
+  final int int15;
+  final int int16;
+  final int int17;
+  final int int18;
+  final int int19;
+  final int int20;
+  final int int21;
+  final int int22;
+  final int int23;
+  final int int24;
+  final int int25;
+  final int int26;
+  final int int27;
+  final int int28;
+  final int int29;
+  final int int30;
 }
 EOF
 

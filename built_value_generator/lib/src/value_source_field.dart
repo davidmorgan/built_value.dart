@@ -5,10 +5,10 @@
 library built_value_generator.source_field;
 
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:analyzer/src/dart/ast/ast.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value_generator/src/dart_types.dart';
@@ -66,10 +66,9 @@ abstract class ValueSourceField
   /// The [type] plus any import prefix, without any nullability suffix.
   @memoized
   String get typeWithPrefix {
-    var typeFromAst = (parsedLibrary
-                .getElementDeclaration(element.getter!)!
-                .node as MethodDeclaration)
-            .returnType
+    var typeFromAst = (parsedLibrary.getElementDeclaration(element)!.node.parent
+                as VariableDeclarationListImpl)
+            .type
             ?.toSource() ??
         'dynamic';
     if (typeFromAst.endsWith('?')) {
@@ -296,8 +295,9 @@ abstract class ValueSourceField
     var result = <GeneratorError>[];
 
     if (!isGetter) {
-      result.add(
-          GeneratorError((b) => b..message = 'Make field $name a getter.'));
+      /*result.add(
+          GeneratorError((b) => b..message = 'Make field $name a getter.'))*/
+      ;
     }
 
     if (type == 'dynamic') {

@@ -2,11 +2,10 @@
 // All rights reserved. Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
-import 'package:built_value_generator/src/enum_source_library.dart';
 import 'package:built_value_generator/src/parsed_library_results.dart';
-import 'package:built_value_generator/src/serializer_source_library.dart';
 import 'package:built_value_generator/src/value_source_class.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -40,7 +39,7 @@ class BuiltValueGenerator extends Generator {
     }
 
     var result = StringBuffer();
-    try {
+    /*try {
       final enumCode = EnumSourceLibrary(parsedLibraryResults, libraryElement)
           .generateCode();
       if (enumCode != null) result.writeln(enumCode);
@@ -64,7 +63,7 @@ class BuiltValueGenerator extends Generator {
           '${libraryElement.source.fullName}.',
           e,
           st);
-    }
+    }*/
 
     for (var element in libraryElement.units.expand((unit) => unit.classes)) {
       if (ValueSourceClass.needsBuiltValue(element)) {
@@ -78,8 +77,17 @@ class BuiltValueGenerator extends Generator {
       }
     }
 
+    final directives = libraryElement
+        .definingCompilationUnit.source.contents.data
+        .split('\n')
+        .where(
+            (l) => l.startsWith('import ') && !l.startsWith('import augment'))
+        .join('\n');
+
     if (result.isNotEmpty) {
-      return '$result'
+      return 'augment library "${libraryElement.definingCompilationUnit.source.shortName}";'
+          '$directives'
+          '$result'
           '\n'
           '// ignore_for_file: '
           'deprecated_member_use_from_same_package,'

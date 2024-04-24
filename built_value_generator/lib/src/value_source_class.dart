@@ -60,7 +60,7 @@ abstract class ValueSourceClass
   /// returning a class name starting `_$_`.
   @memoized
   String get implName =>
-      name.startsWith('_') ? '_\$${name.substring(1)}' : '_\$$name';
+      name; //.startsWith('_') ? '_\$${name.substring(1)}' : '_\$$name';
 
   @memoized
   ClassElement? get builderElement {
@@ -233,7 +233,7 @@ abstract class ValueSourceClass
   @memoized
   String get partStatement {
     var fileName = element.library.source.shortName.replaceAll('.dart', '');
-    return "part '$fileName.g.dart';";
+    return "import augment '$fileName.bv.dart';";
   }
 
   @memoized
@@ -435,13 +435,13 @@ abstract class ValueSourceClass
   Iterable<GeneratorError> _checkValueClass() {
     var result = <GeneratorError>[];
 
-    if (!valueClassIsAbstract) {
+    /*if (valueClassIsAbstract) {
       result.add(GeneratorError((b) => b
-        ..message = 'Make class abstract.'
+        ..message = 'Make class not abstract.'
         ..offset = classDeclaration.offset
         ..length = 0
         ..fix = 'abstract '));
-    }
+    }*/
 
     if (hasBuiltValueImportWithShow) {
       result.add(GeneratorError((b) => b
@@ -477,11 +477,11 @@ abstract class ValueSourceClass
 
     if (!implementsClauseIsCorrect && !implementsClauseIsAllowedToBeIncorrect) {
       if (implementsClause == null) {
-        result.add(GeneratorError((b) => b
+        /*result.add(GeneratorError((b) => b
           ..message = 'Make class implement $expectedInterface.'
           ..offset = classDeclaration.leftBracket.offset - 1
           ..length = 0
-          ..fix = 'implements $expectedInterface'));
+          ..fix = 'implements $expectedInterface'));*/
       } else {
         var found = false;
         final interfaces = implementsClause.interfaces.map((type) {
@@ -565,12 +565,12 @@ abstract class ValueSourceClass
 
       final expectedConstructor = '$name._()';
       if (valueClassConstructors.isEmpty) {
-        result.add(GeneratorError((b) => b
+        /*result.add(GeneratorError((b) => b
           ..message =
               'Make class have exactly one constructor: $expectedConstructor;'
           ..offset = classDeclaration.rightBracket.offset
           ..length = 0
-          ..fix = '  $expectedConstructor;\n'));
+          ..fix = '  $expectedConstructor;\n'));*/
       } else if (valueClassConstructors.length > 1) {
         var found = false;
         for (var constructor in valueClassConstructors) {
@@ -613,7 +613,7 @@ abstract class ValueSourceClass
     if (settings.instantiable) {
       if (!valueClassFactories.any(
           (factory) => factory.toSource().contains('$implName$_generics'))) {
-        final exampleFactory = 'factory $name('
+        /*final exampleFactory = 'factory $name('
             '[void Function(${name}Builder$_generics)? updates]) = '
             '$implName$_generics;';
         result.add(GeneratorError((b) => b
@@ -622,7 +622,7 @@ abstract class ValueSourceClass
                   '$exampleFactory'
           ..offset = classDeclaration.rightBracket.offset
           ..length = 0
-          ..fix = '  $exampleFactory\n'));
+          ..fix = '  $exampleFactory\n'));*/
       }
     } else {
       if (valueClassFactories.isNotEmpty) {
@@ -743,14 +743,14 @@ abstract class ValueSourceClass
   /// Generates the value class implementation.
   String _generateImpl() {
     var result = StringBuffer();
-    result.writeln('class $implName$_boundedGenerics '
-        'extends $name$_generics {');
-    for (var field in fields) {
+    result.writeln('augment class $implName$_boundedGenerics {');
+    /*for (var field in fields) {
       final type = field.typeInCompilationUnit(compilationUnit);
-      result.writeln('@override');
       result
-          .writeln('final $type${field.isNullable ? '?' : ''} ${field.name};');
-    }
+          .writeln('final $type${field.isNullable ? '?' : ''} _${field.name};');
+      result.writeln(
+          'augment $type${field.isNullable ? '?' : ''} get ${field.name} => _${field.name};');
+    }*/
     for (var memoizedGetter in memoizedGetters) {
       result.writeln('${memoizedGetter.returnType}? __${memoizedGetter.name};');
       if (memoizedGetter.isNullable) {
@@ -786,7 +786,7 @@ abstract class ValueSourceClass
         var maybeRequired = field.isNullable ? '' : 'required ';
         return '${maybeRequired}this.${field.name}';
       }).join(', '));
-      result.write('}) : super._()');
+      result.write('})');
     }
     var requiredFields = fields
         .where((field) => !field.isNullable && !field.hasNullableGenericType);
@@ -833,13 +833,13 @@ abstract class ValueSourceClass
       result.writeln();
     }
 
-    result.writeln('@override');
+    // result.writeln('@override');
     result.writeln(
         '$name$_generics rebuild(void Function(${name}Builder$_generics) updates) '
         '=> (toBuilder()..update(updates)).build();');
     result.writeln();
 
-    result.writeln('@override');
+    // result.writeln('@override');
     if (hasBuilder) {
       result.writeln('${implName}Builder$_generics toBuilder() '
           '=> new ${implName}Builder$_generics()..replace(this);');
@@ -883,10 +883,11 @@ abstract class ValueSourceClass
     } else if (builderMixins.isNotEmpty) {
       result.writeln('class ${name}Builder$_boundedGenerics '
           'with ${builderMixins.join(", ")} '
-          'implements ${builderImplements.join(", ")} {');
+          /*'implements ${builderImplements.join(", ")} '*/
+          '{');
     } else {
       result.writeln('class ${name}Builder$_boundedGenerics '
-          'implements ${builderImplements.join(", ")} {');
+          /*'implements ${builderImplements.join(", ")} '*/ '{');
     }
 
     // Builder holds a reference to a value, copies from it lazily.
@@ -928,7 +929,7 @@ abstract class ValueSourceClass
         trackedVariable = hasBuilder ? '_$name' : '_\$this._$name';
       }
 
-      if (hasBuilder) result.writeln('@override');
+      //if (hasBuilder) result.writeln('@override');
       result.write('$type$getterMaybeOrNull get $name ');
       if (hasBuilder) {
         result.writeln('{');
@@ -956,7 +957,7 @@ abstract class ValueSourceClass
       }
 
       final isMultilineSetter = hasBuilder || shouldGenerateOnSet;
-      if (hasBuilder) result.writeln('@override');
+      //if (hasBuilder) result.writeln('@override');
       result.write('set $name($maybeCovariant$type$setterMaybeOrNull $name) ');
       result.writeln(isMultilineSetter ? '{' : '=>');
       if (hasBuilder) result.writeln('_\$this;');
@@ -1018,7 +1019,7 @@ abstract class ValueSourceClass
       result.writeln('}');
     }
 
-    result.writeln('@override');
+    //result.writeln('@override');
     if (_implementsParentBuilder) {
       // If we're overriding `replace` from other builders, tell the analyzer
       // that this builder only accepts values of exactly the right type, by
@@ -1035,16 +1036,16 @@ abstract class ValueSourceClass
     }
 
     result.writeln("ArgumentError.checkNotNull(other, 'other');");
-    result.writeln('_\$v = other as $implName$_generics;');
+    result.writeln('_\$v = other;');
     result.writeln('}');
 
-    result.writeln('@override');
+    //result.writeln('@override');
     result.writeln(
         'void update(void Function(${name}Builder$_generics)? updates) {'
         ' if (updates != null) updates(this); }');
     result.writeln();
 
-    result.writeln('@override');
+    //result.writeln('@override');
     result.writeln('$name$_generics build() => _build();');
     result.writeln();
     result.writeln('$implName$_generics _build() {');

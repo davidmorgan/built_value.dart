@@ -2,10 +2,13 @@
 
 max=$1
 maxm=$(echo "$max - 1" | bc)
-rm -f lib/codegen/value*.dart
+
+rm -f codegen/lib/value*.dart
+rm -f macro/lib/value*.dart
+
 for i in $(seq 0 $maxm); do
   j=$(echo "($i + 1) % $max" | bc)
-  cat > "lib/codegen/value$i.dart" <<EOF
+  cat > "codegen/lib/value$i.dart" <<EOF
 // Copyright (c) 2024, Google Inc. Please see the AUTHORS file for details.
 // All rights reserved. Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -17,6 +20,51 @@ import 'value$j.dart';
 import augment 'value$i.bv.dart';
 
 @BuiltValue()
+class Value$i {
+  final Value$j other;
+  final int int1;
+  final int int2;
+  final int int3;
+  final int int4;
+  final int int5;
+  final int int6;
+  final int int7;
+  final int int8;
+  final int int9;
+  final int int10;
+  final int int11;
+  final int int12;
+  final int int13;
+  final int int14;
+  final int int15;
+  final int int16;
+  final int int17;
+  final int int18;
+  final int int19;
+  final int int20;
+  final int int21;
+  final int int22;
+  final int int23;
+  final int int24;
+  final int int25;
+  final int int26;
+  final int int27;
+  final int int28;
+  final int int29;
+  final int int30;
+}
+EOF
+
+  cat > "macro/lib/value$i.dart" <<EOF
+// Copyright (c) 2024, Google Inc. Please see the AUTHORS file for details.
+// All rights reserved. Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+import 'package:built_value_macro/built_value_macro.dart';
+
+import 'value$j.dart';
+
+@BuiltValueMacro()
 class Value$i {
   final Value$j other;
   final int int1;

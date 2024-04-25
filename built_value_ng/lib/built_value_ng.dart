@@ -3,16 +3,16 @@ import 'package:ng_model/augmentation.dart';
 import 'package:ng_model/query.dart';
 import 'package:ng_model/source.dart';
 
-class ExampleMacro implements IncrementalMacro {
+class BuiltValueNg implements Generator {
   final Query classesWithAnnotation =
       Query.classesWithAnnotation('MyAnnotation');
   @override
-  void start(MacroService service) {
+  void start(NgService service) {
     service.subscribe(classesWithAnnotation);
   }
 
   @override
-  void notify(MacroService service, SourceChange change) {
+  void notify(NgService service, SourceChange change) {
     if (classesWithAnnotation.matches(change)) {
       service.subscribe(Query.methodsOf(change.identifier));
     } else if (change is SourceChangeAdd && change.entity['type'] == 'method') {

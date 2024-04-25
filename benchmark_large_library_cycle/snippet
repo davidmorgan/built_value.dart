@@ -1,0 +1,15 @@
+  /*here*/ final int int32; final int int31; final int int37;
+}
+
+void doSomething() {
+  Value0((b) => b..int30 = 0);
+  Value0((b) => b..int31 = 0);
+  Value0((b) => b..int32 = 0);
+  Value0((b) => b..int33 = 0);
+  Value0((b) => b..int34 = 0);
+  Value0((b) => b..int35 = 0);
+  Value0((b) => b..int36 = 0);
+  Value0((b) => b..int37 = 0);
+  Value0((b) => b..int38 = 0);
+  Value0((b) => b..int39 = 0);
+}

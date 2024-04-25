@@ -1,0 +1,9 @@
+#!/bin/bash --
+
+field=$(echo "$RANDOM % 10" | bc)
+field2=$(echo "$RANDOM % 10" | bc)
+field3=$(echo "$RANDOM % 10" | bc)
+
+for f in codegen/lib/value0.dart macro/lib/value0.dart ng/lib/value0.dart; do
+  sed -i -e "s#/\*here\*/.*#/*here*/ final int int3$field; final int int3$field2; final int int3$field3;#" $f
+done

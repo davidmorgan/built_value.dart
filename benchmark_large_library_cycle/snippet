@@ -1,3 +1,11 @@
+  /*here*/ final int int31; final int cacheBuster6103062;
+}
+
+void doSomething() {
+  Value0((b) => b..int30 = 0);
+  Value0((b) => b..int31 = 0);
+}
+---
   /*here*/ final int int32; final int int31; final int int37;
 }
 

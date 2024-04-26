@@ -17,6 +17,7 @@ class NgHost implements NgService {
   final List<Generator> macros;
   final String sdkSummaryPath;
   final String workspace;
+  final bool output;
 
   late AnalysisContext context;
 
@@ -29,14 +30,15 @@ class NgHost implements NgService {
   final Map<Query, Set<Generator>> newSubscriptions = {};
   final List<Augmentation> augmentations = [];
   final Map<String, String> imports = {};
-  bool augmentationsChanged = false;
+  Set<String> augmentationsChanged = {};
 
   late final Watcher watcher;
 
   NgHost(
       {required this.macros,
       required this.sdkSummaryPath,
-      required this.workspace});
+      required this.workspace,
+      required this.output});
 
   Future<void> run() async {
     print('Hosting macros: ${macros.map((m) => m.runtimeType).join(', ')}');
@@ -54,11 +56,11 @@ class NgHost implements NgService {
         .listSync(recursive: true)
         .whereType<File>()
         .map((f) => f.path)
-        .where((p) => p.endsWith('.dart') && !p.endsWith('.ng.dart'))
+        .where((p) => p.endsWith('.dart') && !p.endsWith('.ng.dart') && !p.endsWith('.bv.dart'))
         .toList());
     pathsStreamController.addStream(watcher.events
         .map((e) => e.path)
-        .where((p) => p.endsWith('.dart') && !p.endsWith('.ng.dart'))
+        .where((p) => p.endsWith('.dart') && !p.endsWith('.ng.dart') && !p.endsWith('.bv.dart'))
         .debounceBuffer(Duration(milliseconds: 20)));
 
     await for (var paths in pathsStreamController.stream) {
@@ -163,7 +165,7 @@ class NgHost implements NgService {
           for (final field in element.fields) {
             sourceChanges.add(SourceChangeAdd(
                 Identifier(uri, element.name, field.name),
-                Entity({'type': 'field', 'fieldType': field.getter!.returnType.getDisplayString(withNullability: true)})));
+                Entity({'type': 'field', if (field.getter != null) 'fieldType': field.getter!.returnType.getDisplayString(withNullability: true)})));
           }
         }
       }
@@ -173,8 +175,8 @@ class NgHost implements NgService {
   }
 
   void _writeAugmentations() {
-    if (!augmentationsChanged) return;
-
+    if (augmentationsChanged.isEmpty) return;
+    final augmentations = this.augmentations.where((a) => augmentationsChanged.contains(a.uri)).toList();
     final augmentationsByUri = <String, List<Augmentation>>{};
     for (final augmentation in augmentations) {
       final uri = augmentation.uri;
@@ -189,11 +191,11 @@ class NgHost implements NgService {
           uri.replaceAll('package:benchmark_large_library_cycle/', '');
       final augmentations = augmentationsByUri[uri]!;
       final output = "augment library '$basePath';\n" + imports[uri]!;
-      File(outputPath).writeAsStringSync(
+      if (this.output) File(outputPath).writeAsStringSync(
         output +
           Augmentation.mergeToSource(augmentations));
     }
-    augmentationsChanged = false;
+    augmentationsChanged.clear();
   }
 
   @override
@@ -213,14 +215,14 @@ class NgHost implements NgService {
   void emit(Augmentation augmentation) {
     print('+$augmentation');
     augmentations.add(augmentation);
-    augmentationsChanged = true;
+    augmentationsChanged.add(augmentation.uri);
   }
 
   @override
   void unemit(Augmentation augmentation) {
     print('-$augmentation');
     augmentations.remove(augmentation);
-    augmentationsChanged = true;
+    augmentationsChanged.add(augmentation.uri);
   }
 
   @override
@@ -228,6 +230,6 @@ class NgHost implements NgService {
     print('-clear augmentations for $macro and $identifier');
     augmentations
         .removeWhere((a) => a.uri == identifier.uri);
-    augmentationsChanged = true;
+    augmentationsChanged.add(identifier.uri);
   }
 }

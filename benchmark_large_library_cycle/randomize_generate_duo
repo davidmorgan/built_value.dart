@@ -1,0 +1,21 @@
+#!/bin/bash --
+
+p=$1
+
+for i in $(seq 1 15); do 
+r="$RANDOM$RANDOM";
+f=$p/lib/value0.dart
+sed -e "s#/\*here\*/.*#/*here*/ final int int30; final int cacheBuster$r;#" $f > /tmp/s
+mv /tmp/s "$f"
+ts=$(date +%s%N)
+tail -n0 -f /tmp/analyzer_i_log.txt | sed -n "/or defining a setter or field named 'int31'/q"
+echo $((($(date +%s%N) - $ts)/1000000))
+
+r="$RANDOM$RANDOM";
+f=$p/lib/value0.dart
+sed -e "s#/\*here\*/.*#/*here*/ final int int31; final int cacheBuster$r;#" $f > /tmp/s
+mv /tmp/s "$f"
+ts=$(date +%s%N)
+tail -n0 -f /tmp/analyzer_i_log.txt | sed -n "/or defining a setter or field named 'int30'/q"
+echo $((($(date +%s%N) - $ts)/1000000))
+done

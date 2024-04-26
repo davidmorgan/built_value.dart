@@ -55,6 +55,7 @@ class Value$i {
   final int int30;
 }
 EOF
+cp "codegen/lib/value$i.dart" "manual/lib/value$i.dart"
 
   cat > "macro/lib/value$i.dart" <<EOF
 // Copyright (c) 2024, Google Inc. Please see the AUTHORS file for details.

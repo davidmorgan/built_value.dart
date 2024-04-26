@@ -1,0 +1,26 @@
+name: macro
+publish_to: none
+
+environment:
+  sdk: '>=3.5.0-0 <4.0.0'
+
+dependencies:
+  built_collection: ^5.0.0
+  built_value_macro: any
+
+dev_dependencies:
+  build: '>=1.0.0 <3.0.0'
+  fixnum: ^1.0.0
+  pedantic: ^1.4.0
+  quiver: '>=0.21.0 <4.0.0'
+  test: ^1.16.0
+
+dependency_overrides:
+  analyzer:
+    path: ../../../dart-sdk/sdk/pkg/analyzer
+  macros:
+    path: ../../../dart-sdk/sdk/pkg/macros
+  _fe_analyzer_shared:
+    path: ../../../dart-sdk/sdk/pkg/_fe_analyzer_shared
+  built_value_macro:
+    path: ../../built_value_macro

@@ -6,5 +6,6 @@ Future<void> main(List<String> arguments) async {
     macros: [BuiltValueNg()],
     sdkSummaryPath: arguments[0],
     workspace: arguments[1],
+    output: true,
   ).run();
 }

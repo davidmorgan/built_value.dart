@@ -48,11 +48,17 @@ class AnalysisServer {
   }
 
   Future<void> start(Workspace workspace) async {
+    workspace.write('analysis_options.yaml', source: '''
+analyzer:
+  enable-experiment:
+    - macros
+''');
     Directory('${workspace.directory.path}/working').createSync();
     process = await Process.start(
       'dart',
       [
         'language-server',
+        // '--enable-experiment=macros',
         '--client-id=codegen_benchmark',
         '--client-version=0.1',
         '--cache=${workspace.directory.path}/working/cache',

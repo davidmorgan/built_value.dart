@@ -28,8 +28,16 @@ environment:
   sdk: '>=3.5.0-0 <4.0.0'
 
 dependencies:
+  macros: ^0.1.0-main
 dev_dependencies:
 dependency_overrides:
+  analyzer:
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/analyzer
+  macros:
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/macros
+  _fe_analyzer_shared:
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/_fe_analyzer_shared
+
 ''');
     final result =
         Process.runSync('dart', ['pub', 'get'], workingDirectory: packagePath);

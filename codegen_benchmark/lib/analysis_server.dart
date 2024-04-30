@@ -11,7 +11,6 @@ class AnalysisServer {
   bool Function(Object)? _matcher;
 
   void send(String message) {
-    print('==> $message');
     process.stdin.write('Content-Length: ${message.length}\r\n'
         'Content-Type: application/vscode-jsonrpc;charset=utf8\r\n'
         '\r\n'
@@ -19,10 +18,18 @@ class AnalysisServer {
   }
 
   void receive(String message) {
-    print('receive: $message');
+    final endMarker = 'application/vscode-jsonrpc; charset=utf-8\r\n\r\n';
+    if (message.contains(endMarker)) {
+      message =
+          message.substring(message.indexOf(endMarker) + endMarker.length);
+      if (message.isEmpty) return;
+    }
+    final startMarker = 'Content-Length';
+    if (message.contains(startMarker)) {
+      message = message.substring(0, message.indexOf(startMarker));
+    }
     if (_matcher != null) {
       final data = json.decode(message) as Object;
-      print('here');
       if (_matcher!(data)) {
         _completer!.complete();
         _matcher = null;
@@ -36,7 +43,6 @@ class AnalysisServer {
     final stopwatch = Stopwatch()..start();
     _matcher = matcher;
     _completer = Completer<void>();
-    await Future.delayed(Duration(seconds: 30));
     await _completer!.future;
     return stopwatch.elapsedMilliseconds;
   }
@@ -50,7 +56,7 @@ class AnalysisServer {
         '--client-id=codegen_benchmark',
         '--client-version=0.1',
         '--cache=${workspace.directory.path}/working/cache',
-        '--packages=${workspace.directory.path}/.dart_tool/package_config.json',
+        '--packages=${workspace.packagePath}/.dart_tool/package_config.json',
         '--protocol=lsp',
         '--protocol-traffic-log=${workspace.directory.path}/working/protocol-traffic.log',
         '--analysis-driver-log=${workspace.directory.path}/working/analysis-driver.log',
@@ -60,6 +66,9 @@ class AnalysisServer {
     var outLines = process.stdout.transform(utf8.decoder);
     outLines.listen(receive);
 
+    var errLines = process.stderr.transform(utf8.decoder);
+    errLines.listen(print);
+
     send(''
         '{"jsonrpc":"2.0","id":0,"method":"initialize","params":{'
         '"processId":${pid},'
@@ -68,6 +77,6 @@ class AnalysisServer {
         '"capabilities":{}'
         '}}');
     send(''
-        '{"jsonrpc":"2.0","method":"initialized","params":{}');
+        '{"jsonrpc":"2.0","method":"initialized","params":{}}');
   }
 }

@@ -1,0 +1,24 @@
+name: hash_code_generator
+publish-to: none
+environment:
+  sdk: '>=2.14.0 <3.0.0'
+
+dependencies:
+  analyzer: '>=4.6.0 <5.0.0'
+  annotations_for_benchmark: any
+  build: '>=1.0.0 <3.0.0'
+  build_config: '>=0.3.1 <2.0.0'
+  source_gen: '>=0.9.0 <2.0.0'
+
+dependency_overrides:
+  annotations_for_benchmark:
+    path: '../annotations_for_benchmark'
+
+  analyzer:
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/analyzer
+  _macros:
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/_macros
+  macros:
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/macros
+  _fe_analyzer_shared:
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/_fe_analyzer_shared

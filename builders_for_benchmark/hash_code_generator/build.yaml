@@ -1,0 +1,14 @@
+targets:
+  $default:
+    builders:
+      hash_code_generator|hash_code_generator:
+        enabled: true
+
+builders:
+  hash_code_generator:
+    target: ":hash_code_generator"
+    import: "package:hash_code_generator/builder.dart"
+    builder_factories: ["builder"]
+    build_extensions: {".dart": [".hash_code.dart"]}
+    auto_apply: dependents
+    build_to: source

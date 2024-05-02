@@ -1,0 +1,9 @@
+name: codegen_benchmark
+publish-to: none
+
+environment:
+  sdk: '>=3.5.0-0 <4.0.0'
+
+dependencies:
+  collection: any
+  macros: ^0.1.0-main

@@ -1,0 +1,27 @@
+name: scratch
+publish-to: none
+
+environment:
+  sdk: '>=3.5.0-0 <4.0.0'
+
+dev_dependencies:
+  build_runner: ^2.4.9
+  equals_generator: any
+  hash_code_generator: any
+  to_string_generator: any
+
+dependency_overrides:
+  analyzer:
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/analyzer
+  _fe_analyzer_shared:
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/_fe_analyzer_shared
+  macros:
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/macros
+  annotations_for_benchmark:
+    path: ../annotations_for_benchmark
+  equals_generator:
+    path: ../equals_generator
+  hash_code_generator:
+    path: ../hash_code_generator
+  to_string_generator:
+    path: ../to_string_generator

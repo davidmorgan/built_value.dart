@@ -35,11 +35,12 @@ Future<void> main() async {
   }*/
 
   print('strategy,librariesPerCycle,changeRelevantInput/ms');
-  for (final librariesPerCycle in [16, 32, 64]) {
+  for (final librariesPerCycle in [1, 2, 4, 8, 16, 32, 64]) {
     for (final strategy in [
-      Strategy.manual,
-      Strategy.macro,
-      Strategy.codegen,
+      Strategy.incremental,
+      //Strategy.manual,
+      //Strategy.macro,
+      //Strategy.codegen,
     ]) {
       final strategies = Strategies(
           equalsStrategy: strategy,
@@ -60,9 +61,14 @@ Future<void> main() async {
         await runner.buildRunner.start(runner.workspace);
         await runner.buildRunner.timeSuccess();
       }
+      if (strategies.anyIncrementalStrategy) {
+        await runner.incrementalRunner.start(runner.workspace);
+        await runner.incrementalRunner.timeSuccess();
+      }
 
       await runner.analysisServer.waitForAnalysis();
       while (runner.analysisServer.diagnostics.isNotEmpty) {
+        print('Waiting for clean: ${runner.analysisServer.diagnostics}');
         await runner.analysisServer.waitForAnalysis();
       }
 
@@ -70,9 +76,14 @@ Future<void> main() async {
       for (var i = 0; i != 4; ++i) {
         final stopwatch = Stopwatch()..start();
         inputGenerator.changeRevelantInput(runner.workspace);
+        final futures = <Future>[];
         if (strategies.anyCodegenStrategy) {
-          await runner.buildRunner.timeSuccess();
+          futures.add(runner.buildRunner.timeSuccess());
         }
+        if (strategies.anyIncrementalStrategy) {
+          futures.add(runner.incrementalRunner.timeSuccess());
+        }
+        if (futures.isNotEmpty) await Future.wait(futures);
         await runner.analysisServer.waitForAnalysis();
         results.add(stopwatch.elapsedMilliseconds);
       }

@@ -1,0 +1,16 @@
+name: ng_generators
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  ng_client: any
+  ng_model: any
+
+dependency_overrides:
+  ng_client:
+    path: ../../ng/ng_client
+  ng_model:
+    path: ../../ng/ng_model

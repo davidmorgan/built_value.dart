@@ -1,31 +1,27 @@
 import 'package:annotations_for_benchmark/annotations.dart';
 
-import augment 'scratch.equals.dart';
-import augment 'scratch.hash_code.dart';
-import augment 'scratch.to_string.dart';
+import augment 'scratch.ng.dart';
+
+@Equals()
+@HashCode()
+abstract class Baz {
+  abstract int x;
+  abstract int y;
+  abstract int z;
+}
 
 @Equals()
 @HashCode()
 @ToString()
-abstract class Foo {
-  abstract int a;
-  abstract int b;
-  abstract int c;
-  abstract int d;
-  abstract int e;
-  abstract int f;
-  abstract int g;
-  abstract int i;
+abstract class Bop {
+  abstract int x;
+  abstract int y;
+  abstract int z;
+  abstract int p;
+  abstract int q;
+  abstract int r;
+  abstract int s;
+  abstract int o;
 }
 
 
-@Equals()
-@HashCode()
-@ToString()
-abstract class Bar {
-  abstract int a;
-  abstract int b;
-  abstract int d;
-  abstract int e;
-  abstract int f;
-}

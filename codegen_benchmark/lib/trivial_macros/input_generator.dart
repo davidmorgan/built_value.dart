@@ -6,7 +6,8 @@ import 'package:codegen_benchmark/workspace.dart';
 enum Strategy {
   manual,
   codegen,
-  macro;
+  macro,
+  incremental;
 
   String annotation(String name) {
     switch (this) {
@@ -16,6 +17,8 @@ enum Strategy {
         return '@c.$name()';
       case Strategy.macro:
         return '@m.$name()';
+      case Strategy.incremental:
+        return '@$name()';
     }
   }
 }
@@ -51,6 +54,11 @@ class Strategies {
       hashCodeStrategy == Strategy.codegen ||
       toStringStrategy == Strategy.codegen;
 
+  bool get anyIncrementalStrategy =>
+      equalsStrategy == Strategy.incremental ||
+      hashCodeStrategy == Strategy.incremental ||
+      toStringStrategy == Strategy.incremental;
+
   String get equalsAnnotation => equalsStrategy.annotation('Equals');
   String get hashCodeAnnotation => hashCodeStrategy.annotation('HashCode');
   String get toStringAnnotation => toStringStrategy.annotation('ToString');
@@ -74,7 +82,7 @@ class TrivialMacrosInputGenerator {
           source: File('lib/trivial_macros/macros.dart').readAsStringSync());
     }
 
-    if (strategies.anyCodegenStrategy) {
+    if (strategies.anyCodegenStrategy || strategies.anyIncrementalStrategy) {
       workspace.addPackage(
           name: 'annotations_for_benchmark',
           from: '../builders_for_benchmark/annotations_for_benchmark');
@@ -112,6 +120,10 @@ class TrivialMacrosInputGenerator {
       buffer.writeln(
           "import 'package:annotations_for_benchmark/annotations.dart' as c;");
     }
+    if (strategies.anyIncrementalStrategy) {
+      buffer.writeln(
+          "import 'package:annotations_for_benchmark/annotations.dart';");
+    }
 
     if (strategies.equalsStrategy == Strategy.codegen) {
       buffer.writeln("import augment 'a$index.equals.dart';");
@@ -121,6 +133,9 @@ class TrivialMacrosInputGenerator {
     }
     if (strategies.toStringStrategy == Strategy.codegen) {
       buffer.writeln("import augment 'a$index.to_string.dart';");
+    }
+    if (strategies.anyIncrementalStrategy) {
+      buffer.writeln("import augment 'a$index.ng.dart';");
     }
 
     if (librariesPerCycle != 1) {

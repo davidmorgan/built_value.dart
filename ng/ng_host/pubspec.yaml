@@ -1,0 +1,32 @@
+name: ng_host
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  analyzer: any
+  ng_generators: any
+  stream_transform: any
+  watcher: any
+
+dev_dependencies:
+  test: any
+
+dependency_overrides:
+  analyzer:
+    path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/analyzer
+  ng_generators:
+    path: ../../builders_for_benchmark/ng_generators
+  ng_client:
+    path: ../ng_client
+  ng_model:
+   path: ../ng_model
+
+
+  # Deps of analyzer.
+  _fe_analyzer_shared:
+   path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/_fe_analyzer_shared
+  macros:
+   path: /usr/local/google/home/davidmorgan/git/dart-sdk/sdk/pkg/macros

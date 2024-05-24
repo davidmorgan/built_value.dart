@@ -1,0 +1,20 @@
+name: dart_model_repl
+publish-to: none
+
+environment:
+  sdk: ^3.4.0
+
+dependencies:
+  dart_model: any
+  dart_model_analyzer_host: any
+
+dev_dependencies:
+  test: ^1.25.0
+
+dependency_overrides:
+  dart_model:
+    path:
+      ../dart_model
+  dart_model_analyzer_host:
+    path:
+      ../dart_model_analyzer_host

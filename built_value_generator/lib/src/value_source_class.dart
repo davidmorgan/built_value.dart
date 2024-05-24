@@ -18,6 +18,9 @@ import 'package:built_value_generator/src/parsed_library_results.dart';
 import 'package:built_value_generator/src/strings.dart';
 import 'package:built_value_generator/src/value_source_field.dart';
 import 'package:collection/collection.dart';
+import 'package:dart_model/model.dart';
+import 'package:dart_model/query.dart';
+import 'package:dart_model_analyzer_host/dart_model_analyzer_host.dart';
 import 'package:source_gen/source_gen.dart';
 
 import 'dart_types.dart';
@@ -42,11 +45,25 @@ abstract class ValueSourceClass
   ValueSourceClass._();
 
   @memoized
+  QualifiedName get qualifiedName => QualifiedName(
+      uri: element.library.source.uri.toString(), name: element.displayName);
+
+  @memoized
+  Model get model =>
+      DartModelAnalyzerHost(session: element.session).queryLibrary(
+          element.library,
+          Query.qualifiedName(
+              uri: qualifiedName.uri, name: qualifiedName.name));
+
+  @memoized
   ParsedLibraryResult get parsedLibrary =>
       parsedLibraryResults.parsedLibraryResultOrThrowingMock(element.library);
 
   @memoized
-  String get name => element.displayName;
+  String get name => model.scope(qualifiedName)!.name;
+
+  @memoized
+  Interface get interface => model.scope(qualifiedName)!.asInterface!;
 
   /// Returns `mixin class` if class modifiers are available, `class` otherwise.
   ///
@@ -62,6 +79,7 @@ abstract class ValueSourceClass
   String get implName =>
       name.startsWith('_') ? '_\$${name.substring(1)}' : '_\$$name';
 
+  // TODO
   @memoized
   ClassElement? get builderElement {
     var result = element.library.getClass(name + 'Builder');
@@ -73,8 +91,8 @@ abstract class ValueSourceClass
   }
 
   @memoized
-  bool get implementsBuilt => element.allSupertypes
-      .any((interfaceType) => interfaceType.element.name == 'Built');
+  bool get implementsBuilt =>
+      interface.allSupertypes.any((interface) => interface.name == 'Built');
 
   @memoized
   bool get extendsIsAllowed {
@@ -89,35 +107,33 @@ abstract class ValueSourceClass
     // must not implement `operator==`, `hashCode` or `toString`.
     // This means it _is_ allowed to have concrete getters as well as
     // concrete and abstract methods.
-
     for (var supertype in [
-      element.supertype,
-      ...element.supertype!.element.allSupertypes
+      if (interface.supertype != null) interface.supertype!,
+      if (interface.supertype != null) ...interface.supertype!.allSupertypes
     ]) {
-      if (DartTypes.tryGetName(supertype) == 'Object') continue;
+      if (supertype.name == 'Object') continue;
 
       // Base class must be abstract.
-      final superElement = supertype!.element;
-      if (superElement is! ClassElement || !superElement.isAbstract) {
+      if (!supertype.isClass || !supertype.isAbstract) {
         return false;
       }
 
       // Base class must have no fields.
-      if (supertype.element.fields
-          .any((field) => !field.isStatic && !field.isSynthetic)) {
+      if (supertype.members.values.any((member) =>
+          member.isField && !member.isStatic && !member.isSynthetic)) {
         return false;
       }
 
       // Base class must have no abstract getters.
-      if (supertype.accessors.any((accessor) =>
-          !accessor.isStatic && accessor.isGetter && accessor.isAbstract)) {
+      if (supertype.members.values.any((member) =>
+          !member.isStatic && member.isGetter && member.isAbstract)) {
         return false;
       }
 
       // Base class must not implement operator==, hashCode or toString.
-      if (supertype.element.getMethod('hashCode') != null) return false;
-      if (supertype.element.getMethod('==') != null) return false;
-      if (supertype.element.getMethod('toString') != null) return false;
+      if (supertype.members.containsKey('hashCode')) return false;
+      if (supertype.members.containsKey('==')) return false;
+      if (supertype.members.containsKey('toString')) return false;
     }
 
     return true;
@@ -125,31 +141,26 @@ abstract class ValueSourceClass
 
   @memoized
   BuiltValue get settings {
-    var annotations = element.metadata
-        .map((annotation) => annotation.computeConstantValue())
-        .where((value) => DartTypes.tryGetName(value?.type) == 'BuiltValue');
+    var annotations = interface.annotations
+        .where((value) => value.name == 'BuiltValue')
+        .toList();
     if (annotations.isEmpty) return const BuiltValue();
     var annotation = annotations.single!;
+    var value = annotation.value;
     // If a field does not exist, that means an old `built_value` version; use
     // the default.
     return BuiltValue(
         comparableBuilders:
-            annotation.getField('comparableBuilders')?.toBoolValue() ?? false,
-        instantiable:
-            annotation.getField('instantiable')?.toBoolValue() ?? true,
-        nestedBuilders:
-            annotation.getField('nestedBuilders')?.toBoolValue() ?? true,
+            (value.field('comparableBuilders') as bool?) ?? false,
+        instantiable: (value.field('instantiable') as bool?) ?? true,
+        nestedBuilders: (value.field('nestedBuilders') as bool?) ?? true,
         autoCreateNestedBuilders:
-            annotation.getField('autoCreateNestedBuilders')?.toBoolValue() ??
-                true,
+            (value.field('autoCreateNestedBuilders') as bool?) ?? true,
         generateBuilderOnSetField:
-            annotation.getField('generateBuilderOnSetField')?.toBoolValue() ??
-                false,
-        defaultCompare:
-            annotation.getField('defaultCompare')?.toBoolValue() ?? true,
-        defaultSerialize:
-            annotation.getField('defaultSerialize')?.toBoolValue() ?? true,
-        wireName: annotation.getField('wireName')?.toStringValue());
+            (value.field('generateBuilderOnSetField') as bool?) ?? false,
+        defaultCompare: (value.field('defaultCompare') as bool?) ?? true,
+        defaultSerialize: (value.field('defaultSerialize') as bool?) ?? true,
+        wireName: (value.field('wireName') as String?));
   }
 
   @memoized

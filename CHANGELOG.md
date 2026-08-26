@@ -1,5 +1,10 @@
 # Changelog
 
+## 8.12.8-wip
+
+- Support generating from classes and enums that use the `new` syntax for
+  constructors.
+
 # 8.12.7
 
 - Allow `analyzer 13.0.0` and `analyzer 14.0.0`

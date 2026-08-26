@@ -506,4 +506,12 @@ void main() {
       ]);
     });
   });
+
+  group('NewConstructorValue', () {
+    test('has correct field name and type with new _()', () {
+      final value = NewConstructorValue((b) => b..anInt = 42);
+      expect(value.anInt, 42);
+      expect(value.anInt, isA<int>());
+    });
+  });
 }

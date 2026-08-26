@@ -22,6 +22,14 @@ void main() {
           FallbackEnum.no);
     });
   });
+  group(NewConstructorEnum, () {
+    test('values and valueOf work as expected', () {
+      expect(NewConstructorEnum.values,
+          [NewConstructorEnum.yes, NewConstructorEnum.no]);
+      expect(NewConstructorEnum.valueOf('yes'), NewConstructorEnum.yes);
+      expect(NewConstructorEnum.valueOf('no'), NewConstructorEnum.no);
+    });
+  });
 }
 
 class UsesTestEnumMixin with TestEnumMixin {

@@ -987,3 +987,26 @@ abstract class VariousFunctionsValue
   ]) = _$VariousFunctionsValue;
   VariousFunctionsValue._();
 }
+
+abstract class NewConstructorValue
+    implements Built<NewConstructorValue, NewConstructorValueBuilder> {
+  static Serializer<NewConstructorValue> get serializer =>
+      _$newConstructorValueSerializer;
+
+  int get anInt;
+
+  new _();
+
+  factory NewConstructorValue.new([
+    void Function(NewConstructorValueBuilder) updates,
+  ]) = _$NewConstructorValue;
+}
+
+abstract class NewConstructorValueBuilder
+    implements Builder<NewConstructorValue, NewConstructorValueBuilder> {
+  int? anInt;
+
+  new _();
+
+  factory NewConstructorValueBuilder.new() = _$NewConstructorValueBuilder;
+}

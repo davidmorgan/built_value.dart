@@ -139,3 +139,16 @@ class EnumWith$Dollar_UnderScore extends EnumClass {
   static EnumWith$Dollar_UnderScore valueOf(String name) =>
       _$enum$Dollar_UnderScoreValueOf(name);
 }
+
+class NewConstructorEnum extends EnumClass {
+  static Serializer<NewConstructorEnum> get serializer =>
+      _$newConstructorEnumSerializer;
+
+  static const NewConstructorEnum yes = _$newYes;
+  static const NewConstructorEnum no = _$newNo;
+
+  const new _(super.name);
+
+  static BuiltSet<NewConstructorEnum> get values => _$newValues;
+  static NewConstructorEnum valueOf(String name) => _$newValueOf(name);
+}

@@ -23,6 +23,20 @@ void main() {
     });
   });
 
+  group('NewConstructorEnum', () {
+    var data = NewConstructorEnum.yes;
+    var serialized =
+        json.decode(json.encode(['NewConstructorEnum', 'yes'])) as Object;
+
+    test('can be serialized', () {
+      expect(serializers.serialize(data), serialized);
+    });
+
+    test('can be deserialized', () {
+      expect(serializers.deserialize(serialized), data);
+    });
+  });
+
   group('WireNameEnum', () {
     var data = WireNameEnum.yes;
     var serialized = json.decode(json.encode(['E', 'y'])) as Object;

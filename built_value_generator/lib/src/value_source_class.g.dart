@@ -38,10 +38,10 @@ class _$ValueSourceClass extends ValueSourceClass {
   bool? __hasBuiltValueImportWithShow;
   bool? __hasBuiltValueImportWithAs;
   bool? __valueClassIsAbstract;
-  BuiltList<ConstructorDeclaration>? __valueClassConstructors;
-  BuiltList<ConstructorDeclaration>? __valueClassFactories;
+  BuiltList<AstNode>? __valueClassConstructors;
+  BuiltList<AstNode>? __valueClassFactories;
   bool? __builderClassIsAbstract;
-  BuiltList<String>? __builderClassConstructors;
+  BuiltList<AstNode>? __builderClassConstructors;
   BuiltList<String>? __builderClassFactories;
   BuiltList<MemoizedGetter>? __memoizedGetters;
   BuiltList<String>? __builderImplements;
@@ -160,11 +160,11 @@ class _$ValueSourceClass extends ValueSourceClass {
       __valueClassIsAbstract ??= super.valueClassIsAbstract;
 
   @override
-  BuiltList<ConstructorDeclaration> get valueClassConstructors =>
+  BuiltList<AstNode> get valueClassConstructors =>
       __valueClassConstructors ??= super.valueClassConstructors;
 
   @override
-  BuiltList<ConstructorDeclaration> get valueClassFactories =>
+  BuiltList<AstNode> get valueClassFactories =>
       __valueClassFactories ??= super.valueClassFactories;
 
   @override
@@ -172,7 +172,7 @@ class _$ValueSourceClass extends ValueSourceClass {
       __builderClassIsAbstract ??= super.builderClassIsAbstract;
 
   @override
-  BuiltList<String> get builderClassConstructors =>
+  BuiltList<AstNode> get builderClassConstructors =>
       __builderClassConstructors ??= super.builderClassConstructors;
 
   @override

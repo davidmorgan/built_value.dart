@@ -190,6 +190,24 @@ final BuiltSet<EnumWith$Dollar_UnderScore> _$enum$Dollar_UnderScoreValues =
       _$dollar_UnderScoreEnumValue$,
     ]);
 
+const NewConstructorEnum _$newYes = const NewConstructorEnum._('yes');
+const NewConstructorEnum _$newNo = const NewConstructorEnum._('no');
+
+NewConstructorEnum _$newValueOf(String name) {
+  switch (name) {
+    case 'yes':
+      return _$newYes;
+    case 'no':
+      return _$newNo;
+    default:
+      throw ArgumentError(name);
+  }
+}
+
+final BuiltSet<NewConstructorEnum> _$newValues = BuiltSet<NewConstructorEnum>(
+  const <NewConstructorEnum>[_$newYes, _$newNo],
+);
+
 Serializer<TestEnum> _$testEnumSerializer = _$TestEnumSerializer();
 Serializer<WireNameEnum> _$wireNameEnumSerializer = _$WireNameEnumSerializer();
 Serializer<WireNumberEnum> _$wireNumberEnumSerializer =
@@ -201,6 +219,8 @@ Serializer<FallbackNumberEnum> _$fallbackNumberEnumSerializer =
     _$FallbackNumberEnumSerializer();
 Serializer<EnumWith$Dollar_UnderScore> _$enumWith$DollarUnderScoreSerializer =
     _$EnumWith$Dollar_UnderScoreSerializer();
+Serializer<NewConstructorEnum> _$newConstructorEnumSerializer =
+    _$NewConstructorEnumSerializer();
 
 class _$TestEnumSerializer implements PrimitiveSerializer<TestEnum> {
   @override
@@ -408,6 +428,28 @@ class _$EnumWith$Dollar_UnderScoreSerializer
   }) => EnumWith$Dollar_UnderScore.valueOf(
     _fromWire[serialized] ?? (serialized is String ? serialized : ''),
   );
+}
+
+class _$NewConstructorEnumSerializer
+    implements PrimitiveSerializer<NewConstructorEnum> {
+  @override
+  final Iterable<Type> types = const <Type>[NewConstructorEnum];
+  @override
+  final String wireName = 'NewConstructorEnum';
+
+  @override
+  Object serialize(
+    Serializers serializers,
+    NewConstructorEnum object, {
+    FullType specifiedType = FullType.unspecified,
+  }) => object.name;
+
+  @override
+  NewConstructorEnum deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) => NewConstructorEnum.valueOf(serialized as String);
 }
 
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint

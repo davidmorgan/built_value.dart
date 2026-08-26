@@ -76,6 +76,8 @@ Serializer<$ValueSpecial> _$$valueSpecialSerializer =
 Serializer<ValueWithAwkwardNestedBuilder>
 _$valueWithAwkwardNestedBuilderSerializer =
     _$ValueWithAwkwardNestedBuilderSerializer();
+Serializer<NewConstructorValue> _$newConstructorValueSerializer =
+    _$NewConstructorValueSerializer();
 
 class _$SimpleValueSerializer implements StructuredSerializer<SimpleValue> {
   @override
@@ -2483,6 +2485,59 @@ class _$ValueWithAwkwardNestedBuilderSerializer
           } else {
             maybeBuilder.replace(fieldValue);
           }
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$NewConstructorValueSerializer
+    implements StructuredSerializer<NewConstructorValue> {
+  @override
+  final Iterable<Type> types = const [
+    NewConstructorValue,
+    _$NewConstructorValue,
+  ];
+  @override
+  final String wireName = 'NewConstructorValue';
+
+  @override
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    NewConstructorValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = <Object?>[
+      'anInt',
+      serializers.serialize(object.anInt, specifiedType: const FullType(int)),
+    ];
+
+    return result;
+  }
+
+  @override
+  NewConstructorValue deserialize(
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = NewConstructorValueBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'anInt':
+          result.anInt =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
       }
     }
@@ -8086,6 +8141,102 @@ class VariousFunctionsValueBuilder
             mixinRequiredNamedFunction,
             r'VariousFunctionsValue',
             'mixinRequiredNamedFunction',
+          ),
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$NewConstructorValue extends NewConstructorValue {
+  @override
+  final int anInt;
+
+  factory _$NewConstructorValue([
+    void Function(NewConstructorValueBuilder)? updates,
+  ]) =>
+      (NewConstructorValueBuilder()..update(updates)).build()
+          as _$NewConstructorValue;
+
+  _$NewConstructorValue._({required this.anInt}) : super._();
+  @override
+  NewConstructorValue rebuild(
+    void Function(NewConstructorValueBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
+
+  @override
+  _$NewConstructorValueBuilder toBuilder() =>
+      _$NewConstructorValueBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is NewConstructorValue && anInt == other.anInt;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, anInt.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(
+      r'NewConstructorValue',
+    )..add('anInt', anInt)).toString();
+  }
+}
+
+class _$NewConstructorValueBuilder extends NewConstructorValueBuilder {
+  _$NewConstructorValue? _$v;
+
+  @override
+  int? get anInt {
+    _$this;
+    return super.anInt;
+  }
+
+  @override
+  set anInt(int? anInt) {
+    _$this;
+    super.anInt = anInt;
+  }
+
+  _$NewConstructorValueBuilder() : super._();
+
+  NewConstructorValueBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      super.anInt = $v.anInt;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(NewConstructorValue other) {
+    _$v = other as _$NewConstructorValue;
+  }
+
+  @override
+  void update(void Function(NewConstructorValueBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  NewConstructorValue build() => _build();
+
+  _$NewConstructorValue _build() {
+    final _$result =
+        _$v ??
+        _$NewConstructorValue._(
+          anInt: BuiltValueNullFieldError.checkNotNull(
+            anInt,
+            r'NewConstructorValue',
+            'anInt',
           ),
         );
     replace(_$result);

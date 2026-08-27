@@ -77,9 +77,7 @@ part 'serializers.g.dart';
 final Serializers serializers = _$serializers;
 
 // Check that multiple `Serializers` can be declared in one file.
-@SerializersFor([
-  Cat,
-])
+@SerializersFor([Cat])
 final Serializers moreSerializers = _$moreSerializers;
 
 // Check that generation does not fail due to new type `Never`.

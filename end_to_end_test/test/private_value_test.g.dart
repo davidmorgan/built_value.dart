@@ -37,8 +37,9 @@ class _$PrivateValue extends _PrivateValue {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'_PrivateValue')..add('value', value))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'_PrivateValue',
+    )..add('value', value)).toString();
   }
 }
 
@@ -75,10 +76,14 @@ class _PrivateValueBuilder
   _PrivateValue build() => _build();
 
   _$PrivateValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$PrivateValue._(
           value: BuiltValueNullFieldError.checkNotNull(
-              value, r'_PrivateValue', 'value'),
+            value,
+            r'_PrivateValue',
+            'value',
+          ),
         );
     replace(_$result);
     return _$result;

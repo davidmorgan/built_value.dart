@@ -19,12 +19,14 @@ void main() {
     });
 
     test('can be customized', () {
-      newBuiltValueToStringHelper =
-          (className) => FlatBuiltValueToStringHelper(className);
+      newBuiltValueToStringHelper = (className) =>
+          FlatBuiltValueToStringHelper(className);
       final value = CompoundValue((b) => b..simpleValue.anInt = 1);
 
-      expect(value.toString(),
-          '''CompoundValue {simpleValue=SimpleValue {anInt=1}}''');
+      expect(
+        value.toString(),
+        '''CompoundValue {simpleValue=SimpleValue {anInt=1}}''',
+      );
     });
   });
 }

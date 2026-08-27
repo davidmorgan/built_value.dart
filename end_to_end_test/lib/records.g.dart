@@ -14,15 +14,17 @@ class _$SerializableRecordValueSerializer
   @override
   final Iterable<Type> types = const [
     SerializableRecordValue,
-    _$SerializableRecordValue
+    _$SerializableRecordValue,
   ];
   @override
   final String wireName = 'SerializableRecordValue';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, SerializableRecordValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    SerializableRecordValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'value',
       serializers.serialize(object.value, specifiedType: const FullType(int)),
@@ -32,23 +34,33 @@ class _$SerializableRecordValueSerializer
     if (value != null) {
       result
         ..add('record')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(RecordOfIntInt)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(RecordOfIntInt),
+          ),
+        );
     }
     value = object.intOrList;
     if (value != null) {
       result
         ..add('intOrList')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(RecordOfIntOrList)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(RecordOfIntOrList),
+          ),
+        );
     }
     return result;
   }
 
   @override
   SerializableRecordValue deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = SerializableRecordValueBuilder();
 
     final iterator = serialized.iterator;
@@ -58,17 +70,24 @@ class _$SerializableRecordValueSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'value':
-          result.value = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.value =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'record':
-          result.record = serializers.deserialize(value,
-              specifiedType: const FullType(RecordOfIntInt)) as RecordOfIntInt?;
+          result.record = serializers.deserialize(
+            value,
+            specifiedType: const FullType(RecordOfIntInt),
+          ) as RecordOfIntInt?;
           break;
         case 'intOrList':
-          result.intOrList = serializers.deserialize(value,
-                  specifiedType: const FullType(RecordOfIntOrList))
-              as RecordOfIntOrList?;
+          result.intOrList = serializers.deserialize(
+            value,
+            specifiedType: const FullType(RecordOfIntOrList),
+          ) as RecordOfIntOrList?;
           break;
       }
     }
@@ -81,9 +100,9 @@ class _$SimpleRecordValue extends SimpleRecordValue {
   @override
   final (int, int) record;
 
-  factory _$SimpleRecordValue(
-          [void Function(SimpleRecordValueBuilder)? updates]) =>
-      (SimpleRecordValueBuilder()..update(updates))._build();
+  factory _$SimpleRecordValue([
+    void Function(SimpleRecordValueBuilder)? updates,
+  ]) => (SimpleRecordValueBuilder()..update(updates))._build();
 
   _$SimpleRecordValue._({required this.record}) : super._();
   @override
@@ -110,9 +129,9 @@ class _$SimpleRecordValue extends SimpleRecordValue {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'SimpleRecordValue')
-          ..add('record', record))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'SimpleRecordValue',
+    )..add('record', record)).toString();
   }
 }
 
@@ -149,10 +168,14 @@ class SimpleRecordValueBuilder
   SimpleRecordValue build() => _build();
 
   _$SimpleRecordValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$SimpleRecordValue._(
           record: BuiltValueNullFieldError.checkNotNull(
-              record, r'SimpleRecordValue', 'record'),
+            record,
+            r'SimpleRecordValue',
+            'record',
+          ),
         );
     replace(_$result);
     return _$result;
@@ -191,31 +214,31 @@ class _$ComplexRecordValue extends ComplexRecordValue {
   @override
   final (void Function() a, {void Function() b})? record6n;
 
-  factory _$ComplexRecordValue(
-          [void Function(ComplexRecordValueBuilder)? updates]) =>
-      (ComplexRecordValueBuilder()..update(updates))._build();
+  factory _$ComplexRecordValue([
+    void Function(ComplexRecordValueBuilder)? updates,
+  ]) => (ComplexRecordValueBuilder()..update(updates))._build();
 
-  _$ComplexRecordValue._(
-      {required this.record2,
-      required this.record2p,
-      this.record2n,
-      required this.record3,
-      required this.record3p,
-      this.record3n,
-      required this.record4,
-      required this.record4p,
-      this.record4n,
-      required this.record5,
-      required this.record5p,
-      this.record5n,
-      required this.record6,
-      required this.record6p,
-      this.record6n})
-      : super._();
+  _$ComplexRecordValue._({
+    required this.record2,
+    required this.record2p,
+    this.record2n,
+    required this.record3,
+    required this.record3p,
+    this.record3n,
+    required this.record4,
+    required this.record4p,
+    this.record4n,
+    required this.record5,
+    required this.record5p,
+    this.record5n,
+    required this.record6,
+    required this.record6p,
+    this.record6n,
+  }) : super._();
   @override
   ComplexRecordValue rebuild(
-          void Function(ComplexRecordValueBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(ComplexRecordValueBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   ComplexRecordValueBuilder toBuilder() =>
@@ -330,15 +353,15 @@ class ComplexRecordValueBuilder
   (BuiltList<int>? a, {BuiltList<ComplexRecordValue> b})? get record5p =>
       _$this._record5p;
   set record5p(
-          (BuiltList<int>? a, {BuiltList<ComplexRecordValue> b})? record5p) =>
-      _$this._record5p = record5p;
+    (BuiltList<int>? a, {BuiltList<ComplexRecordValue> b})? record5p,
+  ) => _$this._record5p = record5p;
 
   (BuiltList<int> a, {BuiltList<ComplexRecordValue> b})? _record5n;
   (BuiltList<int> a, {BuiltList<ComplexRecordValue> b})? get record5n =>
       _$this._record5n;
   set record5n(
-          (BuiltList<int> a, {BuiltList<ComplexRecordValue> b})? record5n) =>
-      _$this._record5n = record5n;
+    (BuiltList<int> a, {BuiltList<ComplexRecordValue> b})? record5n,
+  ) => _$this._record5n = record5n;
 
   (void Function() a, {void Function() b})? _record6;
   (void Function() a, {void Function() b})? get record6 => _$this._record6;
@@ -394,32 +417,63 @@ class ComplexRecordValueBuilder
   ComplexRecordValue build() => _build();
 
   _$ComplexRecordValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$ComplexRecordValue._(
           record2: BuiltValueNullFieldError.checkNotNull(
-              record2, r'ComplexRecordValue', 'record2'),
+            record2,
+            r'ComplexRecordValue',
+            'record2',
+          ),
           record2p: BuiltValueNullFieldError.checkNotNull(
-              record2p, r'ComplexRecordValue', 'record2p'),
+            record2p,
+            r'ComplexRecordValue',
+            'record2p',
+          ),
           record2n: record2n,
           record3: BuiltValueNullFieldError.checkNotNull(
-              record3, r'ComplexRecordValue', 'record3'),
+            record3,
+            r'ComplexRecordValue',
+            'record3',
+          ),
           record3p: BuiltValueNullFieldError.checkNotNull(
-              record3p, r'ComplexRecordValue', 'record3p'),
+            record3p,
+            r'ComplexRecordValue',
+            'record3p',
+          ),
           record3n: record3n,
           record4: BuiltValueNullFieldError.checkNotNull(
-              record4, r'ComplexRecordValue', 'record4'),
+            record4,
+            r'ComplexRecordValue',
+            'record4',
+          ),
           record4p: BuiltValueNullFieldError.checkNotNull(
-              record4p, r'ComplexRecordValue', 'record4p'),
+            record4p,
+            r'ComplexRecordValue',
+            'record4p',
+          ),
           record4n: record4n,
           record5: BuiltValueNullFieldError.checkNotNull(
-              record5, r'ComplexRecordValue', 'record5'),
+            record5,
+            r'ComplexRecordValue',
+            'record5',
+          ),
           record5p: BuiltValueNullFieldError.checkNotNull(
-              record5p, r'ComplexRecordValue', 'record5p'),
+            record5p,
+            r'ComplexRecordValue',
+            'record5p',
+          ),
           record5n: record5n,
           record6: BuiltValueNullFieldError.checkNotNull(
-              record6, r'ComplexRecordValue', 'record6'),
+            record6,
+            r'ComplexRecordValue',
+            'record6',
+          ),
           record6p: BuiltValueNullFieldError.checkNotNull(
-              record6p, r'ComplexRecordValue', 'record6p'),
+            record6p,
+            r'ComplexRecordValue',
+            'record6p',
+          ),
           record6n: record6n,
         );
     replace(_$result);
@@ -435,17 +489,19 @@ class _$SerializableRecordValue extends SerializableRecordValue {
   @override
   final RecordOfIntOrList? intOrList;
 
-  factory _$SerializableRecordValue(
-          [void Function(SerializableRecordValueBuilder)? updates]) =>
-      (SerializableRecordValueBuilder()..update(updates))._build();
+  factory _$SerializableRecordValue([
+    void Function(SerializableRecordValueBuilder)? updates,
+  ]) => (SerializableRecordValueBuilder()..update(updates))._build();
 
-  _$SerializableRecordValue._(
-      {required this.value, this.record, this.intOrList})
-      : super._();
+  _$SerializableRecordValue._({
+    required this.value,
+    this.record,
+    this.intOrList,
+  }) : super._();
   @override
   SerializableRecordValue rebuild(
-          void Function(SerializableRecordValueBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(SerializableRecordValueBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   SerializableRecordValueBuilder toBuilder() =>
@@ -524,10 +580,14 @@ class SerializableRecordValueBuilder
   SerializableRecordValue build() => _build();
 
   _$SerializableRecordValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$SerializableRecordValue._(
           value: BuiltValueNullFieldError.checkNotNull(
-              value, r'SerializableRecordValue', 'value'),
+            value,
+            r'SerializableRecordValue',
+            'value',
+          ),
           record: record,
           intOrList: intOrList,
         );

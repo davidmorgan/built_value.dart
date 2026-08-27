@@ -14,21 +14,21 @@ Serializer<CompoundValueNoNesting> _$compoundValueNoNestingSerializer =
 Serializer<CompoundValueNoAutoNesting> _$compoundValueNoAutoNestingSerializer =
     _$CompoundValueNoAutoNestingSerializer();
 Serializer<CompoundValueComparableBuilders>
-    _$compoundValueComparableBuildersSerializer =
+_$compoundValueComparableBuildersSerializer =
     _$CompoundValueComparableBuildersSerializer();
 Serializer<CompoundValueNoNestingField>
-    _$compoundValueNoNestingFieldSerializer =
+_$compoundValueNoNestingFieldSerializer =
     _$CompoundValueNoNestingFieldSerializer();
 Serializer<CompoundValueNestingField> _$compoundValueNestingFieldSerializer =
     _$CompoundValueNestingFieldSerializer();
 Serializer<CompoundValueNoAutoNestingField>
-    _$compoundValueNoAutoNestingFieldSerializer =
+_$compoundValueNoAutoNestingFieldSerializer =
     _$CompoundValueNoAutoNestingFieldSerializer();
 Serializer<CompoundValueAutoNestingField>
-    _$compoundValueAutoNestingFieldSerializer =
+_$compoundValueAutoNestingFieldSerializer =
     _$CompoundValueAutoNestingFieldSerializer();
 Serializer<CompoundValueExplicitNoNesting>
-    _$compoundValueExplicitNoNestingSerializer =
+_$compoundValueExplicitNoNestingSerializer =
     _$CompoundValueExplicitNoNestingSerializer();
 Serializer<ValidatedValue> _$validatedValueSerializer =
     _$ValidatedValueSerializer();
@@ -58,10 +58,10 @@ Serializer<RecursiveValueB> _$recursiveValueBSerializer =
     _$RecursiveValueBSerializer();
 Serializer<OtherValue> _$otherValueSerializer = _$OtherValueSerializer();
 Serializer<DefaultsForFieldSettingsValue>
-    _$defaultsForFieldSettingsValueSerializer =
+_$defaultsForFieldSettingsValueSerializer =
     _$DefaultsForFieldSettingsValueSerializer();
 Serializer<ValueWithBuilderInitializer>
-    _$valueWithBuilderInitializerSerializer =
+_$valueWithBuilderInitializerSerializer =
     _$ValueWithBuilderInitializerSerializer();
 Serializer<ValueWithBuilderFinalizer> _$valueWithBuilderFinalizerSerializer =
     _$ValueWithBuilderFinalizerSerializer();
@@ -74,7 +74,7 @@ Serializer<ValueWithHooks> _$valueWithHooksSerializer =
 Serializer<$ValueSpecial> _$$valueSpecialSerializer =
     _$$ValueSpecialSerializer();
 Serializer<ValueWithAwkwardNestedBuilder>
-    _$valueWithAwkwardNestedBuilderSerializer =
+_$valueWithAwkwardNestedBuilderSerializer =
     _$ValueWithAwkwardNestedBuilderSerializer();
 
 class _$SimpleValueSerializer implements StructuredSerializer<SimpleValue> {
@@ -84,8 +84,11 @@ class _$SimpleValueSerializer implements StructuredSerializer<SimpleValue> {
   final String wireName = 'SimpleValue';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, SimpleValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    SimpleValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'anInt',
       serializers.serialize(object.anInt, specifiedType: const FullType(int)),
@@ -95,22 +98,27 @@ class _$SimpleValueSerializer implements StructuredSerializer<SimpleValue> {
     if (value != null) {
       result
         ..add('aString')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.$mustBeEscaped;
     if (value != null) {
       result
         ..add('\$mustBeEscaped')
         ..add(
-            serializers.serialize(value, specifiedType: const FullType(bool)));
+          serializers.serialize(value, specifiedType: const FullType(bool)),
+        );
     }
     return result;
   }
 
   @override
-  SimpleValue deserialize(Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+  SimpleValue deserialize(
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = SimpleValueBuilder();
 
     final iterator = serialized.iterator;
@@ -120,16 +128,24 @@ class _$SimpleValueSerializer implements StructuredSerializer<SimpleValue> {
       final Object? value = iterator.current;
       switch (key) {
         case 'anInt':
-          result.anInt = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.anInt =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'aString':
-          result.aString = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.aString = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String?;
           break;
         case '\$mustBeEscaped':
-          result.$mustBeEscaped = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool?;
+          result.$mustBeEscaped = serializers.deserialize(
+            value,
+            specifiedType: const FullType(bool),
+          ) as bool?;
           break;
       }
     }
@@ -145,28 +161,39 @@ class _$CompoundValueSerializer implements StructuredSerializer<CompoundValue> {
   final String wireName = 'CompoundValue';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, CompoundValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    CompoundValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'simpleValue',
-      serializers.serialize(object.simpleValue,
-          specifiedType: const FullType(SimpleValue)),
+      serializers.serialize(
+        object.simpleValue,
+        specifiedType: const FullType(SimpleValue),
+      ),
     ];
     Object? value;
     value = object.validatedValue;
     if (value != null) {
       result
         ..add('validatedValue')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(ValidatedValue)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(ValidatedValue),
+          ),
+        );
     }
     return result;
   }
 
   @override
   CompoundValue deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = CompoundValueBuilder();
 
     final iterator = serialized.iterator;
@@ -176,13 +203,22 @@ class _$CompoundValueSerializer implements StructuredSerializer<CompoundValue> {
       final Object? value = iterator.current;
       switch (key) {
         case 'simpleValue':
-          result.simpleValue.replace(serializers.deserialize(value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue);
+          result.simpleValue.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(SimpleValue),
+                )!
+                as SimpleValue,
+          );
           break;
         case 'validatedValue':
-          result.validatedValue.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(ValidatedValue))!
-              as ValidatedValue);
+          result.validatedValue.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(ValidatedValue),
+                )!
+                as ValidatedValue,
+          );
           break;
       }
     }
@@ -196,35 +232,45 @@ class _$CompoundValueNoNestingSerializer
   @override
   final Iterable<Type> types = const [
     CompoundValueNoNesting,
-    _$CompoundValueNoNesting
+    _$CompoundValueNoNesting,
   ];
   @override
   final String wireName = 'CompoundValueNoNesting';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, CompoundValueNoNesting object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    CompoundValueNoNesting object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'simpleValue',
-      serializers.serialize(object.simpleValue,
-          specifiedType: const FullType(SimpleValue)),
+      serializers.serialize(
+        object.simpleValue,
+        specifiedType: const FullType(SimpleValue),
+      ),
     ];
     Object? value;
     value = object.validatedValue;
     if (value != null) {
       result
         ..add('validatedValue')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(ValidatedValue)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(ValidatedValue),
+          ),
+        );
     }
     return result;
   }
 
   @override
   CompoundValueNoNesting deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = CompoundValueNoNestingBuilder();
 
     final iterator = serialized.iterator;
@@ -234,12 +280,18 @@ class _$CompoundValueNoNestingSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'simpleValue':
-          result.simpleValue = serializers.deserialize(value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue;
+          result.simpleValue =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(SimpleValue),
+                  )!
+                  as SimpleValue;
           break;
         case 'validatedValue':
-          result.validatedValue = serializers.deserialize(value,
-              specifiedType: const FullType(ValidatedValue)) as ValidatedValue?;
+          result.validatedValue = serializers.deserialize(
+            value,
+            specifiedType: const FullType(ValidatedValue),
+          ) as ValidatedValue?;
           break;
       }
     }
@@ -253,19 +305,23 @@ class _$CompoundValueNoAutoNestingSerializer
   @override
   final Iterable<Type> types = const [
     CompoundValueNoAutoNesting,
-    _$CompoundValueNoAutoNesting
+    _$CompoundValueNoAutoNesting,
   ];
   @override
   final String wireName = 'CompoundValueNoAutoNesting';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, CompoundValueNoAutoNesting object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    CompoundValueNoAutoNesting object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'value',
-      serializers.serialize(object.value,
-          specifiedType: const FullType(NoFieldsValue)),
+      serializers.serialize(
+        object.value,
+        specifiedType: const FullType(NoFieldsValue),
+      ),
     ];
 
     return result;
@@ -273,8 +329,10 @@ class _$CompoundValueNoAutoNestingSerializer
 
   @override
   CompoundValueNoAutoNesting deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = CompoundValueNoAutoNestingBuilder();
 
     final iterator = serialized.iterator;
@@ -284,10 +342,13 @@ class _$CompoundValueNoAutoNestingSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'value':
-          result.value = (serializers.deserialize(value,
-                      specifiedType: const FullType(NoFieldsValue))!
-                  as NoFieldsValue)
-              .toBuilder();
+          result.value =
+              (serializers.deserialize(
+                        value,
+                        specifiedType: const FullType(NoFieldsValue),
+                      )!
+                      as NoFieldsValue)
+                  .toBuilder();
           break;
       }
     }
@@ -301,35 +362,45 @@ class _$CompoundValueComparableBuildersSerializer
   @override
   final Iterable<Type> types = const [
     CompoundValueComparableBuilders,
-    _$CompoundValueComparableBuilders
+    _$CompoundValueComparableBuilders,
   ];
   @override
   final String wireName = 'CompoundValueComparableBuilders';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, CompoundValueComparableBuilders object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    CompoundValueComparableBuilders object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'simpleValue',
-      serializers.serialize(object.simpleValue,
-          specifiedType: const FullType(SimpleValue)),
+      serializers.serialize(
+        object.simpleValue,
+        specifiedType: const FullType(SimpleValue),
+      ),
     ];
     Object? value;
     value = object.validatedValue;
     if (value != null) {
       result
         ..add('validatedValue')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(ValidatedValue)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(ValidatedValue),
+          ),
+        );
     }
     return result;
   }
 
   @override
   CompoundValueComparableBuilders deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = CompoundValueComparableBuildersBuilder();
 
     final iterator = serialized.iterator;
@@ -339,12 +410,18 @@ class _$CompoundValueComparableBuildersSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'simpleValue':
-          result.simpleValue = serializers.deserialize(value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue;
+          result.simpleValue =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(SimpleValue),
+                  )!
+                  as SimpleValue;
           break;
         case 'validatedValue':
-          result.validatedValue = serializers.deserialize(value,
-              specifiedType: const FullType(ValidatedValue)) as ValidatedValue?;
+          result.validatedValue = serializers.deserialize(
+            value,
+            specifiedType: const FullType(ValidatedValue),
+          ) as ValidatedValue?;
           break;
       }
     }
@@ -358,45 +435,61 @@ class _$CompoundValueNoNestingFieldSerializer
   @override
   final Iterable<Type> types = const [
     CompoundValueNoNestingField,
-    _$CompoundValueNoNestingField
+    _$CompoundValueNoNestingField,
   ];
   @override
   final String wireName = 'CompoundValueNoNestingField';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, CompoundValueNoNestingField object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    CompoundValueNoNestingField object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'simpleValue',
-      serializers.serialize(object.simpleValue,
-          specifiedType: const FullType(SimpleValue)),
+      serializers.serialize(
+        object.simpleValue,
+        specifiedType: const FullType(SimpleValue),
+      ),
       'simpleValueWithNested',
-      serializers.serialize(object.simpleValueWithNested,
-          specifiedType: const FullType(SimpleValue)),
+      serializers.serialize(
+        object.simpleValueWithNested,
+        specifiedType: const FullType(SimpleValue),
+      ),
     ];
     Object? value;
     value = object.validatedValue;
     if (value != null) {
       result
         ..add('validatedValue')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(ValidatedValue)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(ValidatedValue),
+          ),
+        );
     }
     value = object.validatedValueWithNested;
     if (value != null) {
       result
         ..add('validatedValueWithNested')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(ValidatedValue)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(ValidatedValue),
+          ),
+        );
     }
     return result;
   }
 
   @override
   CompoundValueNoNestingField deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = CompoundValueNoNestingFieldBuilder();
 
     final iterator = serialized.iterator;
@@ -406,21 +499,36 @@ class _$CompoundValueNoNestingFieldSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'simpleValue':
-          result.simpleValue = serializers.deserialize(value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue;
+          result.simpleValue =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(SimpleValue),
+                  )!
+                  as SimpleValue;
           break;
         case 'validatedValue':
-          result.validatedValue = serializers.deserialize(value,
-              specifiedType: const FullType(ValidatedValue)) as ValidatedValue?;
+          result.validatedValue = serializers.deserialize(
+            value,
+            specifiedType: const FullType(ValidatedValue),
+          ) as ValidatedValue?;
           break;
         case 'simpleValueWithNested':
-          result.simpleValueWithNested.replace(serializers.deserialize(value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue);
+          result.simpleValueWithNested.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(SimpleValue),
+                )!
+                as SimpleValue,
+          );
           break;
         case 'validatedValueWithNested':
-          result.validatedValueWithNested.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(ValidatedValue))!
-              as ValidatedValue);
+          result.validatedValueWithNested.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(ValidatedValue),
+                )!
+                as ValidatedValue,
+          );
           break;
       }
     }
@@ -434,45 +542,61 @@ class _$CompoundValueNestingFieldSerializer
   @override
   final Iterable<Type> types = const [
     CompoundValueNestingField,
-    _$CompoundValueNestingField
+    _$CompoundValueNestingField,
   ];
   @override
   final String wireName = 'CompoundValueNestingField';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, CompoundValueNestingField object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    CompoundValueNestingField object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'simpleValue',
-      serializers.serialize(object.simpleValue,
-          specifiedType: const FullType(SimpleValue)),
+      serializers.serialize(
+        object.simpleValue,
+        specifiedType: const FullType(SimpleValue),
+      ),
       'simpleValueWithNested',
-      serializers.serialize(object.simpleValueWithNested,
-          specifiedType: const FullType(SimpleValue)),
+      serializers.serialize(
+        object.simpleValueWithNested,
+        specifiedType: const FullType(SimpleValue),
+      ),
     ];
     Object? value;
     value = object.validatedValue;
     if (value != null) {
       result
         ..add('validatedValue')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(ValidatedValue)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(ValidatedValue),
+          ),
+        );
     }
     value = object.validatedValueWithNested;
     if (value != null) {
       result
         ..add('validatedValueWithNested')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(ValidatedValue)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(ValidatedValue),
+          ),
+        );
     }
     return result;
   }
 
   @override
   CompoundValueNestingField deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = CompoundValueNestingFieldBuilder();
 
     final iterator = serialized.iterator;
@@ -482,21 +606,36 @@ class _$CompoundValueNestingFieldSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'simpleValue':
-          result.simpleValue = serializers.deserialize(value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue;
+          result.simpleValue =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(SimpleValue),
+                  )!
+                  as SimpleValue;
           break;
         case 'validatedValue':
-          result.validatedValue = serializers.deserialize(value,
-              specifiedType: const FullType(ValidatedValue)) as ValidatedValue?;
+          result.validatedValue = serializers.deserialize(
+            value,
+            specifiedType: const FullType(ValidatedValue),
+          ) as ValidatedValue?;
           break;
         case 'simpleValueWithNested':
-          result.simpleValueWithNested.replace(serializers.deserialize(value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue);
+          result.simpleValueWithNested.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(SimpleValue),
+                )!
+                as SimpleValue,
+          );
           break;
         case 'validatedValueWithNested':
-          result.validatedValueWithNested.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(ValidatedValue))!
-              as ValidatedValue);
+          result.validatedValueWithNested.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(ValidatedValue),
+                )!
+                as ValidatedValue,
+          );
           break;
       }
     }
@@ -510,22 +649,28 @@ class _$CompoundValueNoAutoNestingFieldSerializer
   @override
   final Iterable<Type> types = const [
     CompoundValueNoAutoNestingField,
-    _$CompoundValueNoAutoNestingField
+    _$CompoundValueNoAutoNestingField,
   ];
   @override
   final String wireName = 'CompoundValueNoAutoNestingField';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, CompoundValueNoAutoNestingField object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    CompoundValueNoAutoNestingField object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'value',
-      serializers.serialize(object.value,
-          specifiedType: const FullType(NoFieldsValue)),
+      serializers.serialize(
+        object.value,
+        specifiedType: const FullType(NoFieldsValue),
+      ),
       'valueWithAutoCreate',
-      serializers.serialize(object.valueWithAutoCreate,
-          specifiedType: const FullType(NoFieldsValue)),
+      serializers.serialize(
+        object.valueWithAutoCreate,
+        specifiedType: const FullType(NoFieldsValue),
+      ),
     ];
 
     return result;
@@ -533,8 +678,10 @@ class _$CompoundValueNoAutoNestingFieldSerializer
 
   @override
   CompoundValueNoAutoNestingField deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = CompoundValueNoAutoNestingFieldBuilder();
 
     final iterator = serialized.iterator;
@@ -544,14 +691,22 @@ class _$CompoundValueNoAutoNestingFieldSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'value':
-          result.value = (serializers.deserialize(value,
-                      specifiedType: const FullType(NoFieldsValue))!
-                  as NoFieldsValue)
-              .toBuilder();
+          result.value =
+              (serializers.deserialize(
+                        value,
+                        specifiedType: const FullType(NoFieldsValue),
+                      )!
+                      as NoFieldsValue)
+                  .toBuilder();
           break;
         case 'valueWithAutoCreate':
-          result.valueWithAutoCreate.replace(serializers.deserialize(value,
-              specifiedType: const FullType(NoFieldsValue))! as NoFieldsValue);
+          result.valueWithAutoCreate.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(NoFieldsValue),
+                )!
+                as NoFieldsValue,
+          );
           break;
       }
     }
@@ -565,22 +720,28 @@ class _$CompoundValueAutoNestingFieldSerializer
   @override
   final Iterable<Type> types = const [
     CompoundValueAutoNestingField,
-    _$CompoundValueAutoNestingField
+    _$CompoundValueAutoNestingField,
   ];
   @override
   final String wireName = 'CompoundValueAutoNestingField';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, CompoundValueAutoNestingField object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    CompoundValueAutoNestingField object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'value',
-      serializers.serialize(object.value,
-          specifiedType: const FullType(NoFieldsValue)),
+      serializers.serialize(
+        object.value,
+        specifiedType: const FullType(NoFieldsValue),
+      ),
       'valueWithAutoCreate',
-      serializers.serialize(object.valueWithAutoCreate,
-          specifiedType: const FullType(NoFieldsValue)),
+      serializers.serialize(
+        object.valueWithAutoCreate,
+        specifiedType: const FullType(NoFieldsValue),
+      ),
     ];
 
     return result;
@@ -588,8 +749,10 @@ class _$CompoundValueAutoNestingFieldSerializer
 
   @override
   CompoundValueAutoNestingField deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = CompoundValueAutoNestingFieldBuilder();
 
     final iterator = serialized.iterator;
@@ -599,12 +762,22 @@ class _$CompoundValueAutoNestingFieldSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'value':
-          result.value.replace(serializers.deserialize(value,
-              specifiedType: const FullType(NoFieldsValue))! as NoFieldsValue);
+          result.value.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(NoFieldsValue),
+                )!
+                as NoFieldsValue,
+          );
           break;
         case 'valueWithAutoCreate':
-          result.valueWithAutoCreate.replace(serializers.deserialize(value,
-              specifiedType: const FullType(NoFieldsValue))! as NoFieldsValue);
+          result.valueWithAutoCreate.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(NoFieldsValue),
+                )!
+                as NoFieldsValue,
+          );
           break;
       }
     }
@@ -618,35 +791,45 @@ class _$CompoundValueExplicitNoNestingSerializer
   @override
   final Iterable<Type> types = const [
     CompoundValueExplicitNoNesting,
-    _$CompoundValueExplicitNoNesting
+    _$CompoundValueExplicitNoNesting,
   ];
   @override
   final String wireName = 'CompoundValueExplicitNoNesting';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, CompoundValueExplicitNoNesting object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    CompoundValueExplicitNoNesting object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'simpleValue',
-      serializers.serialize(object.simpleValue,
-          specifiedType: const FullType(SimpleValue)),
+      serializers.serialize(
+        object.simpleValue,
+        specifiedType: const FullType(SimpleValue),
+      ),
     ];
     Object? value;
     value = object.validatedValue;
     if (value != null) {
       result
         ..add('validatedValue')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(ValidatedValue)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(ValidatedValue),
+          ),
+        );
     }
     return result;
   }
 
   @override
   CompoundValueExplicitNoNesting deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = CompoundValueExplicitNoNestingBuilder();
 
     final iterator = serialized.iterator;
@@ -656,12 +839,19 @@ class _$CompoundValueExplicitNoNestingSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'simpleValue':
-          result.simpleValue.replace(serializers.deserialize(value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue);
+          result.simpleValue.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(SimpleValue),
+                )!
+                as SimpleValue,
+          );
           break;
         case 'validatedValue':
-          result.validatedValue = serializers.deserialize(value,
-              specifiedType: const FullType(ValidatedValue)) as ValidatedValue?;
+          result.validatedValue = serializers.deserialize(
+            value,
+            specifiedType: const FullType(ValidatedValue),
+          ) as ValidatedValue?;
           break;
       }
     }
@@ -678,8 +868,11 @@ class _$ValidatedValueSerializer
   final String wireName = 'ValidatedValue';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, ValidatedValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    ValidatedValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'anInt',
       serializers.serialize(object.anInt, specifiedType: const FullType(int)),
@@ -689,16 +882,19 @@ class _$ValidatedValueSerializer
     if (value != null) {
       result
         ..add('aString')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     return result;
   }
 
   @override
   ValidatedValue deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = ValidatedValueBuilder();
 
     final iterator = serialized.iterator;
@@ -708,12 +904,18 @@ class _$ValidatedValueSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'anInt':
-          result.anInt = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.anInt =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'aString':
-          result.aString = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.aString = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String?;
           break;
       }
     }
@@ -731,28 +933,38 @@ class _$ValueUsingImportAsSerializer
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, ValueUsingImportAs object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    ValueUsingImportAs object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'value',
-      serializers.serialize(object.value,
-          specifiedType: const FullType(using_import_as.TestEnum)),
+      serializers.serialize(
+        object.value,
+        specifiedType: const FullType(using_import_as.TestEnum),
+      ),
     ];
     Object? value;
     value = object.nullableValue;
     if (value != null) {
       result
         ..add('nullableValue')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(using_import_as.TestEnum)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(using_import_as.TestEnum),
+          ),
+        );
     }
     return result;
   }
 
   @override
   ValueUsingImportAs deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = ValueUsingImportAsBuilder();
 
     final iterator = serialized.iterator;
@@ -762,14 +974,18 @@ class _$ValueUsingImportAsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'value':
-          result.value = serializers.deserialize(value,
-                  specifiedType: const FullType(using_import_as.TestEnum))!
-              as using_import_as.TestEnum;
+          result.value =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(using_import_as.TestEnum),
+                  )!
+                  as using_import_as.TestEnum;
           break;
         case 'nullableValue':
-          result.nullableValue = serializers.deserialize(value,
-                  specifiedType: const FullType(using_import_as.TestEnum))
-              as using_import_as.TestEnum?;
+          result.nullableValue = serializers.deserialize(
+            value,
+            specifiedType: const FullType(using_import_as.TestEnum),
+          ) as using_import_as.TestEnum?;
           break;
       }
     }
@@ -785,15 +1001,20 @@ class _$NoFieldsValueSerializer implements StructuredSerializer<NoFieldsValue> {
   final String wireName = 'NoFieldsValue';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, NoFieldsValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    NoFieldsValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     return <Object?>[];
   }
 
   @override
   NoFieldsValue deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     return NoFieldsValueBuilder().build();
   }
 }
@@ -806,12 +1027,17 @@ class _$PrimitivesValueSerializer
   final String wireName = 'PrimitivesValue';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, PrimitivesValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    PrimitivesValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'boolean',
-      serializers.serialize(object.boolean,
-          specifiedType: const FullType(bool)),
+      serializers.serialize(
+        object.boolean,
+        specifiedType: const FullType(bool),
+      ),
       'integer',
       serializers.serialize(object.integer, specifiedType: const FullType(int)),
       'int64',
@@ -821,22 +1047,32 @@ class _$PrimitivesValueSerializer
       'number',
       serializers.serialize(object.number, specifiedType: const FullType(num)),
       'string',
-      serializers.serialize(object.string,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.string,
+        specifiedType: const FullType(String),
+      ),
       'dateTime',
-      serializers.serialize(object.dateTime,
-          specifiedType: const FullType(DateTime)),
+      serializers.serialize(
+        object.dateTime,
+        specifiedType: const FullType(DateTime),
+      ),
       'duration',
-      serializers.serialize(object.duration,
-          specifiedType: const FullType(Duration)),
+      serializers.serialize(
+        object.duration,
+        specifiedType: const FullType(Duration),
+      ),
       'regExp',
-      serializers.serialize(object.regExp,
-          specifiedType: const FullType(RegExp)),
+      serializers.serialize(
+        object.regExp,
+        specifiedType: const FullType(RegExp),
+      ),
       'uri',
       serializers.serialize(object.uri, specifiedType: const FullType(Uri)),
       'bigInt',
-      serializers.serialize(object.bigInt,
-          specifiedType: const FullType(BigInt)),
+      serializers.serialize(
+        object.bigInt,
+        specifiedType: const FullType(BigInt),
+      ),
     ];
 
     return result;
@@ -844,8 +1080,10 @@ class _$PrimitivesValueSerializer
 
   @override
   PrimitivesValue deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = PrimitivesValueBuilder();
 
     final iterator = serialized.iterator;
@@ -855,48 +1093,92 @@ class _$PrimitivesValueSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'boolean':
-          result.boolean = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
+          result.boolean =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(bool),
+                  )!
+                  as bool;
           break;
         case 'integer':
-          result.integer = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.integer =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'int64':
-          result.int64 = serializers.deserialize(value,
-              specifiedType: const FullType(Int64))! as Int64;
+          result.int64 =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Int64),
+                  )!
+                  as Int64;
           break;
         case 'dbl':
-          result.dbl = serializers.deserialize(value,
-              specifiedType: const FullType(double))! as double;
+          result.dbl =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(double),
+                  )!
+                  as double;
           break;
         case 'number':
-          result.number = serializers.deserialize(value,
-              specifiedType: const FullType(num))! as num;
+          result.number =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(num),
+                  )!
+                  as num;
           break;
         case 'string':
-          result.string = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.string =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'dateTime':
-          result.dateTime = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime))! as DateTime;
+          result.dateTime =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DateTime),
+                  )!
+                  as DateTime;
           break;
         case 'duration':
-          result.duration = serializers.deserialize(value,
-              specifiedType: const FullType(Duration))! as Duration;
+          result.duration =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Duration),
+                  )!
+                  as Duration;
           break;
         case 'regExp':
-          result.regExp = serializers.deserialize(value,
-              specifiedType: const FullType(RegExp))! as RegExp;
+          result.regExp =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(RegExp),
+                  )!
+                  as RegExp;
           break;
         case 'uri':
-          result.uri = serializers.deserialize(value,
-              specifiedType: const FullType(Uri))! as Uri;
+          result.uri =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Uri),
+                  )!
+                  as Uri;
           break;
         case 'bigInt':
-          result.bigInt = serializers.deserialize(value,
-              specifiedType: const FullType(BigInt))! as BigInt;
+          result.bigInt =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BigInt),
+                  )!
+                  as BigInt;
           break;
       }
     }
@@ -910,15 +1192,17 @@ class _$PartiallySerializableValueSerializer
   @override
   final Iterable<Type> types = const [
     PartiallySerializableValue,
-    _$PartiallySerializableValue
+    _$PartiallySerializableValue,
   ];
   @override
   final String wireName = 'PartiallySerializableValue';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, PartiallySerializableValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    PartiallySerializableValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'value',
       serializers.serialize(object.value, specifiedType: const FullType(int)),
@@ -929,8 +1213,10 @@ class _$PartiallySerializableValueSerializer
 
   @override
   PartiallySerializableValue deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = PartiallySerializableValueBuilder();
 
     final iterator = serialized.iterator;
@@ -940,8 +1226,12 @@ class _$PartiallySerializableValueSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'value':
-          result.value = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.value =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
       }
     }
@@ -958,8 +1248,11 @@ class _$NamedFactoryValueSerializer
   final String wireName = 'NamedFactoryValue';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, NamedFactoryValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    NamedFactoryValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'value',
       serializers.serialize(object.value, specifiedType: const FullType(int)),
@@ -970,8 +1263,10 @@ class _$NamedFactoryValueSerializer
 
   @override
   NamedFactoryValue deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = NamedFactoryValueBuilder();
 
     final iterator = serialized.iterator;
@@ -981,8 +1276,12 @@ class _$NamedFactoryValueSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'value':
-          result.value = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.value =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
       }
     }
@@ -998,8 +1297,11 @@ class _$WireNameValueSerializer implements StructuredSerializer<WireNameValue> {
   final String wireName = '\$V';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, WireNameValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    WireNameValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       '\$v',
       serializers.serialize(object.value, specifiedType: const FullType(int)),
@@ -1010,8 +1312,10 @@ class _$WireNameValueSerializer implements StructuredSerializer<WireNameValue> {
 
   @override
   WireNameValue deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = WireNameValueBuilder();
 
     final iterator = serialized.iterator;
@@ -1021,8 +1325,12 @@ class _$WireNameValueSerializer implements StructuredSerializer<WireNameValue> {
       final Object? value = iterator.current;
       switch (key) {
         case '\$v':
-          result.value = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.value =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
       }
     }
@@ -1036,39 +1344,52 @@ class _$FieldDiscoveryValueSerializer
   @override
   final Iterable<Type> types = const [
     FieldDiscoveryValue,
-    _$FieldDiscoveryValue
+    _$FieldDiscoveryValue,
   ];
   @override
   final String wireName = 'FieldDiscoveryValue';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, FieldDiscoveryValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    FieldDiscoveryValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'value',
-      serializers.serialize(object.value,
-          specifiedType: const FullType(DiscoverableValue)),
+      serializers.serialize(
+        object.value,
+        specifiedType: const FullType(DiscoverableValue),
+      ),
       'values',
-      serializers.serialize(object.values,
-          specifiedType: const FullType(
-              BuiltList, const [const FullType(ThirdDiscoverableValue)])),
+      serializers.serialize(
+        object.values,
+        specifiedType: const FullType(BuiltList, const [
+          const FullType(ThirdDiscoverableValue),
+        ]),
+      ),
     ];
     Object? value;
     value = object.recursiveValue;
     if (value != null) {
       result
         ..add('recursiveValue')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(FieldDiscoveryValue)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(FieldDiscoveryValue),
+          ),
+        );
     }
     return result;
   }
 
   @override
   FieldDiscoveryValue deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = FieldDiscoveryValueBuilder();
 
     final iterator = serialized.iterator;
@@ -1078,20 +1399,33 @@ class _$FieldDiscoveryValueSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'value':
-          result.value.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(DiscoverableValue))!
-              as DiscoverableValue);
+          result.value.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(DiscoverableValue),
+                )!
+                as DiscoverableValue,
+          );
           break;
         case 'values':
-          result.values.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [
-                const FullType(ThirdDiscoverableValue)
-              ]))! as BuiltList<Object?>);
+          result.values.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(BuiltList, const [
+                    const FullType(ThirdDiscoverableValue),
+                  ]),
+                )!
+                as BuiltList<Object?>,
+          );
           break;
         case 'recursiveValue':
-          result.recursiveValue.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(FieldDiscoveryValue))!
-              as FieldDiscoveryValue);
+          result.recursiveValue.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(FieldDiscoveryValue),
+                )!
+                as FieldDiscoveryValue,
+          );
           break;
       }
     }
@@ -1108,12 +1442,17 @@ class _$DiscoverableValueSerializer
   final String wireName = 'DiscoverableValue';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, DiscoverableValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    DiscoverableValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'value',
-      serializers.serialize(object.value,
-          specifiedType: const FullType(SecondDiscoverableValue)),
+      serializers.serialize(
+        object.value,
+        specifiedType: const FullType(SecondDiscoverableValue),
+      ),
     ];
 
     return result;
@@ -1121,8 +1460,10 @@ class _$DiscoverableValueSerializer
 
   @override
   DiscoverableValue deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = DiscoverableValueBuilder();
 
     final iterator = serialized.iterator;
@@ -1132,9 +1473,13 @@ class _$DiscoverableValueSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'value':
-          result.value.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(SecondDiscoverableValue))!
-              as SecondDiscoverableValue);
+          result.value.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(SecondDiscoverableValue),
+                )!
+                as SecondDiscoverableValue,
+          );
           break;
       }
     }
@@ -1148,15 +1493,17 @@ class _$SecondDiscoverableValueSerializer
   @override
   final Iterable<Type> types = const [
     SecondDiscoverableValue,
-    _$SecondDiscoverableValue
+    _$SecondDiscoverableValue,
   ];
   @override
   final String wireName = 'SecondDiscoverableValue';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, SecondDiscoverableValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    SecondDiscoverableValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'value',
       serializers.serialize(object.value, specifiedType: const FullType(int)),
@@ -1167,8 +1514,10 @@ class _$SecondDiscoverableValueSerializer
 
   @override
   SecondDiscoverableValue deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = SecondDiscoverableValueBuilder();
 
     final iterator = serialized.iterator;
@@ -1178,8 +1527,12 @@ class _$SecondDiscoverableValueSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'value':
-          result.value = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.value =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
       }
     }
@@ -1193,15 +1546,17 @@ class _$ThirdDiscoverableValueSerializer
   @override
   final Iterable<Type> types = const [
     ThirdDiscoverableValue,
-    _$ThirdDiscoverableValue
+    _$ThirdDiscoverableValue,
   ];
   @override
   final String wireName = 'ThirdDiscoverableValue';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, ThirdDiscoverableValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    ThirdDiscoverableValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'value',
       serializers.serialize(object.value, specifiedType: const FullType(int)),
@@ -1212,8 +1567,10 @@ class _$ThirdDiscoverableValueSerializer
 
   @override
   ThirdDiscoverableValue deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = ThirdDiscoverableValueBuilder();
 
     final iterator = serialized.iterator;
@@ -1223,8 +1580,12 @@ class _$ThirdDiscoverableValueSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'value':
-          result.value = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.value =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
       }
     }
@@ -1241,12 +1602,17 @@ class _$RecursiveValueASerializer
   final String wireName = 'RecursiveValueA';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, RecursiveValueA object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    RecursiveValueA object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'value',
-      serializers.serialize(object.value,
-          specifiedType: const FullType(RecursiveValueB)),
+      serializers.serialize(
+        object.value,
+        specifiedType: const FullType(RecursiveValueB),
+      ),
     ];
 
     return result;
@@ -1254,8 +1620,10 @@ class _$RecursiveValueASerializer
 
   @override
   RecursiveValueA deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = RecursiveValueABuilder();
 
     final iterator = serialized.iterator;
@@ -1265,9 +1633,13 @@ class _$RecursiveValueASerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'value':
-          result.value.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(RecursiveValueB))!
-              as RecursiveValueB);
+          result.value.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(RecursiveValueB),
+                )!
+                as RecursiveValueB,
+          );
           break;
       }
     }
@@ -1284,12 +1656,17 @@ class _$RecursiveValueBSerializer
   final String wireName = 'RecursiveValueB';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, RecursiveValueB object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    RecursiveValueB object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'value',
-      serializers.serialize(object.value,
-          specifiedType: const FullType(RecursiveValueA)),
+      serializers.serialize(
+        object.value,
+        specifiedType: const FullType(RecursiveValueA),
+      ),
     ];
 
     return result;
@@ -1297,8 +1674,10 @@ class _$RecursiveValueBSerializer
 
   @override
   RecursiveValueB deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = RecursiveValueBBuilder();
 
     final iterator = serialized.iterator;
@@ -1308,9 +1687,13 @@ class _$RecursiveValueBSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'value':
-          result.value.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(RecursiveValueA))!
-              as RecursiveValueA);
+          result.value.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(RecursiveValueA),
+                )!
+                as RecursiveValueA,
+          );
           break;
       }
     }
@@ -1326,8 +1709,11 @@ class _$OtherValueSerializer implements StructuredSerializer<OtherValue> {
   final String wireName = 'OtherValue';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, OtherValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    OtherValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'other',
       serializers.serialize(object.other, specifiedType: const FullType(int)),
@@ -1337,8 +1723,11 @@ class _$OtherValueSerializer implements StructuredSerializer<OtherValue> {
   }
 
   @override
-  OtherValue deserialize(Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+  OtherValue deserialize(
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = OtherValueBuilder();
 
     final iterator = serialized.iterator;
@@ -1348,8 +1737,12 @@ class _$OtherValueSerializer implements StructuredSerializer<OtherValue> {
       final Object? value = iterator.current;
       switch (key) {
         case 'other':
-          result.other = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.other =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
       }
     }
@@ -1363,19 +1756,23 @@ class _$DefaultsForFieldSettingsValueSerializer
   @override
   final Iterable<Type> types = const [
     DefaultsForFieldSettingsValue,
-    _$DefaultsForFieldSettingsValue
+    _$DefaultsForFieldSettingsValue,
   ];
   @override
   final String wireName = 'DefaultsForFieldSettingsValue';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, DefaultsForFieldSettingsValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    DefaultsForFieldSettingsValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'serialized',
-      serializers.serialize(object.serialized,
-          specifiedType: const FullType(int)),
+      serializers.serialize(
+        object.serialized,
+        specifiedType: const FullType(int),
+      ),
     ];
 
     return result;
@@ -1383,8 +1780,10 @@ class _$DefaultsForFieldSettingsValueSerializer
 
   @override
   DefaultsForFieldSettingsValue deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = DefaultsForFieldSettingsValueBuilder();
 
     final iterator = serialized.iterator;
@@ -1394,8 +1793,12 @@ class _$DefaultsForFieldSettingsValueSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'serialized':
-          result.serialized = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.serialized =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
       }
     }
@@ -1409,27 +1812,35 @@ class _$ValueWithBuilderInitializerSerializer
   @override
   final Iterable<Type> types = const [
     ValueWithBuilderInitializer,
-    _$ValueWithBuilderInitializer
+    _$ValueWithBuilderInitializer,
   ];
   @override
   final String wireName = 'ValueWithBuilderInitializer';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, ValueWithBuilderInitializer object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    ValueWithBuilderInitializer object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'anInt',
       serializers.serialize(object.anInt, specifiedType: const FullType(int)),
       'anIntWithDefault',
-      serializers.serialize(object.anIntWithDefault,
-          specifiedType: const FullType(int)),
+      serializers.serialize(
+        object.anIntWithDefault,
+        specifiedType: const FullType(int),
+      ),
       'nestedValue',
-      serializers.serialize(object.nestedValue,
-          specifiedType: const FullType(SimpleValue)),
+      serializers.serialize(
+        object.nestedValue,
+        specifiedType: const FullType(SimpleValue),
+      ),
       'nestedValueWithDefault',
-      serializers.serialize(object.nestedValueWithDefault,
-          specifiedType: const FullType(SimpleValue)),
+      serializers.serialize(
+        object.nestedValueWithDefault,
+        specifiedType: const FullType(SimpleValue),
+      ),
     ];
     Object? value;
     value = object.nullableInt;
@@ -1448,23 +1859,33 @@ class _$ValueWithBuilderInitializerSerializer
     if (value != null) {
       result
         ..add('nullableNestedValue')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(SimpleValue)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(SimpleValue),
+          ),
+        );
     }
     value = object.nullableNestedValueWithDefault;
     if (value != null) {
       result
         ..add('nullableNestedValueWithDefault')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(SimpleValue)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(SimpleValue),
+          ),
+        );
     }
     return result;
   }
 
   @override
   ValueWithBuilderInitializer deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = ValueWithBuilderInitializerBuilder();
 
     final iterator = serialized.iterator;
@@ -1474,37 +1895,68 @@ class _$ValueWithBuilderInitializerSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'anInt':
-          result.anInt = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.anInt =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'anIntWithDefault':
-          result.anIntWithDefault = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.anIntWithDefault =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'nullableInt':
-          result.nullableInt = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
+          result.nullableInt = serializers.deserialize(
+            value,
+            specifiedType: const FullType(int),
+          ) as int?;
           break;
         case 'nullableIntWithDefault':
-          result.nullableIntWithDefault = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
+          result.nullableIntWithDefault = serializers.deserialize(
+            value,
+            specifiedType: const FullType(int),
+          ) as int?;
           break;
         case 'nestedValue':
-          result.nestedValue.replace(serializers.deserialize(value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue);
+          result.nestedValue.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(SimpleValue),
+                )!
+                as SimpleValue,
+          );
           break;
         case 'nestedValueWithDefault':
-          result.nestedValueWithDefault.replace(serializers.deserialize(value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue);
+          result.nestedValueWithDefault.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(SimpleValue),
+                )!
+                as SimpleValue,
+          );
           break;
         case 'nullableNestedValue':
-          result.nullableNestedValue.replace(serializers.deserialize(value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue);
+          result.nullableNestedValue.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(SimpleValue),
+                )!
+                as SimpleValue,
+          );
           break;
         case 'nullableNestedValueWithDefault':
-          result.nullableNestedValueWithDefault.replace(serializers.deserialize(
-              value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue);
+          result.nullableNestedValueWithDefault.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(SimpleValue),
+                )!
+                as SimpleValue,
+          );
           break;
       }
     }
@@ -1518,15 +1970,17 @@ class _$ValueWithBuilderFinalizerSerializer
   @override
   final Iterable<Type> types = const [
     ValueWithBuilderFinalizer,
-    _$ValueWithBuilderFinalizer
+    _$ValueWithBuilderFinalizer,
   ];
   @override
   final String wireName = 'ValueWithBuilderFinalizer';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, ValueWithBuilderFinalizer object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    ValueWithBuilderFinalizer object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'anInt',
       serializers.serialize(object.anInt, specifiedType: const FullType(int)),
@@ -1537,8 +1991,10 @@ class _$ValueWithBuilderFinalizerSerializer
 
   @override
   ValueWithBuilderFinalizer deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = ValueWithBuilderFinalizerBuilder();
 
     final iterator = serialized.iterator;
@@ -1548,8 +2004,12 @@ class _$ValueWithBuilderFinalizerSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'anInt':
-          result.anInt = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.anInt =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
       }
     }
@@ -1563,15 +2023,17 @@ class _$SerializesNullsValueSerializer
   @override
   final Iterable<Type> types = const [
     SerializesNullsValue,
-    _$SerializesNullsValue
+    _$SerializesNullsValue,
   ];
   @override
   final String wireName = 'SerializesNullsValue';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, SerializesNullsValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    SerializesNullsValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[];
     Object? value;
     value = object.value;
@@ -1579,15 +2041,18 @@ class _$SerializesNullsValueSerializer
     result
       ..add('value')
       ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)));
+        serializers.serialize(value, specifiedType: const FullType(String)),
+      );
 
     return result;
   }
 
   @override
   SerializesNullsValue deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = SerializesNullsValueBuilder();
 
     final iterator = serialized.iterator;
@@ -1597,8 +2062,10 @@ class _$SerializesNullsValueSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'value':
-          result.value = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.value = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String?;
           break;
       }
     }
@@ -1612,31 +2079,36 @@ class _$NullableObjectValueSerializer
   @override
   final Iterable<Type> types = const [
     NullableObjectValue,
-    _$NullableObjectValue
+    _$NullableObjectValue,
   ];
   @override
   final String wireName = 'NullableObjectValue';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, NullableObjectValue object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    NullableObjectValue object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[];
     Object? value;
     value = object.value;
     if (value != null) {
       result
         ..add('value')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(Object)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(Object)),
+        );
     }
     return result;
   }
 
   @override
   NullableObjectValue deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = NullableObjectValueBuilder();
 
     final iterator = serialized.iterator;
@@ -1646,8 +2118,10 @@ class _$NullableObjectValueSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'value':
-          result.value = serializers.deserialize(value,
-              specifiedType: const FullType(Object));
+          result.value = serializers.deserialize(
+            value,
+            specifiedType: const FullType(Object),
+          );
           break;
       }
     }
@@ -1664,19 +2138,29 @@ class _$ValueWithHooksSerializer
   final String wireName = 'ValueWithHooks';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, ValueWithHooks object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    ValueWithHooks object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'hook1Count',
-      serializers.serialize(object.hook1Count,
-          specifiedType: const FullType(int)),
+      serializers.serialize(
+        object.hook1Count,
+        specifiedType: const FullType(int),
+      ),
       'hook2Count',
-      serializers.serialize(object.hook2Count,
-          specifiedType: const FullType(int)),
+      serializers.serialize(
+        object.hook2Count,
+        specifiedType: const FullType(int),
+      ),
       'hookOrdering',
-      serializers.serialize(object.hookOrdering,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(String)])),
+      serializers.serialize(
+        object.hookOrdering,
+        specifiedType: const FullType(BuiltList, const [
+          const FullType(String),
+        ]),
+      ),
     ];
 
     return result;
@@ -1684,8 +2168,10 @@ class _$ValueWithHooksSerializer
 
   @override
   ValueWithHooks deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = ValueWithHooksBuilder();
 
     final iterator = serialized.iterator;
@@ -1695,18 +2181,31 @@ class _$ValueWithHooksSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'hook1Count':
-          result.hook1Count = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.hook1Count =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'hook2Count':
-          result.hook2Count = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.hook2Count =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'hookOrdering':
-          result.hookOrdering.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(String)]))!
-              as BuiltList<Object?>);
+          result.hookOrdering.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(BuiltList, const [
+                    const FullType(String),
+                  ]),
+                )!
+                as BuiltList<Object?>,
+          );
           break;
       }
     }
@@ -1722,8 +2221,11 @@ class _$$ValueSpecialSerializer implements StructuredSerializer<$ValueSpecial> {
   final String wireName = '\$ValueSpecial';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, $ValueSpecial object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    $ValueSpecial object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'anInt',
       serializers.serialize(object.anInt, specifiedType: const FullType(int)),
@@ -1733,44 +2235,60 @@ class _$$ValueSpecialSerializer implements StructuredSerializer<$ValueSpecial> {
     if (value != null) {
       result
         ..add('aString')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.$mustBeEscaped;
     if (value != null) {
       result
         ..add('\$mustBeEscaped')
         ..add(
-            serializers.serialize(value, specifiedType: const FullType(bool)));
+          serializers.serialize(value, specifiedType: const FullType(bool)),
+        );
     }
     value = object.$mustAlsoEscaped;
     if (value != null) {
       result
         ..add('\$mustAlsoEscaped')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(SimpleValue)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(SimpleValue),
+          ),
+        );
     }
     value = object.$assert;
     if (value != null) {
       result
         ..add('\$assert')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(SimpleValue)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(SimpleValue),
+          ),
+        );
     }
     value = object.$10;
     if (value != null) {
       result
         ..add('\$10')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(SimpleValue)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(SimpleValue),
+          ),
+        );
     }
     return result;
   }
 
   @override
   $ValueSpecial deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = $ValueSpecialBuilder();
 
     final iterator = serialized.iterator;
@@ -1780,28 +2298,51 @@ class _$$ValueSpecialSerializer implements StructuredSerializer<$ValueSpecial> {
       final Object? value = iterator.current;
       switch (key) {
         case 'anInt':
-          result.anInt = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.anInt =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'aString':
-          result.aString = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.aString = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String?;
           break;
         case '\$mustBeEscaped':
-          result.$mustBeEscaped = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool?;
+          result.$mustBeEscaped = serializers.deserialize(
+            value,
+            specifiedType: const FullType(bool),
+          ) as bool?;
           break;
         case '\$mustAlsoEscaped':
-          result.$mustAlsoEscaped.replace(serializers.deserialize(value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue);
+          result.$mustAlsoEscaped.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(SimpleValue),
+                )!
+                as SimpleValue,
+          );
           break;
         case '\$assert':
-          result.$assert.replace(serializers.deserialize(value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue);
+          result.$assert.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(SimpleValue),
+                )!
+                as SimpleValue,
+          );
           break;
         case '\$10':
-          result.$10.replace(serializers.deserialize(value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue);
+          result.$10.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(SimpleValue),
+                )!
+                as SimpleValue,
+          );
           break;
       }
     }
@@ -1815,46 +2356,63 @@ class _$ValueWithAwkwardNestedBuilderSerializer
   @override
   final Iterable<Type> types = const [
     ValueWithAwkwardNestedBuilder,
-    _$ValueWithAwkwardNestedBuilder
+    _$ValueWithAwkwardNestedBuilder,
   ];
   @override
   final String wireName = 'ValueWithAwkwardNestedBuilder';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, ValueWithAwkwardNestedBuilder object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    ValueWithAwkwardNestedBuilder object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'values',
-      serializers.serialize(object.values,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(int)])),
+      serializers.serialize(
+        object.values,
+        specifiedType: const FullType(BuiltList, const [const FullType(int)]),
+      ),
       'map',
-      serializers.serialize(object.map,
-          specifiedType: const FullType(
-              BuiltMap, const [const FullType(int), const FullType(String)])),
+      serializers.serialize(
+        object.map,
+        specifiedType: const FullType(BuiltMap, const [
+          const FullType(int),
+          const FullType(String),
+        ]),
+      ),
     ];
     Object? value;
     value = object.value1;
 
     result
       ..add('value1')
-      ..add(serializers.serialize(value,
-          specifiedType: const FullType(SimpleValue)));
+      ..add(
+        serializers.serialize(
+          value,
+          specifiedType: const FullType(SimpleValue),
+        ),
+      );
     value = object.value2;
 
     result
       ..add('value2')
-      ..add(serializers.serialize(value,
-          specifiedType: const FullType(SimpleValue)));
+      ..add(
+        serializers.serialize(
+          value,
+          specifiedType: const FullType(SimpleValue),
+        ),
+      );
 
     return result;
   }
 
   @override
   ValueWithAwkwardNestedBuilder deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     T $cast<T>(dynamic any) => any as T;
 
     final result = ValueWithAwkwardNestedBuilderBuilder();
@@ -1867,8 +2425,12 @@ class _$ValueWithAwkwardNestedBuilderSerializer
       switch (key) {
         case 'value1':
           var maybeBuilder = result.value1;
-          var fieldValue = serializers.deserialize(value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue;
+          var fieldValue =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(SimpleValue),
+                  )!
+                  as SimpleValue;
           if (maybeBuilder == null) {
             result.value1 = $cast(fieldValue.toBuilder());
           } else {
@@ -1877,8 +2439,12 @@ class _$ValueWithAwkwardNestedBuilderSerializer
           break;
         case 'value2':
           var maybeBuilder = result.value2;
-          var fieldValue = serializers.deserialize(value,
-              specifiedType: const FullType(SimpleValue))! as SimpleValue;
+          var fieldValue =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(SimpleValue),
+                  )!
+                  as SimpleValue;
           if (maybeBuilder == null) {
             result.value2 = $cast(fieldValue.toBuilder());
           } else {
@@ -1887,10 +2453,14 @@ class _$ValueWithAwkwardNestedBuilderSerializer
           break;
         case 'values':
           var maybeBuilder = result.values;
-          var fieldValue = serializers.deserialize(value,
-                  specifiedType:
-                      const FullType(BuiltList, const [const FullType(int)]))!
-              as BuiltList<int>;
+          var fieldValue =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BuiltList, const [
+                      const FullType(int),
+                    ]),
+                  )!
+                  as BuiltList<int>;
           if (maybeBuilder == null) {
             result.values = $cast(fieldValue.toBuilder());
           } else {
@@ -1899,11 +2469,15 @@ class _$ValueWithAwkwardNestedBuilderSerializer
           break;
         case 'map':
           var maybeBuilder = result.map;
-          var fieldValue = serializers.deserialize(value,
-              specifiedType: const FullType(BuiltMap, const [
-                const FullType(int),
-                const FullType(String)
-              ]))! as BuiltMap<int, String>;
+          var fieldValue =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(BuiltMap, const [
+                      const FullType(int),
+                      const FullType(String),
+                    ]),
+                  )!
+                  as BuiltMap<int, String>;
           if (maybeBuilder == null) {
             result.map = $cast(fieldValue.toBuilder());
           } else {
@@ -1929,7 +2503,7 @@ class _$SimpleValue extends SimpleValue {
       (SimpleValueBuilder()..update(updates))._build();
 
   _$SimpleValue._({required this.anInt, this.aString, this.$mustBeEscaped})
-      : super._();
+    : super._();
   @override
   SimpleValue rebuild(void Function(SimpleValueBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -2009,10 +2583,14 @@ class SimpleValueBuilder implements Builder<SimpleValue, SimpleValueBuilder> {
   SimpleValue build() => _build();
 
   _$SimpleValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$SimpleValue._(
           anInt: BuiltValueNullFieldError.checkNotNull(
-              anInt, r'SimpleValue', 'anInt'),
+            anInt,
+            r'SimpleValue',
+            'anInt',
+          ),
           aString: aString,
           $mustBeEscaped: $mustBeEscaped,
         );
@@ -2031,7 +2609,7 @@ class _$CompoundValue extends CompoundValue {
       (CompoundValueBuilder()..update(updates))._build();
 
   _$CompoundValue._({required this.simpleValue, this.validatedValue})
-      : super._();
+    : super._();
   @override
   CompoundValue rebuild(void Function(CompoundValueBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -2109,7 +2687,8 @@ class CompoundValueBuilder
   _$CompoundValue _build() {
     _$CompoundValue _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           _$CompoundValue._(
             simpleValue: simpleValue.build(),
             validatedValue: _validatedValue?.build(),
@@ -2123,7 +2702,10 @@ class CompoundValueBuilder
         _validatedValue?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'CompoundValue', _$failedField, e.toString());
+          r'CompoundValue',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -2138,16 +2720,16 @@ class _$CompoundValueNoNesting extends CompoundValueNoNesting {
   @override
   final ValidatedValue? validatedValue;
 
-  factory _$CompoundValueNoNesting(
-          [void Function(CompoundValueNoNestingBuilder)? updates]) =>
-      (CompoundValueNoNestingBuilder()..update(updates))._build();
+  factory _$CompoundValueNoNesting([
+    void Function(CompoundValueNoNestingBuilder)? updates,
+  ]) => (CompoundValueNoNestingBuilder()..update(updates))._build();
 
   _$CompoundValueNoNesting._({required this.simpleValue, this.validatedValue})
-      : super._();
+    : super._();
   @override
   CompoundValueNoNesting rebuild(
-          void Function(CompoundValueNoNestingBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(CompoundValueNoNestingBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   CompoundValueNoNestingBuilder toBuilder() =>
@@ -2219,10 +2801,14 @@ class CompoundValueNoNestingBuilder
   CompoundValueNoNesting build() => _build();
 
   _$CompoundValueNoNesting _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$CompoundValueNoNesting._(
           simpleValue: BuiltValueNullFieldError.checkNotNull(
-              simpleValue, r'CompoundValueNoNesting', 'simpleValue'),
+            simpleValue,
+            r'CompoundValueNoNesting',
+            'simpleValue',
+          ),
           validatedValue: validatedValue,
         );
     replace(_$result);
@@ -2234,15 +2820,15 @@ class _$CompoundValueNoAutoNesting extends CompoundValueNoAutoNesting {
   @override
   final NoFieldsValue value;
 
-  factory _$CompoundValueNoAutoNesting(
-          [void Function(CompoundValueNoAutoNestingBuilder)? updates]) =>
-      (CompoundValueNoAutoNestingBuilder()..update(updates))._build();
+  factory _$CompoundValueNoAutoNesting([
+    void Function(CompoundValueNoAutoNestingBuilder)? updates,
+  ]) => (CompoundValueNoAutoNestingBuilder()..update(updates))._build();
 
   _$CompoundValueNoAutoNesting._({required this.value}) : super._();
   @override
   CompoundValueNoAutoNesting rebuild(
-          void Function(CompoundValueNoAutoNestingBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(CompoundValueNoAutoNestingBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   CompoundValueNoAutoNestingBuilder toBuilder() =>
@@ -2264,9 +2850,9 @@ class _$CompoundValueNoAutoNesting extends CompoundValueNoAutoNesting {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'CompoundValueNoAutoNesting')
-          ..add('value', value))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'CompoundValueNoAutoNesting',
+    )..add('value', value)).toString();
   }
 }
 
@@ -2306,10 +2892,14 @@ class CompoundValueNoAutoNestingBuilder
   _$CompoundValueNoAutoNesting _build() {
     _$CompoundValueNoAutoNesting _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           _$CompoundValueNoAutoNesting._(
             value: BuiltValueNullFieldError.checkNotNull(
-                _value?.build(), r'CompoundValueNoAutoNesting', 'value'),
+              _value?.build(),
+              r'CompoundValueNoAutoNesting',
+              'value',
+            ),
           );
     } catch (_) {
       late String _$failedField;
@@ -2318,7 +2908,10 @@ class CompoundValueNoAutoNestingBuilder
         _value?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'CompoundValueNoAutoNesting', _$failedField, e.toString());
+          r'CompoundValueNoAutoNesting',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -2334,17 +2927,18 @@ class _$CompoundValueComparableBuilders
   @override
   final ValidatedValue? validatedValue;
 
-  factory _$CompoundValueComparableBuilders(
-          [void Function(CompoundValueComparableBuildersBuilder)? updates]) =>
-      (CompoundValueComparableBuildersBuilder()..update(updates))._build();
+  factory _$CompoundValueComparableBuilders([
+    void Function(CompoundValueComparableBuildersBuilder)? updates,
+  ]) => (CompoundValueComparableBuildersBuilder()..update(updates))._build();
 
-  _$CompoundValueComparableBuilders._(
-      {required this.simpleValue, this.validatedValue})
-      : super._();
+  _$CompoundValueComparableBuilders._({
+    required this.simpleValue,
+    this.validatedValue,
+  }) : super._();
   @override
   CompoundValueComparableBuilders rebuild(
-          void Function(CompoundValueComparableBuildersBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(CompoundValueComparableBuildersBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   CompoundValueComparableBuildersBuilder toBuilder() =>
@@ -2378,8 +2972,10 @@ class _$CompoundValueComparableBuilders
 
 class CompoundValueComparableBuildersBuilder
     implements
-        Builder<CompoundValueComparableBuilders,
-            CompoundValueComparableBuildersBuilder> {
+        Builder<
+          CompoundValueComparableBuilders,
+          CompoundValueComparableBuildersBuilder
+        > {
   _$CompoundValueComparableBuilders? _$v;
 
   SimpleValue? _simpleValue;
@@ -2418,10 +3014,14 @@ class CompoundValueComparableBuildersBuilder
   CompoundValueComparableBuilders build() => _build();
 
   _$CompoundValueComparableBuilders _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$CompoundValueComparableBuilders._(
           simpleValue: BuiltValueNullFieldError.checkNotNull(
-              simpleValue, r'CompoundValueComparableBuilders', 'simpleValue'),
+            simpleValue,
+            r'CompoundValueComparableBuilders',
+            'simpleValue',
+          ),
           validatedValue: validatedValue,
         );
     replace(_$result);
@@ -2456,20 +3056,20 @@ class _$CompoundValueNoNestingField extends CompoundValueNoNestingField {
   @override
   final ValidatedValue? validatedValueWithNested;
 
-  factory _$CompoundValueNoNestingField(
-          [void Function(CompoundValueNoNestingFieldBuilder)? updates]) =>
-      (CompoundValueNoNestingFieldBuilder()..update(updates))._build();
+  factory _$CompoundValueNoNestingField([
+    void Function(CompoundValueNoNestingFieldBuilder)? updates,
+  ]) => (CompoundValueNoNestingFieldBuilder()..update(updates))._build();
 
-  _$CompoundValueNoNestingField._(
-      {required this.simpleValue,
-      this.validatedValue,
-      required this.simpleValueWithNested,
-      this.validatedValueWithNested})
-      : super._();
+  _$CompoundValueNoNestingField._({
+    required this.simpleValue,
+    this.validatedValue,
+    required this.simpleValueWithNested,
+    this.validatedValueWithNested,
+  }) : super._();
   @override
   CompoundValueNoNestingField rebuild(
-          void Function(CompoundValueNoNestingFieldBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(CompoundValueNoNestingFieldBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   CompoundValueNoNestingFieldBuilder toBuilder() =>
@@ -2509,8 +3109,10 @@ class _$CompoundValueNoNestingField extends CompoundValueNoNestingField {
 
 class CompoundValueNoNestingFieldBuilder
     implements
-        Builder<CompoundValueNoNestingField,
-            CompoundValueNoNestingFieldBuilder> {
+        Builder<
+          CompoundValueNoNestingField,
+          CompoundValueNoNestingFieldBuilder
+        > {
   _$CompoundValueNoNestingField? _$v;
 
   SimpleValue? _simpleValue;
@@ -2533,8 +3135,8 @@ class CompoundValueNoNestingFieldBuilder
   ValidatedValueBuilder get validatedValueWithNested =>
       _$this._validatedValueWithNested ??= ValidatedValueBuilder();
   set validatedValueWithNested(
-          ValidatedValueBuilder? validatedValueWithNested) =>
-      _$this._validatedValueWithNested = validatedValueWithNested;
+    ValidatedValueBuilder? validatedValueWithNested,
+  ) => _$this._validatedValueWithNested = validatedValueWithNested;
 
   CompoundValueNoNestingFieldBuilder();
 
@@ -2566,10 +3168,14 @@ class CompoundValueNoNestingFieldBuilder
   _$CompoundValueNoNestingField _build() {
     _$CompoundValueNoNestingField _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           _$CompoundValueNoNestingField._(
             simpleValue: BuiltValueNullFieldError.checkNotNull(
-                simpleValue, r'CompoundValueNoNestingField', 'simpleValue'),
+              simpleValue,
+              r'CompoundValueNoNestingField',
+              'simpleValue',
+            ),
             validatedValue: validatedValue,
             simpleValueWithNested: simpleValueWithNested.build(),
             validatedValueWithNested: _validatedValueWithNested?.build(),
@@ -2583,7 +3189,10 @@ class CompoundValueNoNestingFieldBuilder
         _validatedValueWithNested?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'CompoundValueNoNestingField', _$failedField, e.toString());
+          r'CompoundValueNoNestingField',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -2602,20 +3211,20 @@ class _$CompoundValueNestingField extends CompoundValueNestingField {
   @override
   final ValidatedValue? validatedValueWithNested;
 
-  factory _$CompoundValueNestingField(
-          [void Function(CompoundValueNestingFieldBuilder)? updates]) =>
-      (CompoundValueNestingFieldBuilder()..update(updates))._build();
+  factory _$CompoundValueNestingField([
+    void Function(CompoundValueNestingFieldBuilder)? updates,
+  ]) => (CompoundValueNestingFieldBuilder()..update(updates))._build();
 
-  _$CompoundValueNestingField._(
-      {required this.simpleValue,
-      this.validatedValue,
-      required this.simpleValueWithNested,
-      this.validatedValueWithNested})
-      : super._();
+  _$CompoundValueNestingField._({
+    required this.simpleValue,
+    this.validatedValue,
+    required this.simpleValueWithNested,
+    this.validatedValueWithNested,
+  }) : super._();
   @override
   CompoundValueNestingField rebuild(
-          void Function(CompoundValueNestingFieldBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(CompoundValueNestingFieldBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   CompoundValueNestingFieldBuilder toBuilder() =>
@@ -2678,8 +3287,8 @@ class CompoundValueNestingFieldBuilder
   ValidatedValueBuilder get validatedValueWithNested =>
       _$this._validatedValueWithNested ??= ValidatedValueBuilder();
   set validatedValueWithNested(
-          ValidatedValueBuilder? validatedValueWithNested) =>
-      _$this._validatedValueWithNested = validatedValueWithNested;
+    ValidatedValueBuilder? validatedValueWithNested,
+  ) => _$this._validatedValueWithNested = validatedValueWithNested;
 
   CompoundValueNestingFieldBuilder();
 
@@ -2711,10 +3320,14 @@ class CompoundValueNestingFieldBuilder
   _$CompoundValueNestingField _build() {
     _$CompoundValueNestingField _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           _$CompoundValueNestingField._(
             simpleValue: BuiltValueNullFieldError.checkNotNull(
-                simpleValue, r'CompoundValueNestingField', 'simpleValue'),
+              simpleValue,
+              r'CompoundValueNestingField',
+              'simpleValue',
+            ),
             validatedValue: validatedValue,
             simpleValueWithNested: simpleValueWithNested.build(),
             validatedValueWithNested: _validatedValueWithNested?.build(),
@@ -2728,7 +3341,10 @@ class CompoundValueNestingFieldBuilder
         _validatedValueWithNested?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'CompoundValueNestingField', _$failedField, e.toString());
+          r'CompoundValueNestingField',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -2744,17 +3360,18 @@ class _$CompoundValueNoAutoNestingField
   @override
   final NoFieldsValue valueWithAutoCreate;
 
-  factory _$CompoundValueNoAutoNestingField(
-          [void Function(CompoundValueNoAutoNestingFieldBuilder)? updates]) =>
-      (CompoundValueNoAutoNestingFieldBuilder()..update(updates))._build();
+  factory _$CompoundValueNoAutoNestingField([
+    void Function(CompoundValueNoAutoNestingFieldBuilder)? updates,
+  ]) => (CompoundValueNoAutoNestingFieldBuilder()..update(updates))._build();
 
-  _$CompoundValueNoAutoNestingField._(
-      {required this.value, required this.valueWithAutoCreate})
-      : super._();
+  _$CompoundValueNoAutoNestingField._({
+    required this.value,
+    required this.valueWithAutoCreate,
+  }) : super._();
   @override
   CompoundValueNoAutoNestingField rebuild(
-          void Function(CompoundValueNoAutoNestingFieldBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(CompoundValueNoAutoNestingFieldBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   CompoundValueNoAutoNestingFieldBuilder toBuilder() =>
@@ -2788,8 +3405,10 @@ class _$CompoundValueNoAutoNestingField
 
 class CompoundValueNoAutoNestingFieldBuilder
     implements
-        Builder<CompoundValueNoAutoNestingField,
-            CompoundValueNoAutoNestingFieldBuilder> {
+        Builder<
+          CompoundValueNoAutoNestingField,
+          CompoundValueNoAutoNestingFieldBuilder
+        > {
   _$CompoundValueNoAutoNestingField? _$v;
 
   NoFieldsValueBuilder? _value;
@@ -2830,10 +3449,14 @@ class CompoundValueNoAutoNestingFieldBuilder
   _$CompoundValueNoAutoNestingField _build() {
     _$CompoundValueNoAutoNestingField _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           _$CompoundValueNoAutoNestingField._(
             value: BuiltValueNullFieldError.checkNotNull(
-                _value?.build(), r'CompoundValueNoAutoNestingField', 'value'),
+              _value?.build(),
+              r'CompoundValueNoAutoNestingField',
+              'value',
+            ),
             valueWithAutoCreate: valueWithAutoCreate.build(),
           );
     } catch (_) {
@@ -2845,7 +3468,10 @@ class CompoundValueNoAutoNestingFieldBuilder
         valueWithAutoCreate.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'CompoundValueNoAutoNestingField', _$failedField, e.toString());
+          r'CompoundValueNoAutoNestingField',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -2860,17 +3486,18 @@ class _$CompoundValueAutoNestingField extends CompoundValueAutoNestingField {
   @override
   final NoFieldsValue valueWithAutoCreate;
 
-  factory _$CompoundValueAutoNestingField(
-          [void Function(CompoundValueAutoNestingFieldBuilder)? updates]) =>
-      (CompoundValueAutoNestingFieldBuilder()..update(updates))._build();
+  factory _$CompoundValueAutoNestingField([
+    void Function(CompoundValueAutoNestingFieldBuilder)? updates,
+  ]) => (CompoundValueAutoNestingFieldBuilder()..update(updates))._build();
 
-  _$CompoundValueAutoNestingField._(
-      {required this.value, required this.valueWithAutoCreate})
-      : super._();
+  _$CompoundValueAutoNestingField._({
+    required this.value,
+    required this.valueWithAutoCreate,
+  }) : super._();
   @override
   CompoundValueAutoNestingField rebuild(
-          void Function(CompoundValueAutoNestingFieldBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(CompoundValueAutoNestingFieldBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   CompoundValueAutoNestingFieldBuilder toBuilder() =>
@@ -2904,8 +3531,10 @@ class _$CompoundValueAutoNestingField extends CompoundValueAutoNestingField {
 
 class CompoundValueAutoNestingFieldBuilder
     implements
-        Builder<CompoundValueAutoNestingField,
-            CompoundValueAutoNestingFieldBuilder> {
+        Builder<
+          CompoundValueAutoNestingField,
+          CompoundValueAutoNestingFieldBuilder
+        > {
   _$CompoundValueAutoNestingField? _$v;
 
   NoFieldsValueBuilder? _value;
@@ -2946,7 +3575,8 @@ class CompoundValueAutoNestingFieldBuilder
   _$CompoundValueAutoNestingField _build() {
     _$CompoundValueAutoNestingField _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           _$CompoundValueAutoNestingField._(
             value: value.build(),
             valueWithAutoCreate: valueWithAutoCreate.build(),
@@ -2960,7 +3590,10 @@ class CompoundValueAutoNestingFieldBuilder
         valueWithAutoCreate.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'CompoundValueAutoNestingField', _$failedField, e.toString());
+          r'CompoundValueAutoNestingField',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -2975,18 +3608,20 @@ class _$CompoundValueExplicitNoNesting extends CompoundValueExplicitNoNesting {
   @override
   final ValidatedValue? validatedValue;
 
-  factory _$CompoundValueExplicitNoNesting(
-          [void Function(CompoundValueExplicitNoNestingBuilder)? updates]) =>
+  factory _$CompoundValueExplicitNoNesting([
+    void Function(CompoundValueExplicitNoNestingBuilder)? updates,
+  ]) =>
       (CompoundValueExplicitNoNestingBuilder()..update(updates)).build()
           as _$CompoundValueExplicitNoNesting;
 
-  _$CompoundValueExplicitNoNesting._(
-      {required this.simpleValue, this.validatedValue})
-      : super._();
+  _$CompoundValueExplicitNoNesting._({
+    required this.simpleValue,
+    this.validatedValue,
+  }) : super._();
   @override
   CompoundValueExplicitNoNesting rebuild(
-          void Function(CompoundValueExplicitNoNestingBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(CompoundValueExplicitNoNestingBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   _$CompoundValueExplicitNoNestingBuilder toBuilder() =>
@@ -3074,7 +3709,8 @@ class _$CompoundValueExplicitNoNestingBuilder
   _$CompoundValueExplicitNoNesting _build() {
     _$CompoundValueExplicitNoNesting _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           _$CompoundValueExplicitNoNesting._(
             simpleValue: simpleValue.build(),
             validatedValue: validatedValue,
@@ -3086,7 +3722,10 @@ class _$CompoundValueExplicitNoNestingBuilder
         simpleValue.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'CompoundValueExplicitNoNesting', _$failedField, e.toString());
+          r'CompoundValueExplicitNoNesting',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -3099,16 +3738,17 @@ class _$ExplicitNestedList extends ExplicitNestedList {
   @override
   final BuiltList<BuiltList<int>> nestedList;
 
-  factory _$ExplicitNestedList(
-          [void Function(ExplicitNestedListBuilder)? updates]) =>
+  factory _$ExplicitNestedList([
+    void Function(ExplicitNestedListBuilder)? updates,
+  ]) =>
       (ExplicitNestedListBuilder()..update(updates)).build()
           as _$ExplicitNestedList;
 
   _$ExplicitNestedList._({required this.nestedList}) : super._();
   @override
   ExplicitNestedList rebuild(
-          void Function(ExplicitNestedListBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(ExplicitNestedListBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   _$ExplicitNestedListBuilder toBuilder() =>
@@ -3130,9 +3770,9 @@ class _$ExplicitNestedList extends ExplicitNestedList {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'ExplicitNestedList')
-          ..add('nestedList', nestedList))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'ExplicitNestedList',
+    )..add('nestedList', nestedList)).toString();
   }
 }
 
@@ -3178,10 +3818,7 @@ class _$ExplicitNestedListBuilder extends ExplicitNestedListBuilder {
   _$ExplicitNestedList _build() {
     _$ExplicitNestedList _$result;
     try {
-      _$result = _$v ??
-          _$ExplicitNestedList._(
-            nestedList: nestedList.build(),
-          );
+      _$result = _$v ?? _$ExplicitNestedList._(nestedList: nestedList.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -3189,7 +3826,10 @@ class _$ExplicitNestedListBuilder extends ExplicitNestedListBuilder {
         nestedList.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'ExplicitNestedList', _$failedField, e.toString());
+          r'ExplicitNestedList',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -3203,17 +3843,17 @@ class _$ExplicitNonNullBuilderNullableSetter
   @override
   final SimpleValue? simpleValue;
 
-  factory _$ExplicitNonNullBuilderNullableSetter(
-          [void Function(ExplicitNonNullBuilderNullableSetterBuilder)?
-              updates]) =>
+  factory _$ExplicitNonNullBuilderNullableSetter([
+    void Function(ExplicitNonNullBuilderNullableSetterBuilder)? updates,
+  ]) =>
       (ExplicitNonNullBuilderNullableSetterBuilder()..update(updates)).build()
           as _$ExplicitNonNullBuilderNullableSetter;
 
   _$ExplicitNonNullBuilderNullableSetter._({this.simpleValue}) : super._();
   @override
   ExplicitNonNullBuilderNullableSetter rebuild(
-          void Function(ExplicitNonNullBuilderNullableSetterBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(ExplicitNonNullBuilderNullableSetterBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   _$ExplicitNonNullBuilderNullableSetterBuilder toBuilder() =>
@@ -3236,9 +3876,9 @@ class _$ExplicitNonNullBuilderNullableSetter
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'ExplicitNonNullBuilderNullableSetter')
-          ..add('simpleValue', simpleValue))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'ExplicitNonNullBuilderNullableSetter',
+    )..add('simpleValue', simpleValue)).toString();
   }
 }
 
@@ -3277,7 +3917,8 @@ class _$ExplicitNonNullBuilderNullableSetterBuilder
 
   @override
   void update(
-      void Function(ExplicitNonNullBuilderNullableSetterBuilder)? updates) {
+    void Function(ExplicitNonNullBuilderNullableSetterBuilder)? updates,
+  ) {
     if (updates != null) updates(this);
   }
 
@@ -3287,7 +3928,8 @@ class _$ExplicitNonNullBuilderNullableSetterBuilder
   _$ExplicitNonNullBuilderNullableSetter _build() {
     _$ExplicitNonNullBuilderNullableSetter _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           _$ExplicitNonNullBuilderNullableSetter._(
             simpleValue: _simpleValue?.build(),
           );
@@ -3298,9 +3940,10 @@ class _$ExplicitNonNullBuilderNullableSetterBuilder
         _simpleValue?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'ExplicitNonNullBuilderNullableSetter',
-            _$failedField,
-            e.toString());
+          r'ExplicitNonNullBuilderNullableSetter',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -3314,17 +3957,17 @@ class _$ExplicitNonNullBuilderNullableField
   @override
   final SimpleValue? simpleValue;
 
-  factory _$ExplicitNonNullBuilderNullableField(
-          [void Function(ExplicitNonNullBuilderNullableFieldBuilder)?
-              updates]) =>
+  factory _$ExplicitNonNullBuilderNullableField([
+    void Function(ExplicitNonNullBuilderNullableFieldBuilder)? updates,
+  ]) =>
       (ExplicitNonNullBuilderNullableFieldBuilder()..update(updates)).build()
           as _$ExplicitNonNullBuilderNullableField;
 
   _$ExplicitNonNullBuilderNullableField._({this.simpleValue}) : super._();
   @override
   ExplicitNonNullBuilderNullableField rebuild(
-          void Function(ExplicitNonNullBuilderNullableFieldBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(ExplicitNonNullBuilderNullableFieldBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   _$ExplicitNonNullBuilderNullableFieldBuilder toBuilder() =>
@@ -3347,9 +3990,9 @@ class _$ExplicitNonNullBuilderNullableField
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'ExplicitNonNullBuilderNullableField')
-          ..add('simpleValue', simpleValue))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'ExplicitNonNullBuilderNullableField',
+    )..add('simpleValue', simpleValue)).toString();
   }
 }
 
@@ -3387,7 +4030,8 @@ class _$ExplicitNonNullBuilderNullableFieldBuilder
 
   @override
   void update(
-      void Function(ExplicitNonNullBuilderNullableFieldBuilder)? updates) {
+    void Function(ExplicitNonNullBuilderNullableFieldBuilder)? updates,
+  ) {
     if (updates != null) updates(this);
   }
 
@@ -3397,7 +4041,8 @@ class _$ExplicitNonNullBuilderNullableFieldBuilder
   _$ExplicitNonNullBuilderNullableField _build() {
     _$ExplicitNonNullBuilderNullableField _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           _$ExplicitNonNullBuilderNullableField._(
             simpleValue: super.simpleValue?.build(),
           );
@@ -3407,8 +4052,11 @@ class _$ExplicitNonNullBuilderNullableFieldBuilder
         _$failedField = 'simpleValue';
         super.simpleValue?.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(r'ExplicitNonNullBuilderNullableField',
-            _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'ExplicitNonNullBuilderNullableField',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -3467,8 +4115,9 @@ class _$DerivedValue extends DerivedValue {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'DerivedValue')..add('anInt', anInt))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'DerivedValue',
+    )..add('anInt', anInt)).toString();
   }
 }
 
@@ -3505,10 +4154,14 @@ class DerivedValueBuilder
   DerivedValue build() => _build();
 
   _$DerivedValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$DerivedValue._(
           anInt: BuiltValueNullFieldError.checkNotNull(
-              anInt, r'DerivedValue', 'anInt'),
+            anInt,
+            r'DerivedValue',
+            'anInt',
+          ),
         );
     replace(_$result);
     return _$result;
@@ -3596,10 +4249,14 @@ class ValueWithCodeBuilder
   ValueWithCode build() => _build();
 
   _$ValueWithCode _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$ValueWithCode._(
           anInt: BuiltValueNullFieldError.checkNotNull(
-              anInt, r'ValueWithCode', 'anInt'),
+            anInt,
+            r'ValueWithCode',
+            'anInt',
+          ),
           aString: aString,
         );
     replace(_$result);
@@ -3615,14 +4272,17 @@ class _$ValueWithDefaults extends ValueWithDefaults {
   @override
   final SimpleValue value;
 
-  factory _$ValueWithDefaults(
-          [void Function(ValueWithDefaultsBuilder)? updates]) =>
+  factory _$ValueWithDefaults([
+    void Function(ValueWithDefaultsBuilder)? updates,
+  ]) =>
       (ValueWithDefaultsBuilder()..update(updates)).build()
           as _$ValueWithDefaults;
 
-  _$ValueWithDefaults._(
-      {required this.anInt, this.aString, required this.value})
-      : super._();
+  _$ValueWithDefaults._({
+    required this.anInt,
+    this.aString,
+    required this.value,
+  }) : super._();
   @override
   ValueWithDefaults rebuild(void Function(ValueWithDefaultsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -3728,10 +4388,14 @@ class _$ValueWithDefaultsBuilder extends ValueWithDefaultsBuilder {
   _$ValueWithDefaults _build() {
     _$ValueWithDefaults _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           _$ValueWithDefaults._(
             anInt: BuiltValueNullFieldError.checkNotNull(
-                anInt, r'ValueWithDefaults', 'anInt'),
+              anInt,
+              r'ValueWithDefaults',
+              'anInt',
+            ),
             aString: aString,
             value: value.build(),
           );
@@ -3742,7 +4406,10 @@ class _$ValueWithDefaultsBuilder extends ValueWithDefaultsBuilder {
         value.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'ValueWithDefaults', _$failedField, e.toString());
+          r'ValueWithDefaults',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -3755,16 +4422,17 @@ class _$ValueWithBuilderSmarts extends ValueWithBuilderSmarts {
   @override
   final String value;
 
-  factory _$ValueWithBuilderSmarts(
-          [void Function(ValueWithBuilderSmartsBuilder)? updates]) =>
+  factory _$ValueWithBuilderSmarts([
+    void Function(ValueWithBuilderSmartsBuilder)? updates,
+  ]) =>
       (ValueWithBuilderSmartsBuilder()..update(updates)).build()
           as _$ValueWithBuilderSmarts;
 
   _$ValueWithBuilderSmarts._({required this.value}) : super._();
   @override
   ValueWithBuilderSmarts rebuild(
-          void Function(ValueWithBuilderSmartsBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(ValueWithBuilderSmartsBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   _$ValueWithBuilderSmartsBuilder toBuilder() =>
@@ -3786,9 +4454,9 @@ class _$ValueWithBuilderSmarts extends ValueWithBuilderSmarts {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'ValueWithBuilderSmarts')
-          ..add('value', value))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'ValueWithBuilderSmarts',
+    )..add('value', value)).toString();
   }
 }
 
@@ -3832,10 +4500,14 @@ class _$ValueWithBuilderSmartsBuilder extends ValueWithBuilderSmartsBuilder {
   ValueWithBuilderSmarts build() => _build();
 
   _$ValueWithBuilderSmarts _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$ValueWithBuilderSmarts._(
           value: BuiltValueNullFieldError.checkNotNull(
-              value, r'ValueWithBuilderSmarts', 'value'),
+            value,
+            r'ValueWithBuilderSmarts',
+            'value',
+          ),
         );
     replace(_$result);
     return _$result;
@@ -3923,10 +4595,14 @@ class ValidatedValueBuilder
   ValidatedValue build() => _build();
 
   _$ValidatedValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$ValidatedValue._(
           anInt: BuiltValueNullFieldError.checkNotNull(
-              anInt, r'ValidatedValue', 'anInt'),
+            anInt,
+            r'ValidatedValue',
+            'anInt',
+          ),
           aString: aString,
         );
     replace(_$result);
@@ -3940,15 +4616,15 @@ class _$ValueUsingImportAs extends ValueUsingImportAs {
   @override
   final using_import_as.TestEnum? nullableValue;
 
-  factory _$ValueUsingImportAs(
-          [void Function(ValueUsingImportAsBuilder)? updates]) =>
-      (ValueUsingImportAsBuilder()..update(updates))._build();
+  factory _$ValueUsingImportAs([
+    void Function(ValueUsingImportAsBuilder)? updates,
+  ]) => (ValueUsingImportAsBuilder()..update(updates))._build();
 
   _$ValueUsingImportAs._({required this.value, this.nullableValue}) : super._();
   @override
   ValueUsingImportAs rebuild(
-          void Function(ValueUsingImportAsBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(ValueUsingImportAsBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   ValueUsingImportAsBuilder toBuilder() =>
@@ -4019,10 +4695,14 @@ class ValueUsingImportAsBuilder
   ValueUsingImportAs build() => _build();
 
   _$ValueUsingImportAs _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$ValueUsingImportAs._(
           value: BuiltValueNullFieldError.checkNotNull(
-              value, r'ValueUsingImportAs', 'value'),
+            value,
+            r'ValueUsingImportAs',
+            'value',
+          ),
           nullableValue: nullableValue,
         );
     replace(_$result);
@@ -4112,19 +4792,19 @@ class _$PrimitivesValue extends PrimitivesValue {
   factory _$PrimitivesValue([void Function(PrimitivesValueBuilder)? updates]) =>
       (PrimitivesValueBuilder()..update(updates))._build();
 
-  _$PrimitivesValue._(
-      {required this.boolean,
-      required this.integer,
-      required this.int64,
-      required this.dbl,
-      required this.number,
-      required this.string,
-      required this.dateTime,
-      required this.duration,
-      required this.regExp,
-      required this.uri,
-      required this.bigInt})
-      : super._();
+  _$PrimitivesValue._({
+    required this.boolean,
+    required this.integer,
+    required this.int64,
+    required this.dbl,
+    required this.number,
+    required this.string,
+    required this.dateTime,
+    required this.duration,
+    required this.regExp,
+    required this.uri,
+    required this.bigInt,
+  }) : super._();
   @override
   PrimitivesValue rebuild(void Function(PrimitivesValueBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -4268,30 +4948,64 @@ class PrimitivesValueBuilder
   PrimitivesValue build() => _build();
 
   _$PrimitivesValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$PrimitivesValue._(
           boolean: BuiltValueNullFieldError.checkNotNull(
-              boolean, r'PrimitivesValue', 'boolean'),
+            boolean,
+            r'PrimitivesValue',
+            'boolean',
+          ),
           integer: BuiltValueNullFieldError.checkNotNull(
-              integer, r'PrimitivesValue', 'integer'),
+            integer,
+            r'PrimitivesValue',
+            'integer',
+          ),
           int64: BuiltValueNullFieldError.checkNotNull(
-              int64, r'PrimitivesValue', 'int64'),
+            int64,
+            r'PrimitivesValue',
+            'int64',
+          ),
           dbl: BuiltValueNullFieldError.checkNotNull(
-              dbl, r'PrimitivesValue', 'dbl'),
+            dbl,
+            r'PrimitivesValue',
+            'dbl',
+          ),
           number: BuiltValueNullFieldError.checkNotNull(
-              number, r'PrimitivesValue', 'number'),
+            number,
+            r'PrimitivesValue',
+            'number',
+          ),
           string: BuiltValueNullFieldError.checkNotNull(
-              string, r'PrimitivesValue', 'string'),
+            string,
+            r'PrimitivesValue',
+            'string',
+          ),
           dateTime: BuiltValueNullFieldError.checkNotNull(
-              dateTime, r'PrimitivesValue', 'dateTime'),
+            dateTime,
+            r'PrimitivesValue',
+            'dateTime',
+          ),
           duration: BuiltValueNullFieldError.checkNotNull(
-              duration, r'PrimitivesValue', 'duration'),
+            duration,
+            r'PrimitivesValue',
+            'duration',
+          ),
           regExp: BuiltValueNullFieldError.checkNotNull(
-              regExp, r'PrimitivesValue', 'regExp'),
+            regExp,
+            r'PrimitivesValue',
+            'regExp',
+          ),
           uri: BuiltValueNullFieldError.checkNotNull(
-              uri, r'PrimitivesValue', 'uri'),
+            uri,
+            r'PrimitivesValue',
+            'uri',
+          ),
           bigInt: BuiltValueNullFieldError.checkNotNull(
-              bigInt, r'PrimitivesValue', 'bigInt'),
+            bigInt,
+            r'PrimitivesValue',
+            'bigInt',
+          ),
         );
     replace(_$result);
     return _$result;
@@ -4329,9 +5043,9 @@ class _$FunctionValue extends FunctionValue {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'FunctionValue')
-          ..add('function', function))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'FunctionValue',
+    )..add('function', function)).toString();
   }
 }
 
@@ -4368,10 +5082,14 @@ class FunctionValueBuilder
   FunctionValue build() => _build();
 
   _$FunctionValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$FunctionValue._(
           function: BuiltValueNullFieldError.checkNotNull(
-              function, r'FunctionValue', 'function'),
+            function,
+            r'FunctionValue',
+            'function',
+          ),
         );
     replace(_$result);
     return _$result;
@@ -4382,15 +5100,15 @@ class _$ListOfFunctionValue extends ListOfFunctionValue {
   @override
   final BuiltList<MyFunctionType> functions;
 
-  factory _$ListOfFunctionValue(
-          [void Function(ListOfFunctionValueBuilder)? updates]) =>
-      (ListOfFunctionValueBuilder()..update(updates))._build();
+  factory _$ListOfFunctionValue([
+    void Function(ListOfFunctionValueBuilder)? updates,
+  ]) => (ListOfFunctionValueBuilder()..update(updates))._build();
 
   _$ListOfFunctionValue._({required this.functions}) : super._();
   @override
   ListOfFunctionValue rebuild(
-          void Function(ListOfFunctionValueBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(ListOfFunctionValueBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   ListOfFunctionValueBuilder toBuilder() =>
@@ -4412,9 +5130,9 @@ class _$ListOfFunctionValue extends ListOfFunctionValue {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'ListOfFunctionValue')
-          ..add('functions', functions))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'ListOfFunctionValue',
+    )..add('functions', functions)).toString();
   }
 }
 
@@ -4455,10 +5173,7 @@ class ListOfFunctionValueBuilder
   _$ListOfFunctionValue _build() {
     _$ListOfFunctionValue _$result;
     try {
-      _$result = _$v ??
-          _$ListOfFunctionValue._(
-            functions: functions.build(),
-          );
+      _$result = _$v ?? _$ListOfFunctionValue._(functions: functions.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -4466,7 +5181,10 @@ class ListOfFunctionValueBuilder
         functions.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'ListOfFunctionValue', _$failedField, e.toString());
+          r'ListOfFunctionValue',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -4481,16 +5199,16 @@ class _$PartiallySerializableValue extends PartiallySerializableValue {
   @override
   final int? transientValue;
 
-  factory _$PartiallySerializableValue(
-          [void Function(PartiallySerializableValueBuilder)? updates]) =>
-      (PartiallySerializableValueBuilder()..update(updates))._build();
+  factory _$PartiallySerializableValue([
+    void Function(PartiallySerializableValueBuilder)? updates,
+  ]) => (PartiallySerializableValueBuilder()..update(updates))._build();
 
   _$PartiallySerializableValue._({required this.value, this.transientValue})
-      : super._();
+    : super._();
   @override
   PartiallySerializableValue rebuild(
-          void Function(PartiallySerializableValueBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(PartiallySerializableValueBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   PartiallySerializableValueBuilder toBuilder() =>
@@ -4562,10 +5280,14 @@ class PartiallySerializableValueBuilder
   PartiallySerializableValue build() => _build();
 
   _$PartiallySerializableValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$PartiallySerializableValue._(
           value: BuiltValueNullFieldError.checkNotNull(
-              value, r'PartiallySerializableValue', 'value'),
+            value,
+            r'PartiallySerializableValue',
+            'value',
+          ),
           transientValue: transientValue,
         );
     replace(_$result);
@@ -4577,9 +5299,9 @@ class _$NamedFactoryValue extends NamedFactoryValue {
   @override
   final int value;
 
-  factory _$NamedFactoryValue(
-          [void Function(NamedFactoryValueBuilder)? updates]) =>
-      (NamedFactoryValueBuilder()..update(updates))._build();
+  factory _$NamedFactoryValue([
+    void Function(NamedFactoryValueBuilder)? updates,
+  ]) => (NamedFactoryValueBuilder()..update(updates))._build();
 
   _$NamedFactoryValue._({required this.value}) : super._();
   @override
@@ -4606,9 +5328,9 @@ class _$NamedFactoryValue extends NamedFactoryValue {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'NamedFactoryValue')
-          ..add('value', value))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'NamedFactoryValue',
+    )..add('value', value)).toString();
   }
 }
 
@@ -4645,10 +5367,14 @@ class NamedFactoryValueBuilder
   NamedFactoryValue build() => _build();
 
   _$NamedFactoryValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$NamedFactoryValue._(
           value: BuiltValueNullFieldError.checkNotNull(
-              value, r'NamedFactoryValue', 'value'),
+            value,
+            r'NamedFactoryValue',
+            'value',
+          ),
         );
     replace(_$result);
     return _$result;
@@ -4686,8 +5412,9 @@ class _$WireNameValue extends WireNameValue {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'WireNameValue')..add('value', value))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'WireNameValue',
+    )..add('value', value)).toString();
   }
 }
 
@@ -4724,10 +5451,14 @@ class WireNameValueBuilder
   WireNameValue build() => _build();
 
   _$WireNameValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$WireNameValue._(
           value: BuiltValueNullFieldError.checkNotNull(
-              value, r'WireNameValue', 'value'),
+            value,
+            r'WireNameValue',
+            'value',
+          ),
         );
     replace(_$result);
     return _$result;
@@ -4742,17 +5473,19 @@ class _$FieldDiscoveryValue extends FieldDiscoveryValue {
   @override
   final FieldDiscoveryValue? recursiveValue;
 
-  factory _$FieldDiscoveryValue(
-          [void Function(FieldDiscoveryValueBuilder)? updates]) =>
-      (FieldDiscoveryValueBuilder()..update(updates))._build();
+  factory _$FieldDiscoveryValue([
+    void Function(FieldDiscoveryValueBuilder)? updates,
+  ]) => (FieldDiscoveryValueBuilder()..update(updates))._build();
 
-  _$FieldDiscoveryValue._(
-      {required this.value, required this.values, this.recursiveValue})
-      : super._();
+  _$FieldDiscoveryValue._({
+    required this.value,
+    required this.values,
+    this.recursiveValue,
+  }) : super._();
   @override
   FieldDiscoveryValue rebuild(
-          void Function(FieldDiscoveryValueBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(FieldDiscoveryValueBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   FieldDiscoveryValueBuilder toBuilder() =>
@@ -4837,7 +5570,8 @@ class FieldDiscoveryValueBuilder
   _$FieldDiscoveryValue _build() {
     _$FieldDiscoveryValue _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           _$FieldDiscoveryValue._(
             value: value.build(),
             values: values.build(),
@@ -4854,7 +5588,10 @@ class FieldDiscoveryValueBuilder
         _recursiveValue?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'FieldDiscoveryValue', _$failedField, e.toString());
+          r'FieldDiscoveryValue',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -4867,9 +5604,9 @@ class _$DiscoverableValue extends DiscoverableValue {
   @override
   final SecondDiscoverableValue value;
 
-  factory _$DiscoverableValue(
-          [void Function(DiscoverableValueBuilder)? updates]) =>
-      (DiscoverableValueBuilder()..update(updates))._build();
+  factory _$DiscoverableValue([
+    void Function(DiscoverableValueBuilder)? updates,
+  ]) => (DiscoverableValueBuilder()..update(updates))._build();
 
   _$DiscoverableValue._({required this.value}) : super._();
   @override
@@ -4896,9 +5633,9 @@ class _$DiscoverableValue extends DiscoverableValue {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'DiscoverableValue')
-          ..add('value', value))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'DiscoverableValue',
+    )..add('value', value)).toString();
   }
 }
 
@@ -4938,10 +5675,7 @@ class DiscoverableValueBuilder
   _$DiscoverableValue _build() {
     _$DiscoverableValue _$result;
     try {
-      _$result = _$v ??
-          _$DiscoverableValue._(
-            value: value.build(),
-          );
+      _$result = _$v ?? _$DiscoverableValue._(value: value.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -4949,7 +5683,10 @@ class DiscoverableValueBuilder
         value.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'DiscoverableValue', _$failedField, e.toString());
+          r'DiscoverableValue',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -4962,15 +5699,15 @@ class _$SecondDiscoverableValue extends SecondDiscoverableValue {
   @override
   final int value;
 
-  factory _$SecondDiscoverableValue(
-          [void Function(SecondDiscoverableValueBuilder)? updates]) =>
-      (SecondDiscoverableValueBuilder()..update(updates))._build();
+  factory _$SecondDiscoverableValue([
+    void Function(SecondDiscoverableValueBuilder)? updates,
+  ]) => (SecondDiscoverableValueBuilder()..update(updates))._build();
 
   _$SecondDiscoverableValue._({required this.value}) : super._();
   @override
   SecondDiscoverableValue rebuild(
-          void Function(SecondDiscoverableValueBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(SecondDiscoverableValueBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   SecondDiscoverableValueBuilder toBuilder() =>
@@ -4992,9 +5729,9 @@ class _$SecondDiscoverableValue extends SecondDiscoverableValue {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'SecondDiscoverableValue')
-          ..add('value', value))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'SecondDiscoverableValue',
+    )..add('value', value)).toString();
   }
 }
 
@@ -5032,10 +5769,14 @@ class SecondDiscoverableValueBuilder
   SecondDiscoverableValue build() => _build();
 
   _$SecondDiscoverableValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$SecondDiscoverableValue._(
           value: BuiltValueNullFieldError.checkNotNull(
-              value, r'SecondDiscoverableValue', 'value'),
+            value,
+            r'SecondDiscoverableValue',
+            'value',
+          ),
         );
     replace(_$result);
     return _$result;
@@ -5046,15 +5787,15 @@ class _$ThirdDiscoverableValue extends ThirdDiscoverableValue {
   @override
   final int value;
 
-  factory _$ThirdDiscoverableValue(
-          [void Function(ThirdDiscoverableValueBuilder)? updates]) =>
-      (ThirdDiscoverableValueBuilder()..update(updates))._build();
+  factory _$ThirdDiscoverableValue([
+    void Function(ThirdDiscoverableValueBuilder)? updates,
+  ]) => (ThirdDiscoverableValueBuilder()..update(updates))._build();
 
   _$ThirdDiscoverableValue._({required this.value}) : super._();
   @override
   ThirdDiscoverableValue rebuild(
-          void Function(ThirdDiscoverableValueBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(ThirdDiscoverableValueBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   ThirdDiscoverableValueBuilder toBuilder() =>
@@ -5076,9 +5817,9 @@ class _$ThirdDiscoverableValue extends ThirdDiscoverableValue {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'ThirdDiscoverableValue')
-          ..add('value', value))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'ThirdDiscoverableValue',
+    )..add('value', value)).toString();
   }
 }
 
@@ -5115,10 +5856,14 @@ class ThirdDiscoverableValueBuilder
   ThirdDiscoverableValue build() => _build();
 
   _$ThirdDiscoverableValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$ThirdDiscoverableValue._(
           value: BuiltValueNullFieldError.checkNotNull(
-              value, r'ThirdDiscoverableValue', 'value'),
+            value,
+            r'ThirdDiscoverableValue',
+            'value',
+          ),
         );
     replace(_$result);
     return _$result;
@@ -5156,9 +5901,9 @@ class _$RecursiveValueA extends RecursiveValueA {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'RecursiveValueA')
-          ..add('value', value))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'RecursiveValueA',
+    )..add('value', value)).toString();
   }
 }
 
@@ -5198,10 +5943,7 @@ class RecursiveValueABuilder
   _$RecursiveValueA _build() {
     _$RecursiveValueA _$result;
     try {
-      _$result = _$v ??
-          _$RecursiveValueA._(
-            value: value.build(),
-          );
+      _$result = _$v ?? _$RecursiveValueA._(value: value.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -5209,7 +5951,10 @@ class RecursiveValueABuilder
         value.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'RecursiveValueA', _$failedField, e.toString());
+          r'RecursiveValueA',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -5249,9 +5994,9 @@ class _$RecursiveValueB extends RecursiveValueB {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'RecursiveValueB')
-          ..add('value', value))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'RecursiveValueB',
+    )..add('value', value)).toString();
   }
 }
 
@@ -5291,10 +6036,7 @@ class RecursiveValueBBuilder
   _$RecursiveValueB _build() {
     _$RecursiveValueB _$result;
     try {
-      _$result = _$v ??
-          _$RecursiveValueB._(
-            value: value.build(),
-          );
+      _$result = _$v ?? _$RecursiveValueB._(value: value.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -5302,7 +6044,10 @@ class RecursiveValueBBuilder
         value.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'RecursiveValueB', _$failedField, e.toString());
+          r'RecursiveValueB',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -5315,15 +6060,15 @@ class _$ValueWithCustomSerializer extends ValueWithCustomSerializer {
   @override
   final int value;
 
-  factory _$ValueWithCustomSerializer(
-          [void Function(ValueWithCustomSerializerBuilder)? updates]) =>
-      (ValueWithCustomSerializerBuilder()..update(updates))._build();
+  factory _$ValueWithCustomSerializer([
+    void Function(ValueWithCustomSerializerBuilder)? updates,
+  ]) => (ValueWithCustomSerializerBuilder()..update(updates))._build();
 
   _$ValueWithCustomSerializer._({required this.value}) : super._();
   @override
   ValueWithCustomSerializer rebuild(
-          void Function(ValueWithCustomSerializerBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(ValueWithCustomSerializerBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   ValueWithCustomSerializerBuilder toBuilder() =>
@@ -5345,9 +6090,9 @@ class _$ValueWithCustomSerializer extends ValueWithCustomSerializer {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'ValueWithCustomSerializer')
-          ..add('value', value))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'ValueWithCustomSerializer',
+    )..add('value', value)).toString();
   }
 }
 
@@ -5385,10 +6130,14 @@ class ValueWithCustomSerializerBuilder
   ValueWithCustomSerializer build() => _build();
 
   _$ValueWithCustomSerializer _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$ValueWithCustomSerializer._(
           value: BuiltValueNullFieldError.checkNotNull(
-              value, r'ValueWithCustomSerializer', 'value'),
+            value,
+            r'ValueWithCustomSerializer',
+            'value',
+          ),
         );
     replace(_$result);
     return _$result;
@@ -5426,8 +6175,9 @@ class _$ValueWithOnSet extends ValueWithOnSet {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'ValueWithOnSet')..add('value', value))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'ValueWithOnSet',
+    )..add('value', value)).toString();
   }
 }
 
@@ -5469,10 +6219,14 @@ class ValueWithOnSetBuilder
   ValueWithOnSet build() => _build();
 
   _$ValueWithOnSet _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$ValueWithOnSet._(
           value: BuiltValueNullFieldError.checkNotNull(
-              value, r'ValueWithOnSet', 'value'),
+            value,
+            r'ValueWithOnSet',
+            'value',
+          ),
         );
     replace(_$result);
     return _$result;
@@ -5480,15 +6234,15 @@ class ValueWithOnSetBuilder
 }
 
 class _$CustomToStringValue extends CustomToStringValue {
-  factory _$CustomToStringValue(
-          [void Function(CustomToStringValueBuilder)? updates]) =>
-      (CustomToStringValueBuilder()..update(updates))._build();
+  factory _$CustomToStringValue([
+    void Function(CustomToStringValueBuilder)? updates,
+  ]) => (CustomToStringValueBuilder()..update(updates))._build();
 
   _$CustomToStringValue._() : super._();
   @override
   CustomToStringValue rebuild(
-          void Function(CustomToStringValueBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(CustomToStringValueBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   CustomToStringValueBuilder toBuilder() =>
@@ -5563,8 +6317,9 @@ class _$OtherValue extends OtherValue {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'OtherValue')..add('other', other))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'OtherValue',
+    )..add('other', other)).toString();
   }
 }
 
@@ -5600,10 +6355,14 @@ class OtherValueBuilder implements Builder<OtherValue, OtherValueBuilder> {
   OtherValue build() => _build();
 
   _$OtherValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$OtherValue._(
           other: BuiltValueNullFieldError.checkNotNull(
-              other, r'OtherValue', 'other'),
+            other,
+            r'OtherValue',
+            'other',
+          ),
         );
     replace(_$result);
     return _$result;
@@ -5618,17 +6377,19 @@ class _$DefaultsForFieldSettingsValue extends DefaultsForFieldSettingsValue {
   @override
   final int serialized;
 
-  factory _$DefaultsForFieldSettingsValue(
-          [void Function(DefaultsForFieldSettingsValueBuilder)? updates]) =>
-      (DefaultsForFieldSettingsValueBuilder()..update(updates))._build();
+  factory _$DefaultsForFieldSettingsValue([
+    void Function(DefaultsForFieldSettingsValueBuilder)? updates,
+  ]) => (DefaultsForFieldSettingsValueBuilder()..update(updates))._build();
 
-  _$DefaultsForFieldSettingsValue._(
-      {required this.ignored, required this.compared, required this.serialized})
-      : super._();
+  _$DefaultsForFieldSettingsValue._({
+    required this.ignored,
+    required this.compared,
+    required this.serialized,
+  }) : super._();
   @override
   DefaultsForFieldSettingsValue rebuild(
-          void Function(DefaultsForFieldSettingsValueBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(DefaultsForFieldSettingsValueBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   DefaultsForFieldSettingsValueBuilder toBuilder() =>
@@ -5660,8 +6421,10 @@ class _$DefaultsForFieldSettingsValue extends DefaultsForFieldSettingsValue {
 
 class DefaultsForFieldSettingsValueBuilder
     implements
-        Builder<DefaultsForFieldSettingsValue,
-            DefaultsForFieldSettingsValueBuilder> {
+        Builder<
+          DefaultsForFieldSettingsValue,
+          DefaultsForFieldSettingsValueBuilder
+        > {
   _$DefaultsForFieldSettingsValue? _$v;
 
   int? _ignored;
@@ -5703,14 +6466,24 @@ class DefaultsForFieldSettingsValueBuilder
   DefaultsForFieldSettingsValue build() => _build();
 
   _$DefaultsForFieldSettingsValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$DefaultsForFieldSettingsValue._(
           ignored: BuiltValueNullFieldError.checkNotNull(
-              ignored, r'DefaultsForFieldSettingsValue', 'ignored'),
+            ignored,
+            r'DefaultsForFieldSettingsValue',
+            'ignored',
+          ),
           compared: BuiltValueNullFieldError.checkNotNull(
-              compared, r'DefaultsForFieldSettingsValue', 'compared'),
+            compared,
+            r'DefaultsForFieldSettingsValue',
+            'compared',
+          ),
           serialized: BuiltValueNullFieldError.checkNotNull(
-              serialized, r'DefaultsForFieldSettingsValue', 'serialized'),
+            serialized,
+            r'DefaultsForFieldSettingsValue',
+            'serialized',
+          ),
         );
     replace(_$result);
     return _$result;
@@ -5735,24 +6508,24 @@ class _$ValueWithBuilderInitializer extends ValueWithBuilderInitializer {
   @override
   final SimpleValue? nullableNestedValueWithDefault;
 
-  factory _$ValueWithBuilderInitializer(
-          [void Function(ValueWithBuilderInitializerBuilder)? updates]) =>
-      (ValueWithBuilderInitializerBuilder()..update(updates))._build();
+  factory _$ValueWithBuilderInitializer([
+    void Function(ValueWithBuilderInitializerBuilder)? updates,
+  ]) => (ValueWithBuilderInitializerBuilder()..update(updates))._build();
 
-  _$ValueWithBuilderInitializer._(
-      {required this.anInt,
-      required this.anIntWithDefault,
-      this.nullableInt,
-      this.nullableIntWithDefault,
-      required this.nestedValue,
-      required this.nestedValueWithDefault,
-      this.nullableNestedValue,
-      this.nullableNestedValueWithDefault})
-      : super._();
+  _$ValueWithBuilderInitializer._({
+    required this.anInt,
+    required this.anIntWithDefault,
+    this.nullableInt,
+    this.nullableIntWithDefault,
+    required this.nestedValue,
+    required this.nestedValueWithDefault,
+    this.nullableNestedValue,
+    this.nullableNestedValueWithDefault,
+  }) : super._();
   @override
   ValueWithBuilderInitializer rebuild(
-          void Function(ValueWithBuilderInitializerBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(ValueWithBuilderInitializerBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   ValueWithBuilderInitializerBuilder toBuilder() =>
@@ -5798,15 +6571,19 @@ class _$ValueWithBuilderInitializer extends ValueWithBuilderInitializer {
           ..add('nestedValueWithDefault', nestedValueWithDefault)
           ..add('nullableNestedValue', nullableNestedValue)
           ..add(
-              'nullableNestedValueWithDefault', nullableNestedValueWithDefault))
+            'nullableNestedValueWithDefault',
+            nullableNestedValueWithDefault,
+          ))
         .toString();
   }
 }
 
 class ValueWithBuilderInitializerBuilder
     implements
-        Builder<ValueWithBuilderInitializer,
-            ValueWithBuilderInitializerBuilder> {
+        Builder<
+          ValueWithBuilderInitializer,
+          ValueWithBuilderInitializerBuilder
+        > {
   _$ValueWithBuilderInitializer? _$v;
 
   int? _anInt;
@@ -5849,8 +6626,8 @@ class ValueWithBuilderInitializerBuilder
   SimpleValueBuilder get nullableNestedValueWithDefault =>
       _$this._nullableNestedValueWithDefault ??= SimpleValueBuilder();
   set nullableNestedValueWithDefault(
-          SimpleValueBuilder? nullableNestedValueWithDefault) =>
-      _$this._nullableNestedValueWithDefault = nullableNestedValueWithDefault;
+    SimpleValueBuilder? nullableNestedValueWithDefault,
+  ) => _$this._nullableNestedValueWithDefault = nullableNestedValueWithDefault;
 
   ValueWithBuilderInitializerBuilder() {
     ValueWithBuilderInitializer._initializeBuilder(this);
@@ -5866,8 +6643,8 @@ class ValueWithBuilderInitializerBuilder
       _nestedValue = $v.nestedValue.toBuilder();
       _nestedValueWithDefault = $v.nestedValueWithDefault.toBuilder();
       _nullableNestedValue = $v.nullableNestedValue?.toBuilder();
-      _nullableNestedValueWithDefault =
-          $v.nullableNestedValueWithDefault?.toBuilder();
+      _nullableNestedValueWithDefault = $v.nullableNestedValueWithDefault
+          ?.toBuilder();
       _$v = null;
     }
     return this;
@@ -5889,21 +6666,26 @@ class ValueWithBuilderInitializerBuilder
   _$ValueWithBuilderInitializer _build() {
     _$ValueWithBuilderInitializer _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           _$ValueWithBuilderInitializer._(
             anInt: BuiltValueNullFieldError.checkNotNull(
-                anInt, r'ValueWithBuilderInitializer', 'anInt'),
+              anInt,
+              r'ValueWithBuilderInitializer',
+              'anInt',
+            ),
             anIntWithDefault: BuiltValueNullFieldError.checkNotNull(
-                anIntWithDefault,
-                r'ValueWithBuilderInitializer',
-                'anIntWithDefault'),
+              anIntWithDefault,
+              r'ValueWithBuilderInitializer',
+              'anIntWithDefault',
+            ),
             nullableInt: nullableInt,
             nullableIntWithDefault: nullableIntWithDefault,
             nestedValue: nestedValue.build(),
             nestedValueWithDefault: nestedValueWithDefault.build(),
             nullableNestedValue: _nullableNestedValue?.build(),
-            nullableNestedValueWithDefault:
-                _nullableNestedValueWithDefault?.build(),
+            nullableNestedValueWithDefault: _nullableNestedValueWithDefault
+                ?.build(),
           );
     } catch (_) {
       late String _$failedField;
@@ -5918,7 +6700,10 @@ class ValueWithBuilderInitializerBuilder
         _nullableNestedValueWithDefault?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'ValueWithBuilderInitializer', _$failedField, e.toString());
+          r'ValueWithBuilderInitializer',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -5931,15 +6716,15 @@ class _$ValueWithBuilderFinalizer extends ValueWithBuilderFinalizer {
   @override
   final int anInt;
 
-  factory _$ValueWithBuilderFinalizer(
-          [void Function(ValueWithBuilderFinalizerBuilder)? updates]) =>
-      (ValueWithBuilderFinalizerBuilder()..update(updates))._build();
+  factory _$ValueWithBuilderFinalizer([
+    void Function(ValueWithBuilderFinalizerBuilder)? updates,
+  ]) => (ValueWithBuilderFinalizerBuilder()..update(updates))._build();
 
   _$ValueWithBuilderFinalizer._({required this.anInt}) : super._();
   @override
   ValueWithBuilderFinalizer rebuild(
-          void Function(ValueWithBuilderFinalizerBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(ValueWithBuilderFinalizerBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   ValueWithBuilderFinalizerBuilder toBuilder() =>
@@ -5961,9 +6746,9 @@ class _$ValueWithBuilderFinalizer extends ValueWithBuilderFinalizer {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'ValueWithBuilderFinalizer')
-          ..add('anInt', anInt))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'ValueWithBuilderFinalizer',
+    )..add('anInt', anInt)).toString();
   }
 }
 
@@ -6002,10 +6787,14 @@ class ValueWithBuilderFinalizerBuilder
 
   _$ValueWithBuilderFinalizer _build() {
     ValueWithBuilderFinalizer._finalizeBuilder(this);
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$ValueWithBuilderFinalizer._(
           anInt: BuiltValueNullFieldError.checkNotNull(
-              anInt, r'ValueWithBuilderFinalizer', 'anInt'),
+            anInt,
+            r'ValueWithBuilderFinalizer',
+            'anInt',
+          ),
         );
     replace(_$result);
     return _$result;
@@ -6017,18 +6806,16 @@ class _$ValueWithGenericBuilderInitializer<T>
   @override
   final T? value;
 
-  factory _$ValueWithGenericBuilderInitializer(
-          [void Function(ValueWithGenericBuilderInitializerBuilder<T>)?
-              updates]) =>
-      (ValueWithGenericBuilderInitializerBuilder<T>()..update(updates))
-          ._build();
+  factory _$ValueWithGenericBuilderInitializer([
+    void Function(ValueWithGenericBuilderInitializerBuilder<T>)? updates,
+  ]) => (ValueWithGenericBuilderInitializerBuilder<T>()..update(updates))
+      ._build();
 
   _$ValueWithGenericBuilderInitializer._({this.value}) : super._();
   @override
   ValueWithGenericBuilderInitializer<T> rebuild(
-          void Function(ValueWithGenericBuilderInitializerBuilder<T>)
-              updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(ValueWithGenericBuilderInitializerBuilder<T>) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   ValueWithGenericBuilderInitializerBuilder<T> toBuilder() =>
@@ -6050,16 +6837,18 @@ class _$ValueWithGenericBuilderInitializer<T>
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'ValueWithGenericBuilderInitializer')
-          ..add('value', value))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'ValueWithGenericBuilderInitializer',
+    )..add('value', value)).toString();
   }
 }
 
 class ValueWithGenericBuilderInitializerBuilder<T>
     implements
-        Builder<ValueWithGenericBuilderInitializer<T>,
-            ValueWithGenericBuilderInitializerBuilder<T>> {
+        Builder<
+          ValueWithGenericBuilderInitializer<T>,
+          ValueWithGenericBuilderInitializerBuilder<T>
+        > {
   _$ValueWithGenericBuilderInitializer<T>? _$v;
 
   T? _value;
@@ -6086,7 +6875,8 @@ class ValueWithGenericBuilderInitializerBuilder<T>
 
   @override
   void update(
-      void Function(ValueWithGenericBuilderInitializerBuilder<T>)? updates) {
+    void Function(ValueWithGenericBuilderInitializerBuilder<T>)? updates,
+  ) {
     if (updates != null) updates(this);
   }
 
@@ -6094,10 +6884,8 @@ class ValueWithGenericBuilderInitializerBuilder<T>
   ValueWithGenericBuilderInitializer<T> build() => _build();
 
   _$ValueWithGenericBuilderInitializer<T> _build() {
-    final _$result = _$v ??
-        _$ValueWithGenericBuilderInitializer<T>._(
-          value: value,
-        );
+    final _$result =
+        _$v ?? _$ValueWithGenericBuilderInitializer<T>._(value: value);
     replace(_$result);
     return _$result;
   }
@@ -6182,7 +6970,8 @@ class HashcodeValueBuilder
   HashcodeValue build() => _build();
 
   _$HashcodeValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$HashcodeValue._(
           x: BuiltValueNullFieldError.checkNotNull(x, r'HashcodeValue', 'x'),
           y: BuiltValueNullFieldError.checkNotNull(y, r'HashcodeValue', 'y'),
@@ -6198,15 +6987,15 @@ class _$MemoizedHashcodeValue extends MemoizedHashcodeValue {
   @override
   final int y;
 
-  factory _$MemoizedHashcodeValue(
-          [void Function(MemoizedHashcodeValueBuilder)? updates]) =>
-      (MemoizedHashcodeValueBuilder()..update(updates))._build();
+  factory _$MemoizedHashcodeValue([
+    void Function(MemoizedHashcodeValueBuilder)? updates,
+  ]) => (MemoizedHashcodeValueBuilder()..update(updates))._build();
 
   _$MemoizedHashcodeValue._({required this.x, required this.y}) : super._();
   @override
   MemoizedHashcodeValue rebuild(
-          void Function(MemoizedHashcodeValueBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(MemoizedHashcodeValueBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   MemoizedHashcodeValueBuilder toBuilder() =>
@@ -6276,12 +7065,19 @@ class MemoizedHashcodeValueBuilder
   MemoizedHashcodeValue build() => _build();
 
   _$MemoizedHashcodeValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$MemoizedHashcodeValue._(
           x: BuiltValueNullFieldError.checkNotNull(
-              x, r'MemoizedHashcodeValue', 'x'),
+            x,
+            r'MemoizedHashcodeValue',
+            'x',
+          ),
           y: BuiltValueNullFieldError.checkNotNull(
-              y, r'MemoizedHashcodeValue', 'y'),
+            y,
+            r'MemoizedHashcodeValue',
+            'y',
+          ),
         );
     replace(_$result);
     return _$result;
@@ -6347,15 +7143,15 @@ class _$SerializesNullsValue extends SerializesNullsValue {
   @override
   final String? value;
 
-  factory _$SerializesNullsValue(
-          [void Function(SerializesNullsValueBuilder)? updates]) =>
-      (SerializesNullsValueBuilder()..update(updates))._build();
+  factory _$SerializesNullsValue([
+    void Function(SerializesNullsValueBuilder)? updates,
+  ]) => (SerializesNullsValueBuilder()..update(updates))._build();
 
   _$SerializesNullsValue._({this.value}) : super._();
   @override
   SerializesNullsValue rebuild(
-          void Function(SerializesNullsValueBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(SerializesNullsValueBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   SerializesNullsValueBuilder toBuilder() =>
@@ -6377,9 +7173,9 @@ class _$SerializesNullsValue extends SerializesNullsValue {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'SerializesNullsValue')
-          ..add('value', value))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'SerializesNullsValue',
+    )..add('value', value)).toString();
   }
 }
 
@@ -6416,10 +7212,7 @@ class SerializesNullsValueBuilder
   SerializesNullsValue build() => _build();
 
   _$SerializesNullsValue _build() {
-    final _$result = _$v ??
-        _$SerializesNullsValue._(
-          value: value,
-        );
+    final _$result = _$v ?? _$SerializesNullsValue._(value: value);
     replace(_$result);
     return _$result;
   }
@@ -6429,15 +7222,15 @@ class _$NullableObjectValue extends NullableObjectValue {
   @override
   final Object? value;
 
-  factory _$NullableObjectValue(
-          [void Function(NullableObjectValueBuilder)? updates]) =>
-      (NullableObjectValueBuilder()..update(updates))._build();
+  factory _$NullableObjectValue([
+    void Function(NullableObjectValueBuilder)? updates,
+  ]) => (NullableObjectValueBuilder()..update(updates))._build();
 
   _$NullableObjectValue._({this.value}) : super._();
   @override
   NullableObjectValue rebuild(
-          void Function(NullableObjectValueBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(NullableObjectValueBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   NullableObjectValueBuilder toBuilder() =>
@@ -6459,9 +7252,9 @@ class _$NullableObjectValue extends NullableObjectValue {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'NullableObjectValue')
-          ..add('value', value))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'NullableObjectValue',
+    )..add('value', value)).toString();
   }
 }
 
@@ -6498,10 +7291,7 @@ class NullableObjectValueBuilder
   NullableObjectValue build() => _build();
 
   _$NullableObjectValue _build() {
-    final _$result = _$v ??
-        _$NullableObjectValue._(
-          value: value,
-        );
+    final _$result = _$v ?? _$NullableObjectValue._(value: value);
     replace(_$result);
     return _$result;
   }
@@ -6518,11 +7308,11 @@ class _$ValueWithHooks extends ValueWithHooks {
   factory _$ValueWithHooks([void Function(ValueWithHooksBuilder)? updates]) =>
       (ValueWithHooksBuilder()..update(updates))._build();
 
-  _$ValueWithHooks._(
-      {required this.hook1Count,
-      required this.hook2Count,
-      required this.hookOrdering})
-      : super._();
+  _$ValueWithHooks._({
+    required this.hook1Count,
+    required this.hook2Count,
+    required this.hookOrdering,
+  }) : super._();
   @override
   ValueWithHooks rebuild(void Function(ValueWithHooksBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -6617,12 +7407,19 @@ class ValueWithHooksBuilder
     ValueWithHooks.moreBoth(this);
     _$ValueWithHooks _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           _$ValueWithHooks._(
             hook1Count: BuiltValueNullFieldError.checkNotNull(
-                hook1Count, r'ValueWithHooks', 'hook1Count'),
+              hook1Count,
+              r'ValueWithHooks',
+              'hook1Count',
+            ),
             hook2Count: BuiltValueNullFieldError.checkNotNull(
-                hook2Count, r'ValueWithHooks', 'hook2Count'),
+              hook2Count,
+              r'ValueWithHooks',
+              'hook2Count',
+            ),
             hookOrdering: hookOrdering.build(),
           );
     } catch (_) {
@@ -6632,7 +7429,10 @@ class ValueWithHooksBuilder
         hookOrdering.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'ValueWithHooks', _$failedField, e.toString());
+          r'ValueWithHooks',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -6658,14 +7458,14 @@ class _$$ValueSpecial extends $ValueSpecial {
   factory _$$ValueSpecial([void Function($ValueSpecialBuilder)? updates]) =>
       ($ValueSpecialBuilder()..update(updates))._build();
 
-  _$$ValueSpecial._(
-      {required this.anInt,
-      this.aString,
-      this.$mustBeEscaped,
-      this.$mustAlsoEscaped,
-      this.$assert,
-      this.$10})
-      : super._();
+  _$$ValueSpecial._({
+    required this.anInt,
+    this.aString,
+    this.$mustBeEscaped,
+    this.$mustAlsoEscaped,
+    this.$assert,
+    this.$10,
+  }) : super._();
   @override
   $ValueSpecial rebuild(void Function($ValueSpecialBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -6774,10 +7574,14 @@ class $ValueSpecialBuilder
   _$$ValueSpecial _build() {
     _$$ValueSpecial _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           _$$ValueSpecial._(
             anInt: BuiltValueNullFieldError.checkNotNull(
-                anInt, r'$ValueSpecial', 'anInt'),
+              anInt,
+              r'$ValueSpecial',
+              'anInt',
+            ),
             aString: aString,
             $mustBeEscaped: $mustBeEscaped,
             $mustAlsoEscaped: _$mustAlsoEscaped?.build(),
@@ -6795,7 +7599,10 @@ class $ValueSpecialBuilder
         _$10?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'$ValueSpecial', _$failedField, e.toString());
+          r'$ValueSpecial',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -6814,18 +7621,22 @@ class _$ValueWithAwkwardNestedBuilder extends ValueWithAwkwardNestedBuilder {
   @override
   final BuiltMap<int, String> map;
 
-  factory _$ValueWithAwkwardNestedBuilder(
-          [void Function(ValueWithAwkwardNestedBuilderBuilder)? updates]) =>
+  factory _$ValueWithAwkwardNestedBuilder([
+    void Function(ValueWithAwkwardNestedBuilderBuilder)? updates,
+  ]) =>
       (ValueWithAwkwardNestedBuilderBuilder()..update(updates)).build()
           as _$ValueWithAwkwardNestedBuilder;
 
-  _$ValueWithAwkwardNestedBuilder._(
-      {this.value1, this.value2, required this.values, required this.map})
-      : super._();
+  _$ValueWithAwkwardNestedBuilder._({
+    this.value1,
+    this.value2,
+    required this.values,
+    required this.map,
+  }) : super._();
   @override
   ValueWithAwkwardNestedBuilder rebuild(
-          void Function(ValueWithAwkwardNestedBuilderBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(ValueWithAwkwardNestedBuilderBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   _$ValueWithAwkwardNestedBuilderBuilder toBuilder() =>
@@ -6945,7 +7756,8 @@ class _$ValueWithAwkwardNestedBuilderBuilder
   _$ValueWithAwkwardNestedBuilder _build() {
     _$ValueWithAwkwardNestedBuilder _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           _$ValueWithAwkwardNestedBuilder._(
             value1: super.value1?.build(),
             value2: super.value2?.build(),
@@ -6965,7 +7777,10 @@ class _$ValueWithAwkwardNestedBuilderBuilder
         map.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'ValueWithAwkwardNestedBuilder', _$failedField, e.toString());
+          r'ValueWithAwkwardNestedBuilder',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -6987,7 +7802,7 @@ class _$VariousFunctionsValue extends VariousFunctionsValue {
   final Future<void> Function(int x, {int y, double z}) namedFunction;
   @override
   final Future<void> Function(int x, {required int y, required double z})
-      requiredNamedFunction;
+  requiredNamedFunction;
   @override
   final Function mixinBareFunction;
   @override
@@ -7000,30 +7815,30 @@ class _$VariousFunctionsValue extends VariousFunctionsValue {
   final Future<void> Function(int, {int y, double z}) mixinNamedFunction;
   @override
   final Future<void> Function(int, {required int y, required double z})
-      mixinRequiredNamedFunction;
+  mixinRequiredNamedFunction;
 
-  factory _$VariousFunctionsValue(
-          [void Function(VariousFunctionsValueBuilder)? updates]) =>
-      (VariousFunctionsValueBuilder()..update(updates))._build();
+  factory _$VariousFunctionsValue([
+    void Function(VariousFunctionsValueBuilder)? updates,
+  ]) => (VariousFunctionsValueBuilder()..update(updates))._build();
 
-  _$VariousFunctionsValue._(
-      {required this.bareFunction,
-      required this.positionalFunction,
-      required this.optionalFunction,
-      required this.positionalNamedFunction,
-      required this.namedFunction,
-      required this.requiredNamedFunction,
-      required this.mixinBareFunction,
-      required this.mixinPositionalFunction,
-      required this.mixinOptionalFunction,
-      required this.mixinPositionalNamedFunction,
-      required this.mixinNamedFunction,
-      required this.mixinRequiredNamedFunction})
-      : super._();
+  _$VariousFunctionsValue._({
+    required this.bareFunction,
+    required this.positionalFunction,
+    required this.optionalFunction,
+    required this.positionalNamedFunction,
+    required this.namedFunction,
+    required this.requiredNamedFunction,
+    required this.mixinBareFunction,
+    required this.mixinPositionalFunction,
+    required this.mixinOptionalFunction,
+    required this.mixinPositionalNamedFunction,
+    required this.mixinNamedFunction,
+    required this.mixinRequiredNamedFunction,
+  }) : super._();
   @override
   VariousFunctionsValue rebuild(
-          void Function(VariousFunctionsValueBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(VariousFunctionsValueBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   VariousFunctionsValueBuilder toBuilder() =>
@@ -7098,38 +7913,38 @@ class VariousFunctionsValueBuilder
   Future<void> Function(int, double)? get positionalFunction =>
       _$this._positionalFunction;
   set positionalFunction(
-          Future<void> Function(int, double)? positionalFunction) =>
-      _$this._positionalFunction = positionalFunction;
+    Future<void> Function(int, double)? positionalFunction,
+  ) => _$this._positionalFunction = positionalFunction;
 
   Future<void> Function(int, [double])? _optionalFunction;
   Future<void> Function(int, [double])? get optionalFunction =>
       _$this._optionalFunction;
   set optionalFunction(
-          Future<void> Function(int, [double])? optionalFunction) =>
-      _$this._optionalFunction = optionalFunction;
+    Future<void> Function(int, [double])? optionalFunction,
+  ) => _$this._optionalFunction = optionalFunction;
 
   Future<void> Function(int x, double y)? _positionalNamedFunction;
   Future<void> Function(int x, double y)? get positionalNamedFunction =>
       _$this._positionalNamedFunction;
   set positionalNamedFunction(
-          Future<void> Function(int x, double y)? positionalNamedFunction) =>
-      _$this._positionalNamedFunction = positionalNamedFunction;
+    Future<void> Function(int x, double y)? positionalNamedFunction,
+  ) => _$this._positionalNamedFunction = positionalNamedFunction;
 
   Future<void> Function(int x, {int y, double z})? _namedFunction;
   Future<void> Function(int x, {int y, double z})? get namedFunction =>
       _$this._namedFunction;
   set namedFunction(
-          Future<void> Function(int x, {int y, double z})? namedFunction) =>
-      _$this._namedFunction = namedFunction;
+    Future<void> Function(int x, {int y, double z})? namedFunction,
+  ) => _$this._namedFunction = namedFunction;
 
   Future<void> Function(int x, {required int y, required double z})?
-      _requiredNamedFunction;
+  _requiredNamedFunction;
   Future<void> Function(int x, {required int y, required double z})?
-      get requiredNamedFunction => _$this._requiredNamedFunction;
+  get requiredNamedFunction => _$this._requiredNamedFunction;
   set requiredNamedFunction(
-          Future<void> Function(int x, {required int y, required double z})?
-              requiredNamedFunction) =>
-      _$this._requiredNamedFunction = requiredNamedFunction;
+    Future<void> Function(int x, {required int y, required double z})?
+    requiredNamedFunction,
+  ) => _$this._requiredNamedFunction = requiredNamedFunction;
 
   Function? _mixinBareFunction;
   Function? get mixinBareFunction => _$this._mixinBareFunction;
@@ -7140,38 +7955,38 @@ class VariousFunctionsValueBuilder
   Future<void> Function(int, double)? get mixinPositionalFunction =>
       _$this._mixinPositionalFunction;
   set mixinPositionalFunction(
-          Future<void> Function(int, double)? mixinPositionalFunction) =>
-      _$this._mixinPositionalFunction = mixinPositionalFunction;
+    Future<void> Function(int, double)? mixinPositionalFunction,
+  ) => _$this._mixinPositionalFunction = mixinPositionalFunction;
 
   Future<void> Function(int, [double])? _mixinOptionalFunction;
   Future<void> Function(int, [double])? get mixinOptionalFunction =>
       _$this._mixinOptionalFunction;
   set mixinOptionalFunction(
-          Future<void> Function(int, [double])? mixinOptionalFunction) =>
-      _$this._mixinOptionalFunction = mixinOptionalFunction;
+    Future<void> Function(int, [double])? mixinOptionalFunction,
+  ) => _$this._mixinOptionalFunction = mixinOptionalFunction;
 
   Future<void> Function(int, double)? _mixinPositionalNamedFunction;
   Future<void> Function(int, double)? get mixinPositionalNamedFunction =>
       _$this._mixinPositionalNamedFunction;
   set mixinPositionalNamedFunction(
-          Future<void> Function(int, double)? mixinPositionalNamedFunction) =>
-      _$this._mixinPositionalNamedFunction = mixinPositionalNamedFunction;
+    Future<void> Function(int, double)? mixinPositionalNamedFunction,
+  ) => _$this._mixinPositionalNamedFunction = mixinPositionalNamedFunction;
 
   Future<void> Function(int, {int y, double z})? _mixinNamedFunction;
   Future<void> Function(int, {int y, double z})? get mixinNamedFunction =>
       _$this._mixinNamedFunction;
   set mixinNamedFunction(
-          Future<void> Function(int, {int y, double z})? mixinNamedFunction) =>
-      _$this._mixinNamedFunction = mixinNamedFunction;
+    Future<void> Function(int, {int y, double z})? mixinNamedFunction,
+  ) => _$this._mixinNamedFunction = mixinNamedFunction;
 
   Future<void> Function(int, {required int y, required double z})?
-      _mixinRequiredNamedFunction;
+  _mixinRequiredNamedFunction;
   Future<void> Function(int, {required int y, required double z})?
-      get mixinRequiredNamedFunction => _$this._mixinRequiredNamedFunction;
+  get mixinRequiredNamedFunction => _$this._mixinRequiredNamedFunction;
   set mixinRequiredNamedFunction(
-          Future<void> Function(int, {required int y, required double z})?
-              mixinRequiredNamedFunction) =>
-      _$this._mixinRequiredNamedFunction = mixinRequiredNamedFunction;
+    Future<void> Function(int, {required int y, required double z})?
+    mixinRequiredNamedFunction,
+  ) => _$this._mixinRequiredNamedFunction = mixinRequiredNamedFunction;
 
   VariousFunctionsValueBuilder();
 
@@ -7209,48 +8024,69 @@ class VariousFunctionsValueBuilder
   VariousFunctionsValue build() => _build();
 
   _$VariousFunctionsValue _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         _$VariousFunctionsValue._(
           bareFunction: BuiltValueNullFieldError.checkNotNull(
-              bareFunction, r'VariousFunctionsValue', 'bareFunction'),
+            bareFunction,
+            r'VariousFunctionsValue',
+            'bareFunction',
+          ),
           positionalFunction: BuiltValueNullFieldError.checkNotNull(
-              positionalFunction,
-              r'VariousFunctionsValue',
-              'positionalFunction'),
+            positionalFunction,
+            r'VariousFunctionsValue',
+            'positionalFunction',
+          ),
           optionalFunction: BuiltValueNullFieldError.checkNotNull(
-              optionalFunction, r'VariousFunctionsValue', 'optionalFunction'),
+            optionalFunction,
+            r'VariousFunctionsValue',
+            'optionalFunction',
+          ),
           positionalNamedFunction: BuiltValueNullFieldError.checkNotNull(
-              positionalNamedFunction,
-              r'VariousFunctionsValue',
-              'positionalNamedFunction'),
+            positionalNamedFunction,
+            r'VariousFunctionsValue',
+            'positionalNamedFunction',
+          ),
           namedFunction: BuiltValueNullFieldError.checkNotNull(
-              namedFunction, r'VariousFunctionsValue', 'namedFunction'),
+            namedFunction,
+            r'VariousFunctionsValue',
+            'namedFunction',
+          ),
           requiredNamedFunction: BuiltValueNullFieldError.checkNotNull(
-              requiredNamedFunction,
-              r'VariousFunctionsValue',
-              'requiredNamedFunction'),
+            requiredNamedFunction,
+            r'VariousFunctionsValue',
+            'requiredNamedFunction',
+          ),
           mixinBareFunction: BuiltValueNullFieldError.checkNotNull(
-              mixinBareFunction, r'VariousFunctionsValue', 'mixinBareFunction'),
+            mixinBareFunction,
+            r'VariousFunctionsValue',
+            'mixinBareFunction',
+          ),
           mixinPositionalFunction: BuiltValueNullFieldError.checkNotNull(
-              mixinPositionalFunction,
-              r'VariousFunctionsValue',
-              'mixinPositionalFunction'),
+            mixinPositionalFunction,
+            r'VariousFunctionsValue',
+            'mixinPositionalFunction',
+          ),
           mixinOptionalFunction: BuiltValueNullFieldError.checkNotNull(
-              mixinOptionalFunction,
-              r'VariousFunctionsValue',
-              'mixinOptionalFunction'),
+            mixinOptionalFunction,
+            r'VariousFunctionsValue',
+            'mixinOptionalFunction',
+          ),
           mixinPositionalNamedFunction: BuiltValueNullFieldError.checkNotNull(
-              mixinPositionalNamedFunction,
-              r'VariousFunctionsValue',
-              'mixinPositionalNamedFunction'),
+            mixinPositionalNamedFunction,
+            r'VariousFunctionsValue',
+            'mixinPositionalNamedFunction',
+          ),
           mixinNamedFunction: BuiltValueNullFieldError.checkNotNull(
-              mixinNamedFunction,
-              r'VariousFunctionsValue',
-              'mixinNamedFunction'),
+            mixinNamedFunction,
+            r'VariousFunctionsValue',
+            'mixinNamedFunction',
+          ),
           mixinRequiredNamedFunction: BuiltValueNullFieldError.checkNotNull(
-              mixinRequiredNamedFunction,
-              r'VariousFunctionsValue',
-              'mixinRequiredNamedFunction'),
+            mixinRequiredNamedFunction,
+            r'VariousFunctionsValue',
+            'mixinRequiredNamedFunction',
+          ),
         );
     replace(_$result);
     return _$result;

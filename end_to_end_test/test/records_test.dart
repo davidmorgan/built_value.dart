@@ -45,39 +45,45 @@ void main() {
   });
 
   group(ComplexRecordValue, () {
-    final value1 = ComplexRecordValue((b) => b
-      ..record2 = (0, 0)
-      ..record2p = (null, 0)
-      ..record3 = (10, 10)
-      ..record3p = (null, 10)
-      ..record4 = (x: 20, y: 20)
-      ..record4p = (x: null, y: 20)
-      ..record5 = ([1].build(), b: BuiltList<ComplexRecordValue>())
-      ..record5p = (null, b: BuiltList<ComplexRecordValue>())
-      ..record6 = (() {}, b: () {})
-      ..record6p = (null, b: () {}));
-    final value1a = ComplexRecordValue((b) => b
-      ..record2 = (0, 0)
-      ..record2p = (null, 0)
-      ..record3 = (10, 10)
-      ..record3p = (null, 10)
-      ..record4 = (x: 20, y: 20)
-      ..record4p = (x: null, y: 20)
-      ..record5 = ([1].build(), b: BuiltList<ComplexRecordValue>())
-      ..record5p = (null, b: BuiltList<ComplexRecordValue>())
-      ..record6 = (() {}, b: () {})
-      ..record6p = (null, b: () {}));
-    final value2 = ComplexRecordValue((b) => b
-      ..record2 = (0, 1)
-      ..record2p = (null, 1)
-      ..record3 = (10, 11)
-      ..record3p = (null, 11)
-      ..record4 = (x: 20, y: 21)
-      ..record4p = (x: null, y: 21)
-      ..record5 = ([1, 2].build(), b: BuiltList<ComplexRecordValue>())
-      ..record5p = (null, b: BuiltList<ComplexRecordValue>())
-      ..record6 = (() {}, b: () {})
-      ..record6p = (null, b: () {}));
+    final value1 = ComplexRecordValue(
+      (b) => b
+        ..record2 = (0, 0)
+        ..record2p = (null, 0)
+        ..record3 = (10, 10)
+        ..record3p = (null, 10)
+        ..record4 = (x: 20, y: 20)
+        ..record4p = (x: null, y: 20)
+        ..record5 = ([1].build(), b: BuiltList<ComplexRecordValue>())
+        ..record5p = (null, b: BuiltList<ComplexRecordValue>())
+        ..record6 = (() {}, b: () {})
+        ..record6p = (null, b: () {}),
+    );
+    final value1a = ComplexRecordValue(
+      (b) => b
+        ..record2 = (0, 0)
+        ..record2p = (null, 0)
+        ..record3 = (10, 10)
+        ..record3p = (null, 10)
+        ..record4 = (x: 20, y: 20)
+        ..record4p = (x: null, y: 20)
+        ..record5 = ([1].build(), b: BuiltList<ComplexRecordValue>())
+        ..record5p = (null, b: BuiltList<ComplexRecordValue>())
+        ..record6 = (() {}, b: () {})
+        ..record6p = (null, b: () {}),
+    );
+    final value2 = ComplexRecordValue(
+      (b) => b
+        ..record2 = (0, 1)
+        ..record2p = (null, 1)
+        ..record3 = (10, 11)
+        ..record3p = (null, 11)
+        ..record4 = (x: 20, y: 21)
+        ..record4p = (x: null, y: 21)
+        ..record5 = ([1, 2].build(), b: BuiltList<ComplexRecordValue>())
+        ..record5p = (null, b: BuiltList<ComplexRecordValue>())
+        ..record6 = (() {}, b: () {})
+        ..record6p = (null, b: () {}),
+    );
 
     test('compares equal when equal', () {
       expect(value1, value1a);

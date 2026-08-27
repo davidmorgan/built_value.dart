@@ -15,11 +15,9 @@ import 'package:test/test.dart';
 void main() {
   group('$SerializableRecordValue with no record value', () {
     var data = SerializableRecordValue((b) => b..value = 1);
-    var serialized = json.decode(json.encode([
-      'SerializableRecordValue',
-      'value',
-      1,
-    ])) as Object;
+    var serialized = json.decode(
+      json.encode(['SerializableRecordValue', 'value', 1]),
+    ) as Object;
 
     test('can be serialized', () {
       expect(serializers.serialize(data), serialized);
@@ -31,31 +29,39 @@ void main() {
   });
 
   group('$SerializableRecordValue with a record value', () {
-    var data = SerializableRecordValue((b) => b
-      ..value = 1
-      ..record = (1, 2));
-    var serialized = json.decode(json.encode([
-      'SerializableRecordValue',
-      'value',
-      1,
-      'record',
-      [1, 2],
-    ])) as Object;
+    var data = SerializableRecordValue(
+      (b) => b
+        ..value = 1
+        ..record = (1, 2),
+    );
+    var serialized = json.decode(
+      json.encode([
+        'SerializableRecordValue',
+        'value',
+        1,
+        'record',
+        [1, 2],
+      ]),
+    ) as Object;
     var serializersWithCustomSerializer =
         (serializers.toBuilder()..add(RecordOfIntIntSerializer())).build();
 
     test('gives advice about custom serializer on failure to serialize', () {
       expect(
-          () => serializers.serialize(data),
-          throwsA(isErrorContaining(
-              'record types are not automatically serializable')));
+        () => serializers.serialize(data),
+        throwsA(
+          isErrorContaining('record types are not automatically serializable'),
+        ),
+      );
     });
 
     test('gives advice about custom serializer on failure to deserialize', () {
       expect(
-          () => serializers.deserialize(serialized),
-          throwsA(isErrorContaining(
-              'record types are not automatically serializable')));
+        () => serializers.deserialize(serialized),
+        throwsA(
+          isErrorContaining('record types are not automatically serializable'),
+        ),
+      );
     });
 
     test('can be serialized with custom serializer', () {
@@ -68,31 +74,43 @@ void main() {
   });
 
   group('$SerializableRecordValue with a record list value', () {
-    var data = SerializableRecordValue((b) => b
-      ..value = 1
-      ..intOrList = (null, BuiltList(['value0', 'value1', 'value2'])));
-    var serialized = json.decode(json.encode({
-      'value': 1,
-      'intOrList': ['value0', 'value1', 'value2'],
-    })) as Object;
-    var serializersWithCustomSerializer = (serializers.toBuilder()
-          ..addPlugin(
-              StandardJsonPlugin(typesToLeaveAsList: {RecordOfIntOrList}))
-          ..add(RecordOfIntOrListSerializer()))
-        .build();
+    var data = SerializableRecordValue(
+      (b) => b
+        ..value = 1
+        ..intOrList = (null, BuiltList(['value0', 'value1', 'value2'])),
+    );
+    var serialized = json.decode(
+      json.encode({
+        'value': 1,
+        'intOrList': ['value0', 'value1', 'value2'],
+      }),
+    ) as Object;
+    var serializersWithCustomSerializer =
+        (serializers.toBuilder()
+              ..addPlugin(
+                StandardJsonPlugin(typesToLeaveAsList: {RecordOfIntOrList}),
+              )
+              ..add(RecordOfIntOrListSerializer()))
+            .build();
 
     test('can be serialized with custom serializer', () {
       expect(
-          serializersWithCustomSerializer.serialize(data,
-              specifiedType: FullType(SerializableRecordValue)),
-          serialized);
+        serializersWithCustomSerializer.serialize(
+          data,
+          specifiedType: FullType(SerializableRecordValue),
+        ),
+        serialized,
+      );
     });
 
     test('can be deserialized with custom deserializer', () {
       expect(
-          serializersWithCustomSerializer.deserialize(serialized,
-              specifiedType: FullType(SerializableRecordValue)),
-          data);
+        serializersWithCustomSerializer.deserialize(
+          serialized,
+          specifiedType: FullType(SerializableRecordValue),
+        ),
+        data,
+      );
     });
   });
 }

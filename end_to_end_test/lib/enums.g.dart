@@ -60,12 +60,9 @@ SecondTestEnum _$vlOf(String name) {
   }
 }
 
-final BuiltSet<SecondTestEnum> _$vls =
-    BuiltSet<SecondTestEnum>(const <SecondTestEnum>[
-  _$ys,
-  _$n,
-  _$definitely,
-]);
+final BuiltSet<SecondTestEnum> _$vls = BuiltSet<SecondTestEnum>(
+  const <SecondTestEnum>[_$ys, _$n, _$definitely],
+);
 
 const WireNameEnum _$wireYes = const WireNameEnum._('yes');
 const WireNameEnum _$wireNo = const WireNameEnum._('no');
@@ -84,17 +81,15 @@ WireNameEnum _$wireValueOf(String name) {
   }
 }
 
-final BuiltSet<WireNameEnum> _$wireValues =
-    BuiltSet<WireNameEnum>(const <WireNameEnum>[
-  _$wireYes,
-  _$wireNo,
-  _$wireDefinitely,
-]);
+final BuiltSet<WireNameEnum> _$wireValues = BuiltSet<WireNameEnum>(
+  const <WireNameEnum>[_$wireYes, _$wireNo, _$wireDefinitely],
+);
 
 const WireNumberEnum _$wireNumberYes = const WireNumberEnum._('yes');
 const WireNumberEnum _$wireNumberNo = const WireNumberEnum._('no');
-const WireNumberEnum _$wireNumberDefinitely =
-    const WireNumberEnum._('definitely');
+const WireNumberEnum _$wireNumberDefinitely = const WireNumberEnum._(
+  'definitely',
+);
 
 WireNumberEnum _$wireNumberValueOf(String name) {
   switch (name) {
@@ -109,12 +104,13 @@ WireNumberEnum _$wireNumberValueOf(String name) {
   }
 }
 
-final BuiltSet<WireNumberEnum> _$wireNumberValues =
-    BuiltSet<WireNumberEnum>(const <WireNumberEnum>[
-  _$wireNumberYes,
-  _$wireNumberNo,
-  _$wireNumberDefinitely,
-]);
+final BuiltSet<WireNumberEnum> _$wireNumberValues = BuiltSet<WireNumberEnum>(
+  const <WireNumberEnum>[
+    _$wireNumberYes,
+    _$wireNumberNo,
+    _$wireNumberDefinitely,
+  ],
+);
 
 const DollarValueEnum _$value$ = const DollarValueEnum._('value\$');
 const DollarValueEnum _$value = const DollarValueEnum._('\$value');
@@ -130,11 +126,9 @@ DollarValueEnum _$dollarValueOf(String name) {
   }
 }
 
-final BuiltSet<DollarValueEnum> _$dollarValues =
-    BuiltSet<DollarValueEnum>(const <DollarValueEnum>[
-  _$value$,
-  _$value,
-]);
+final BuiltSet<DollarValueEnum> _$dollarValues = BuiltSet<DollarValueEnum>(
+  const <DollarValueEnum>[_$value$, _$value],
+);
 
 const FallbackEnum _$fbYes = const FallbackEnum._('yes');
 const FallbackEnum _$fbNo = const FallbackEnum._('no');
@@ -150,11 +144,9 @@ FallbackEnum _$fbValueOf(String name) {
   }
 }
 
-final BuiltSet<FallbackEnum> _$fbValues =
-    BuiltSet<FallbackEnum>(const <FallbackEnum>[
-  _$fbYes,
-  _$fbNo,
-]);
+final BuiltSet<FallbackEnum> _$fbValues = BuiltSet<FallbackEnum>(
+  const <FallbackEnum>[_$fbYes, _$fbNo],
+);
 
 const FallbackNumberEnum _$fbNumberYes = const FallbackNumberEnum._('yes');
 const FallbackNumberEnum _$fbNumberNo = const FallbackNumberEnum._('no');
@@ -172,9 +164,9 @@ FallbackNumberEnum _$fbNumberValueOf(String name) {
 
 final BuiltSet<FallbackNumberEnum> _$fbNumberValues =
     BuiltSet<FallbackNumberEnum>(const <FallbackNumberEnum>[
-  _$fbNumberYes,
-  _$fbNumberNo,
-]);
+      _$fbNumberYes,
+      _$fbNumberNo,
+    ]);
 
 const EnumWith$Dollar_UnderScore _$dollar_UnderScoreEnum$Value =
     const EnumWith$Dollar_UnderScore._('\$value');
@@ -194,9 +186,9 @@ EnumWith$Dollar_UnderScore _$enum$Dollar_UnderScoreValueOf(String name) {
 
 final BuiltSet<EnumWith$Dollar_UnderScore> _$enum$Dollar_UnderScoreValues =
     BuiltSet<EnumWith$Dollar_UnderScore>(const <EnumWith$Dollar_UnderScore>[
-  _$dollar_UnderScoreEnum$Value,
-  _$dollar_UnderScoreEnumValue$,
-]);
+      _$dollar_UnderScoreEnum$Value,
+      _$dollar_UnderScoreEnumValue$,
+    ]);
 
 Serializer<TestEnum> _$testEnumSerializer = _$TestEnumSerializer();
 Serializer<WireNameEnum> _$wireNameEnumSerializer = _$WireNameEnumSerializer();
@@ -217,14 +209,18 @@ class _$TestEnumSerializer implements PrimitiveSerializer<TestEnum> {
   final String wireName = 'TestEnum';
 
   @override
-  Object serialize(Serializers serializers, TestEnum object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      object.name;
+  Object serialize(
+    Serializers serializers,
+    TestEnum object, {
+    FullType specifiedType = FullType.unspecified,
+  }) => object.name;
 
   @override
-  TestEnum deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      TestEnum.valueOf(serialized as String);
+  TestEnum deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) => TestEnum.valueOf(serialized as String);
 }
 
 class _$WireNameEnumSerializer implements PrimitiveSerializer<WireNameEnum> {
@@ -245,15 +241,20 @@ class _$WireNameEnumSerializer implements PrimitiveSerializer<WireNameEnum> {
   final String wireName = 'E';
 
   @override
-  Object serialize(Serializers serializers, WireNameEnum object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      _toWire[object.name] ?? object.name;
+  Object serialize(
+    Serializers serializers,
+    WireNameEnum object, {
+    FullType specifiedType = FullType.unspecified,
+  }) => _toWire[object.name] ?? object.name;
 
   @override
-  WireNameEnum deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      WireNameEnum.valueOf(
-          _fromWire[serialized] ?? (serialized is String ? serialized : ''));
+  WireNameEnum deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) => WireNameEnum.valueOf(
+    _fromWire[serialized] ?? (serialized is String ? serialized : ''),
+  );
 }
 
 class _$WireNumberEnumSerializer
@@ -275,15 +276,20 @@ class _$WireNumberEnumSerializer
   final String wireName = 'WireNumberEnum';
 
   @override
-  Object serialize(Serializers serializers, WireNumberEnum object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      _toWire[object.name] ?? object.name;
+  Object serialize(
+    Serializers serializers,
+    WireNumberEnum object, {
+    FullType specifiedType = FullType.unspecified,
+  }) => _toWire[object.name] ?? object.name;
 
   @override
-  WireNumberEnum deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      WireNumberEnum.valueOf(
-          _fromWire[serialized] ?? (serialized is String ? serialized : ''));
+  WireNumberEnum deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) => WireNumberEnum.valueOf(
+    _fromWire[serialized] ?? (serialized is String ? serialized : ''),
+  );
 }
 
 class _$DollarValueEnumSerializer
@@ -301,15 +307,20 @@ class _$DollarValueEnumSerializer
   final String wireName = 'DollarValueEnum';
 
   @override
-  Object serialize(Serializers serializers, DollarValueEnum object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      _toWire[object.name] ?? object.name;
+  Object serialize(
+    Serializers serializers,
+    DollarValueEnum object, {
+    FullType specifiedType = FullType.unspecified,
+  }) => _toWire[object.name] ?? object.name;
 
   @override
-  DollarValueEnum deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      DollarValueEnum.valueOf(
-          _fromWire[serialized] ?? (serialized is String ? serialized : ''));
+  DollarValueEnum deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) => DollarValueEnum.valueOf(
+    _fromWire[serialized] ?? (serialized is String ? serialized : ''),
+  );
 }
 
 class _$FallbackEnumSerializer implements PrimitiveSerializer<FallbackEnum> {
@@ -319,14 +330,18 @@ class _$FallbackEnumSerializer implements PrimitiveSerializer<FallbackEnum> {
   final String wireName = 'FallbackEnum';
 
   @override
-  Object serialize(Serializers serializers, FallbackEnum object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      object.name;
+  Object serialize(
+    Serializers serializers,
+    FallbackEnum object, {
+    FullType specifiedType = FullType.unspecified,
+  }) => object.name;
 
   @override
-  FallbackEnum deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      FallbackEnum.valueOf(serialized as String);
+  FallbackEnum deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) => FallbackEnum.valueOf(serialized as String);
 }
 
 class _$FallbackNumberEnumSerializer
@@ -346,15 +361,20 @@ class _$FallbackNumberEnumSerializer
   final String wireName = 'FallbackNumberEnum';
 
   @override
-  Object serialize(Serializers serializers, FallbackNumberEnum object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      _toWire[object.name] ?? object.name;
+  Object serialize(
+    Serializers serializers,
+    FallbackNumberEnum object, {
+    FullType specifiedType = FullType.unspecified,
+  }) => _toWire[object.name] ?? object.name;
 
   @override
-  FallbackNumberEnum deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      FallbackNumberEnum.valueOf(
-          _fromWire[serialized] ?? (serialized is String ? serialized : ''));
+  FallbackNumberEnum deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) => FallbackNumberEnum.valueOf(
+    _fromWire[serialized] ?? (serialized is String ? serialized : ''),
+  );
 }
 
 class _$EnumWith$Dollar_UnderScoreSerializer
@@ -374,16 +394,20 @@ class _$EnumWith$Dollar_UnderScoreSerializer
   final String wireName = 'EnumWith\$Dollar_UnderScore';
 
   @override
-  Object serialize(Serializers serializers, EnumWith$Dollar_UnderScore object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      _toWire[object.name] ?? object.name;
+  Object serialize(
+    Serializers serializers,
+    EnumWith$Dollar_UnderScore object, {
+    FullType specifiedType = FullType.unspecified,
+  }) => _toWire[object.name] ?? object.name;
 
   @override
   EnumWith$Dollar_UnderScore deserialize(
-          Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      EnumWith$Dollar_UnderScore.valueOf(
-          _fromWire[serialized] ?? (serialized is String ? serialized : ''));
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) => EnumWith$Dollar_UnderScore.valueOf(
+    _fromWire[serialized] ?? (serialized is String ? serialized : ''),
+  );
 }
 
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint

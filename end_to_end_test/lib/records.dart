@@ -49,9 +49,9 @@ abstract class ComplexRecordValue
   @BuiltValueField(compare: false)
   (void Function() a, {void Function() b})? get record6n;
 
-  factory ComplexRecordValue(
-          [void Function(ComplexRecordValueBuilder) updates]) =
-      _$ComplexRecordValue;
+  factory ComplexRecordValue([
+    void Function(ComplexRecordValueBuilder) updates,
+  ]) = _$ComplexRecordValue;
   ComplexRecordValue._();
 }
 
@@ -68,23 +68,28 @@ abstract class SerializableRecordValue
   RecordOfIntInt? get record;
   RecordOfIntOrList? get intOrList;
 
-  factory SerializableRecordValue(
-          [void Function(SerializableRecordValueBuilder) updates]) =
-      _$SerializableRecordValue;
+  factory SerializableRecordValue([
+    void Function(SerializableRecordValueBuilder) updates,
+  ]) = _$SerializableRecordValue;
   SerializableRecordValue._();
 }
 
 class RecordOfIntIntSerializer implements StructuredSerializer<RecordOfIntInt> {
   @override
   RecordOfIntInt deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     return (serialized.elementAt(0)! as int, serialized.elementAt(1)! as int);
   }
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, RecordOfIntInt object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    RecordOfIntInt object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     return [object.$1, object.$2];
   }
 
@@ -120,8 +125,10 @@ class RecordOfIntOrListSerializer
     }
     value = object.$2;
     if (value != null) {
-      return serializers.serialize(value,
-          specifiedType: const FullType(BuiltList, [FullType(String)]))!;
+      return serializers.serialize(
+        value,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      )!;
     }
 
     throw StateError('Tried to serialize without any value.');
@@ -135,15 +142,18 @@ class RecordOfIntOrListSerializer
   }) {
     BuiltList<String>? list;
     try {
-      list = serializers.deserialize(
-        data,
-        specifiedType: const FullType(BuiltList, [FullType(String)]),
-      )! as BuiltList<String>;
+      list =
+          serializers.deserialize(
+                data,
+                specifiedType: const FullType(BuiltList, [FullType(String)]),
+              )!
+              as BuiltList<String>;
     } catch (_) {}
     int? number;
     try {
-      number = serializers.deserialize(data,
-          specifiedType: const FullType(int))! as int;
+      number =
+          serializers.deserialize(data, specifiedType: const FullType(int))!
+              as int;
     } catch (_) {}
 
     return (number, list);

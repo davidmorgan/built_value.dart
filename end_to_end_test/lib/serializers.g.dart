@@ -39,6 +39,8 @@ Serializers _$serializers =
           ..add(ImportedValue.serializer)
           ..add(NamedFactoryValue.serializer)
           ..add(NestedGenericContainer.serializer)
+          ..add(NewConstructorEnum.serializer)
+          ..add(NewConstructorValue.serializer)
           ..add(NoFieldsValue.serializer)
           ..add(NonBuiltGeneric.serializer)
           ..add(OtherValue.serializer)

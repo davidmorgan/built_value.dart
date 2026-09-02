@@ -48,6 +48,8 @@ part 'serializers.g.dart';
   ImportedCustomNestedValue,
   NamedFactoryValue,
   NestedGenericContainer,
+  NewConstructorEnum,
+  NewConstructorValue,
   NonBuiltGeneric,
   OtherValue,
   PartiallySerializableValue,

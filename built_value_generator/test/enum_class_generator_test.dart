@@ -254,6 +254,31 @@ class TestEnum extends EnumClass {
                 'or in Dart>=2.17: const TestEnum._(super.name);'));
       });
 
+      test('with error on primary constructor for EnumClass', () async {
+        expect(
+            await generate(r'''
+// @dart=3.14
+library test_enum;
+
+import 'package:built_value/built_value.dart';
+
+part 'test_enum.g.dart';
+
+class TestEnum._(super.name) extends EnumClass {
+  static const TestEnum yes = _$yes;
+  static const TestEnum no = _$no;
+  static const TestEnum maybe = _$maybe;
+
+  static BuiltSet<TestEnum> get values => _$values;
+  static TestEnum valueOf(String name) => _$valueOf(name);
+}
+'''),
+            contains(r'''Please make the following changes to use EnumClass:
+
+1. Have exactly one constructor: const TestEnum._(String name) : super(name); '''
+                'or in Dart>=2.17: const TestEnum._(super.name);'));
+      });
+
       test('with error on too many constructors', () async {
         expect(
             await generate(r'''
@@ -416,6 +441,17 @@ class TestEnum extends EnumClass {
           await generate(correctInput.replaceAll(
               "part 'test_enum.g.dart'", 'part "test_enum.g.dart"')),
           contains(correctOutput));
+    });
+
+    test('allows new constructor naming syntax with string parameter',
+        () async {
+      expect(
+          await generate('// @dart=3.14\n' +
+              correctInput.replaceAll(
+                  'const TestEnum._(String name) : super(name);',
+                  'const new _(String name) : super(name);')),
+          contains(correctOutput.replaceFirst(
+              'abstract class _\$TestEnumMixin', 'mixin _\$TestEnumMixin')));
     });
 
     test('ignores fields of different type', () async {
@@ -603,7 +639,8 @@ Builder get builder => PartBuilder([BuiltValueGenerator()], '.g.dart');
 Future<String> generate(String source) async {
   final srcs = <String, String>{
     'built_value|lib/built_value.dart': builtValueSource,
-    '$pkgName|lib/test_enum.dart': '// @dart=2.19\n$source',
+    '$pkgName|lib/test_enum.dart':
+        source.startsWith('// @dart') ? source : '// @dart=2.19\n$source',
   };
 
   // Capture any error from generation; if there is one, return that instead of

@@ -286,8 +286,7 @@ abstract class ValueSourceClass
   }
 
   @memoized
-  BuiltList<ConstructorDeclaration> get valueClassConstructors =>
-      BuiltList<ConstructorDeclaration>(
+  BuiltList<AstNode> get valueClassConstructors => BuiltList<AstNode>(
         element.constructors
             .where(
               (constructor) =>
@@ -296,17 +295,16 @@ abstract class ValueSourceClass
             .map(
               (constructor) => parsedLibrary
                   .getFragmentDeclaration(constructor.firstFragment)!
-                  .node as ConstructorDeclaration,
+                  .node,
             ),
       );
 
   @memoized
-  BuiltList<ConstructorDeclaration> get valueClassFactories =>
-      BuiltList<ConstructorDeclaration>(
+  BuiltList<AstNode> get valueClassFactories => BuiltList<AstNode>(
         element.constructors.where((constructor) => constructor.isFactory).map(
               (factory) => parsedLibrary
                   .getFragmentDeclaration(factory.firstFragment)!
-                  .node as ConstructorDeclaration,
+                  .node,
             ),
       );
 
@@ -314,7 +312,7 @@ abstract class ValueSourceClass
   bool get builderClassIsAbstract => builderElement!.isAbstract;
 
   @memoized
-  BuiltList<String> get builderClassConstructors => BuiltList<String>(
+  BuiltList<AstNode> get builderClassConstructors => BuiltList<AstNode>(
         builderElement!.constructors
             .where(
               (constructor) =>
@@ -323,8 +321,7 @@ abstract class ValueSourceClass
             .map(
               (constructor) => parsedLibrary
                   .getFragmentDeclaration(constructor.firstFragment)!
-                  .node
-                  .toSource(),
+                  .node,
             ),
       );
 
@@ -669,6 +666,14 @@ abstract class ValueSourceClass
       }
 
       final expectedConstructor = '$name._()';
+      bool constructorCheck(AstNode c) {
+        if (c is! ConstructorDeclaration) return false;
+        if (c.name?.lexeme != '_') return false;
+        if (c.parameters.parameters.isNotEmpty) return false;
+        if (c.typeName != null && c.typeName!.toSource() != name) return false;
+        return true;
+      }
+
       if (valueClassConstructors.isEmpty) {
         result.add(
           GeneratorError(
@@ -683,7 +688,7 @@ abstract class ValueSourceClass
       } else if (valueClassConstructors.length > 1) {
         var found = false;
         for (var constructor in valueClassConstructors) {
-          if (constructor.toSource().contains(expectedConstructor)) {
+          if (constructorCheck(constructor)) {
             found = true;
           } else {
             result.add(
@@ -709,14 +714,18 @@ abstract class ValueSourceClass
             ),
           );
         }
-      } else if (!(valueClassConstructors.single.toSource().contains(
-            expectedConstructor,
-          ))) {
+      } else if (!constructorCheck(valueClassConstructors.single)) {
+        final isExactPrimary = valueClassConstructors.single
+                is! ConstructorDeclaration &&
+            (valueClassConstructors.single.toSource() == expectedConstructor ||
+                valueClassConstructors.single.toSource() == '._()' ||
+                valueClassConstructors.single.toSource() == '_()');
         result.add(
           GeneratorError(
             (b) => b
-              ..message =
-                  'Make class have exactly one constructor: $expectedConstructor'
+              ..message = isExactPrimary
+                  ? '$expectedConstructor must go in the body.'
+                  : 'Make class have exactly one constructor: $expectedConstructor'
               ..offset = valueClassConstructors.single.offset
               ..length = valueClassConstructors.single.length
               ..fix = expectedConstructor + ';',
@@ -816,8 +825,33 @@ abstract class ValueSourceClass
 
     if (settings.instantiable) {
       final expectedConstructor = '${name}Builder._()';
-      if (builderClassConstructors.length != 1 ||
-          !(builderClassConstructors.single.contains(expectedConstructor))) {
+      bool builderConstructorCheck(AstNode c) {
+        if (c is! ConstructorDeclaration) return false;
+        if (c.name?.lexeme != '_') return false;
+        if (c.parameters.parameters.isNotEmpty) return false;
+        if (c.typeName != null && c.typeName!.toSource() != '${name}Builder') {
+          return false;
+        }
+        return true;
+      }
+
+      if (builderClassConstructors.length == 1 &&
+          !builderConstructorCheck(builderClassConstructors.single)) {
+        final isExactPrimary =
+            builderClassConstructors.single is! ConstructorDeclaration &&
+                (builderClassConstructors.single.toSource() ==
+                        expectedConstructor ||
+                    builderClassConstructors.single.toSource() == '._()' ||
+                    builderClassConstructors.single.toSource() == '_()');
+        result.add(
+          GeneratorError(
+            (b) => b
+              ..message = isExactPrimary
+                  ? '$expectedConstructor must go in the body.'
+                  : 'Make builder class have exactly one constructor: $expectedConstructor;',
+          ),
+        );
+      } else if (builderClassConstructors.length != 1) {
         result.add(
           GeneratorError(
             (b) => b
@@ -841,8 +875,11 @@ abstract class ValueSourceClass
     if (settings.instantiable) {
       final expectedFactory =
           'factory ${name}Builder() = ${implName}Builder$_generics;';
+      final expectedFactoryNew =
+          'factory ${name}Builder.new() = ${implName}Builder$_generics;';
       if (builderClassFactories.length != 1 ||
-          !builderClassFactories.single.contains(expectedFactory)) {
+          (!builderClassFactories.single.contains(expectedFactory) &&
+              !builderClassFactories.single.contains(expectedFactoryNew))) {
         result.add(
           GeneratorError(
             (b) => b

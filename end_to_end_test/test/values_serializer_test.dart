@@ -700,4 +700,21 @@ void main() {
       expect(serializers.deserialize(serialized), data);
     });
   });
+
+  group('NewConstructorValue', () {
+    var data = NewConstructorValue((b) => b..anInt = 1);
+    var serialized = json.decode(json.encode([
+      'NewConstructorValue',
+      'anInt',
+      1,
+    ])) as Object;
+
+    test('can be serialized', () {
+      expect(serializers.serialize(data), serialized);
+    });
+
+    test('can be deserialized', () {
+      expect(serializers.deserialize(serialized), data);
+    });
+  });
 }

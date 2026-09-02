@@ -179,11 +179,15 @@ abstract class EnumSourceClass
       'const ${RegExp.escape(name)}._\\((?:final )?String name\\) : super\\(name\\);',
     );
     var expectedCode217 = RegExp(
-      'const ${RegExp.escape(name)}._\\(super.name\\);',
+      'const (?:${RegExp.escape(name)}\\.|new )_\\(super\\.name\\);',
+    );
+    var expectedCodeNew = RegExp(
+      'const new _\\((?:final )?String name\\) : super\\(name\\);',
     );
     return constructors.length == 1 &&
             (constructors.single.contains(expectedCode) ||
-                constructors.single.contains(expectedCode217))
+                constructors.single.contains(expectedCode217) ||
+                constructors.single.contains(expectedCodeNew))
         ? <String>[]
         : <String>[
             'Have exactly one constructor: '
